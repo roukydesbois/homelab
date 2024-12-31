@@ -2,6 +2,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: odoo-db
+  namespace: odoo-v2
 spec:
   instances: 2
   storage:

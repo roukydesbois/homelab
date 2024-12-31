@@ -9,4 +9,4 @@ resources:
 patches:
   - path: odoo-helm-values.yaml
 
-namespace: odoo-v2
+# namespace: odoo-v2
