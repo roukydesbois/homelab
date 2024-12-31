@@ -4,5 +4,9 @@ kind: Kustomization
 resources:
   - dbCluster.yaml
   - odoo-data.yaml
+  - ../../../base/odoo
+
+patches:
+  - path: odoo-helm-values.yaml
 
 namespace: odoo-v2

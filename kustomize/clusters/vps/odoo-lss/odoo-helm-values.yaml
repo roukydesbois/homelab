@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: odoo
+spec:
+  source:
+    helm:
+      valuesObject:
+        odooEmail: admin@lss.org
+        replicaCount: 1
+        resourcesPreset: Small
+        persistence:
+          existingClaim: odoo-data
+        postgresql:
+          enabled: false
+        externalDatabase:
+          host: odoo-db-rw
+          port: 5432
+          user: app
+          database: app
+          create: false
+          existingSecret: odoo-db-app
+          existingSecretPasswordKey: password
