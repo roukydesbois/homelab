@@ -15,7 +15,7 @@ spec:
     targetRevision: main
     path: kustomize/clusters/vps/odoo-lss
     kustomize:
-      namePrefix: odoo-lss-v2
+      # namePrefix: odoo-lss-v2
       commonLabels:
         app.kubernetes.io/name: odoo-lss-v2
         app.kubernetes.io/instance: odoo-lss-v2
