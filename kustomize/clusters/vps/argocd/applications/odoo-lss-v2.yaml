@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: odoo-lss-v2
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: odoo-v2
+    server: https://kubernetes.default.svc
+  project: lss-v2
+  source:
+    repoURL: https://github.com/roukydesbois/homelab.git
+    targetRevision: main
+    path: kustomize/clusters/vps/odoo-lss
+    kustomize:
+      namePrefix: odoo-lss-v2
+      commonLabels:
+        app.kubernetes.io/name: odoo-lss-v2
+        app.kubernetes.io/instance: odoo-lss-v2
+        app.kubernetes.io/managed-by: argocd
+        app.kubernetes.io/part-of: argocd
+        app.kubernetes.io/component: application
+        app.kubernetes.io/created-by: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - ApplyOutOfSyncOnly=true
