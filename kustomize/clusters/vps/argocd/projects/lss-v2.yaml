@@ -10,4 +10,5 @@ spec:
       server: https://kubernetes.default.svc
   sourceRepos:
     - https://github.com/roukydesbois/homelab.git
+    - registry-1.docker.io/bitnamicharts
   
