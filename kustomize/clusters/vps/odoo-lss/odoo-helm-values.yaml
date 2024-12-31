@@ -10,7 +10,7 @@ spec:
       valuesObject:
         odooEmail: admin@lss.org
         replicaCount: 1
-        resourcesPreset: Small
+        resourcesPreset: small
         persistence:
           existingClaim: odoo-data
         postgresql:
