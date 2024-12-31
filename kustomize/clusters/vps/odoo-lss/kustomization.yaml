@@ -5,9 +5,7 @@ resources:
   - dbCluster.yaml
   - odoo-data.yaml
   - ../../../base/odoo
-  - tailscaleingress.yaml
+  - tailscale-ingress.yaml
 
 patches:
   - path: odoo-helm-values.yaml
-
-# namespace: odoo-v2
