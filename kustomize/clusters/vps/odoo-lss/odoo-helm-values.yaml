@@ -22,3 +22,5 @@ spec:
           create: false
           existingSecret: odoo-db-app
           existingSecretPasswordKey: password
+  destination:
+    namespace: odoo-v2
