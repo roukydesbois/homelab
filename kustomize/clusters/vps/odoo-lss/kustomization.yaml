@@ -3,7 +3,5 @@ kind: Kustomization
 
 resources:
   - dbCluster.yaml
-  - namespace.yaml
-  - ../argocd/projects
 
 namespace: odoo-v2
