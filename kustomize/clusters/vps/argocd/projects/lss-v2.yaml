@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: lss-v2
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destinations:
+    - namespace: odoo-v2
+      server: https://kubernetes.default.svc
+  sourceRepos:
+    - https://github.com/roukydesbois/homelab.git
+  
