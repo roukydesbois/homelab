@@ -4,6 +4,7 @@ metadata:
   name: odoo
   namespace: argocd
 spec:
+  project: lss-v2
   source:
     helm:
       valuesObject:
