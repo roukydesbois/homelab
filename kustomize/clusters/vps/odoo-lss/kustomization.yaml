@@ -3,5 +3,6 @@ kind: Kustomization
 
 resources:
   - dbCluster.yaml
+  - odoo-data.yaml
 
 namespace: odoo-v2
