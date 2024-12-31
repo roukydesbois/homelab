@@ -8,6 +8,8 @@ spec:
   destinations:
     - namespace: odoo-v2
       server: https://kubernetes.default.svc
+    - namespace: argocd
+      server: https://kubernetes.default.svc
   sourceRepos:
     - https://github.com/roukydesbois/homelab.git
     - registry-1.docker.io/bitnamicharts
