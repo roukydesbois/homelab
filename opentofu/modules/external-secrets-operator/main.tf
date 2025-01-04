@@ -1,8 +1,8 @@
 resource "helm_release" "external_secrets_operator" {
-  name = "external-secrets-operator"
+  name = var.external_secrets_helm_release_name
   repository = "https://charts.external-secrets.io"
   chart = "external-secrets"
-  version = "0.12.1"
+  version = var.external_secrets_operator_version
   namespace = var.external_secrets_operator_namespace
   create_namespace = true
   set {
