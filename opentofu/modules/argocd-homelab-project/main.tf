@@ -54,6 +54,7 @@ resource "kubernetes_manifest" "app_project" {
         server = "https://kubernetes.default.svc"
       }]
       sourceRepos = var.app_project_source_repos
+      sourceNamespaces = [var.app_project_namespace]
     }
   }
 }
