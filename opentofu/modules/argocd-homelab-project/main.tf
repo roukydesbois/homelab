@@ -8,6 +8,40 @@ resource "kubernetes_manifest" "app_project_namespace" {
   }
 }
 
+data "kubernetes_config_map" "argocd_cmd_params_cm" {
+  metadata {
+    name = "argocd-cmd-params-cm"
+    namespace = var.argocd_namespace
+  }
+}
+
+resource "kubernetes_config_map" "argocd_cmd_params_cm_update" {
+  depends_on = [ kubernetes_manifest.app_project_namespace ]
+  metadata {
+    name = data.kubernetes_config_map.argocd_cmd_params_cm.metadata[0].name
+    namespace = data.kubernetes_config_map.argocd_cmd_params_cm.metadata[0].namespace
+  }
+  data = {
+    for key, value in data.kubernetes_config_map.argocd_cmd_params_cm.data : key => (
+      key == "application.namespaces" ? join(",", list(value, var.app_project_namespace)) : value
+    )
+  }
+}
+
+resource "null_resource" "restart_argocd_server" {
+  depends_on = [ kubernetes_config_map.argocd_cmd_params_cm_update ]
+  triggers = {
+    config_map_data = kubernetes_config_map.argocd_cmd_params_cm_update.data
+  }
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      kubectl rollout restart deployment argocd-server -n ${var.argocd_namespace}
+      kubectl rollout restart statefulset argocd-application-controller -n ${var.argocd_namespace}
+    EOT
+  }
+}
+
 resource "kubernetes_manifest" "app_project" {
   depends_on = [ kubernetes_manifest.app_project_namespace ]
   manifest = {
