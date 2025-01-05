@@ -26,6 +26,7 @@ resource "kubernetes_config_map_v1_data" "argocd_cmd_params_cm_update" {
       key == "application.namespaces" ? join(",", tolist([value, var.app_project_namespace])) : value
     )
   }
+  force = true
 }
 
 resource "null_resource" "restart_argocd_server" {
