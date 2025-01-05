@@ -30,10 +30,6 @@ resource "kubernetes_config_map" "argocd_cmd_params_cm_update" {
 
 resource "null_resource" "restart_argocd_server" {
   depends_on = [ kubernetes_config_map.argocd_cmd_params_cm_update ]
-  triggers = {
-    config_map_data = kubernetes_config_map.argocd_cmd_params_cm_update.data
-  }
-
   provisioner "local-exec" {
     command = <<-EOT
       kubectl rollout restart deployment argocd-server -n ${var.argocd_namespace}
