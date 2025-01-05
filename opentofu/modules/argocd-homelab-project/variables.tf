@@ -19,7 +19,7 @@ variable "app_project_source_repos" {
   type        = list(string)
 }
 
-variable "app_of_apps_source_config" {
-  description = "The configuration for the App of Apps"
-  type        = map(any)
+variable "app_of_apps_source_config_yaml" {
+  description = "The configuration for the App of Apps ArgoCD source parameter in yaml format"
+  type        = string
 }

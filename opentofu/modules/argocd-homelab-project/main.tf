@@ -40,11 +40,7 @@ resource "kubernetes_manifest" "argocd_app_of_apps" {
     }
     spec = {
       project = var.app_project_name
-      source = {
-        for_each = var.app_of_apps_source_config
-        key = each.key
-        value = each.value
-      }
+      source = yamldecode(var.app_of_apps_source_config_yaml)
       destination = {
         namespace = var.app_project_namespace
         server = "https://kubernetes.default.svc"
