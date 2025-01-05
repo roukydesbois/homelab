@@ -18,10 +18,10 @@ resource "kubernetes_manifest" "app_project" {
       namespace = var.argocd_namespace
     }
     spec = {
-      destination = {
+      destinations = [{
         namespace = var.app_project_namespace
         server = "https://kubernetes.default.svc"
-      }
+      }]
       sourceRepos = [
         var.app_project_source_repos
       ]
