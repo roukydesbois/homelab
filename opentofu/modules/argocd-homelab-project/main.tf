@@ -15,7 +15,7 @@ data "kubernetes_config_map" "argocd_cmd_params_cm" {
   }
 }
 
-resource "kubernetes_config_map" "argocd_cmd_params_cm_update" {
+resource "kubernetes_config_map_v1_data" "argocd_cmd_params_cm_update" {
   depends_on = [ kubernetes_manifest.app_project_namespace ]
   metadata {
     name = data.kubernetes_config_map.argocd_cmd_params_cm.metadata[0].name
