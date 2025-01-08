@@ -5,5 +5,5 @@ resource "helm_release" "vault" {
     namespace = var.vault_namespace
     create_namespace = true
     version = var.vault_version
-    values = var.vault_values
+    values = [ var.vault_values ]
 }
