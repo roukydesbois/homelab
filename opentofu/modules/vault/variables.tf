@@ -17,7 +17,7 @@ variable "vault_version" {
 
 variable "vault_values" {
   description = "The values to pass to the vault helm chart"
-  type = map
+  type = list(string)
   default = <<EOF
 server:
   # Use standalone mode for homelab - no need for HA
@@ -35,12 +35,6 @@ server:
       storage "file" {
         path = "/vault/data"
       }
-
-  # Configure persistent storage
-  dataStorage:
-    enabled: true
-    size: "10Gi"
-    storageClass: "local-path"
 
   # Service configuration
   service:
