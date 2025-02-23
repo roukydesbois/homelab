@@ -14,3 +14,9 @@ variable "longhorn_version" {
   type = string
   description = "Version of Longhorn to deploy"
 }
+
+variable "overwrite_namespace_podsecuritypolicy" {
+  type = bool
+  description = "Overwrite the namespace pod security policy"
+  default = false
+}
