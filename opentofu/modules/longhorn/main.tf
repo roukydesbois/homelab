@@ -21,4 +21,5 @@ resource "helm_release" "longhorn" {
   version    = var.longhorn_version
   namespace  = var.longhorn_namespace
   create_namespace = true
+  values = [ var.longhorn_values ]
 }

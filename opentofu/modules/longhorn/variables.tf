@@ -20,3 +20,9 @@ variable "overwrite_namespace_podsecuritypolicy" {
   description = "Overwrite the namespace pod security policy"
   default = false
 }
+
+variable "longhorn_values" {
+  type = string
+  description = "Values to pass to the Longhorn Helm chart"
+  default = null
+}
