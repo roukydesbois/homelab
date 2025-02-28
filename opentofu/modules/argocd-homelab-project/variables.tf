@@ -34,3 +34,11 @@ variable "kube_config" {
   type        = string
   default     = "~/.kube/config"
 }
+
+variable "cluster_resource_whitelist" {
+  description = "The cluster resources to whitelist in the ArgoCD project"
+  type        = list(object({
+    group = string
+    kind  = string
+  }))
+}
