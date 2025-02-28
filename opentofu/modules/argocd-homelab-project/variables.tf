@@ -41,4 +41,5 @@ variable "cluster_resource_whitelist" {
     group = string
     kind  = string
   }))
+  default =  null
 }
