@@ -33,8 +33,8 @@ resource "null_resource" "restart_argocd_server" {
   depends_on = [ kubernetes_config_map_v1_data.argocd_cmd_params_cm_update ]
   provisioner "local-exec" {
     command = <<-EOT
-      kubectl rollout restart deployment argocd-server -n ${var.argocd_namespace}
-      kubectl rollout restart statefulset argocd-application-controller -n ${var.argocd_namespace}
+      kubectl rollout restart deployment argocd-server -n ${var.argocd_namespace} --kubeconfig=${var.kube_config}
+      kubectl rollout restart statefulset argocd-application-controller -n ${var.argocd_namespace} --kubeconfig=${var.kube_config}
     EOT
   }
 }
