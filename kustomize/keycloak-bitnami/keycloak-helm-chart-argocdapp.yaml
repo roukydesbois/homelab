@@ -11,8 +11,6 @@ spec:
     repoURL: "oci://registry-1.docker.io/bitnamicharts"
     targetRevision: 24.x
     chart: "keycloak"
-    helm:
-      valuesObject: null
   destination:
     server: https://kubernetes.default.svc
     namespace: keycloak
