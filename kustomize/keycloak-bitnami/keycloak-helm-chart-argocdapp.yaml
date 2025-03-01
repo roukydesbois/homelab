@@ -1,0 +1,26 @@
+# Argocd app to deploy Bitnami's Keycloak Helm chart
+# I consider it is deployed in the keycloak namespace and project, this can be patched via kustomize if need be
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keycloak-helm-chart
+  namespace: keycloak
+spec:
+  project: keycloak
+  source:
+    repoURL: "oci://registry-1.docker.io/bitnamicharts"
+    targetRevision: 24.x
+    chart: "keycloak"
+    helm:
+      valuesObject: null
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: keycloak
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
+      - ServerSideApply=true
+      - CreateNamespace=true
