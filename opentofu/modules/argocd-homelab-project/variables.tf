@@ -41,7 +41,7 @@ variable "cluster_resource_whitelist" {
     group = string
     kind  = string
   }))
-  default =  null
+  default =  []
 }
 
 variable "namespace_resource_whitelist" {
@@ -50,5 +50,5 @@ variable "namespace_resource_whitelist" {
     group = string
     kind  = string
   }))
-  default =  null
+  default =  []
 }
