@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - sealed-secret.yaml
   - encrypted-storage-class.yaml
-  - ../../../keycloak-bitnami
+  - ../../base
