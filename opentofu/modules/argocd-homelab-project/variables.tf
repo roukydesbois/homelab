@@ -43,3 +43,12 @@ variable "cluster_resource_whitelist" {
   }))
   default =  null
 }
+
+variable "namespace_resource_whitelist" {
+  description = "The namespace resources to whitelist in the ArgoCD project"
+  type        = list(object({
+    group = string
+    kind  = string
+  }))
+  default =  null
+}

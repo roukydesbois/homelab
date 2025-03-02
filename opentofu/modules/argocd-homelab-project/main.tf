@@ -55,12 +55,18 @@ resource "kubernetes_manifest" "app_project" {
       }]
       sourceRepos = var.app_project_source_repos
       sourceNamespaces = [var.app_project_namespace]
-      # clusterResourceWhitelist = [
-      #   for item in var.cluster_resource_whitelist : {
-      #     group = item.group
-      #     kind  = item.kind
-      #   }
-      # ]
+      clusterResourceWhitelist = [
+        for item in var.cluster_resource_whitelist : {
+          group = item.group
+          kind  = item.kind
+        }
+      ]
+      namespaceResourceWhitelist = [
+        for item in var.namespace_resource_whitelist : {
+          group = item.group
+          kind  = item.kind
+        }
+      ]
     }
   }
 }
