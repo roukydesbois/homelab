@@ -4,24 +4,24 @@ resources:
   - sealed-secret.yaml
   - encrypted-storage-class.yaml
   - ../../base
-patches:
-  - target:
-      kind: Application
+
+patchesStrategicMerge:
+  - |-
+    apiVersion: argoproj.io/v1alpha1
+    kind: Application
+    metadata:
       name: keycloak-helm-chart
-    patch: |-
-      - op: merge
-        path: /spec/source
-        value:
-          helm:
-            valuesObject:
-              global:
-                defaultStorageClass: keycloak-encrypted 
-              ingress:
-                enabled: true
-                ingressClassName: tailscale
-                hostname: sso
-                extraTls:
-                  - hosts:
-                    - sso
-
-
+      namespace: keycloak
+    spec:
+      source:
+        helm:
+          valuesObject:
+            global:
+              defaultStorageClass: keycloak-encrypted 
+            ingress:
+              enabled: true
+              ingressClassName: tailscale
+              hostname: sso
+              extraTls:
+                - hosts:
+                  - sso
