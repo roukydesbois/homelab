@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: StorageClass
+metadata:
+  name: keycloak-sc
+provisioner: driver.longhorn.io
+allowVolumeExpansion: true
+parameters:
+  numberOfReplicas: "3"
+  staleReplicaTimeout: "2880"
+  fsType: "ext4"
+reclaimPolicy: Retain
