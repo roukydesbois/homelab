@@ -9,7 +9,7 @@ patches:
       kind: Application
       name: keycloak-helm-chart
     patch: |-
-      - op: add
+      - op: merge
         path: /spec/source
         value:
           helm:
