@@ -37,6 +37,7 @@ resource "null_resource" "restart_argocd_server" {
       kubectl rollout restart statefulset argocd-application-controller -n ${var.argocd_namespace} --kubeconfig=${var.kube_config}
     EOT
   }
+  force = true
 }
 
 resource "kubernetes_manifest" "app_project" {
