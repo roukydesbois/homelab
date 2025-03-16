@@ -23,7 +23,7 @@ resource "kubernetes_config_map_v1_data" "argocd_cmd_params_cm_update" {
   }
   data = {
     for key, value in data.kubernetes_config_map.argocd_cmd_params_cm.data : key => (
-      key == "application.namespaces" ? (coalesce(value, "") == "" ? var.app_project_namespace : join(",", distinct(concat(split(",", value), [var.app_project_namespace])))) : value
+      key == "application.namespaces" ? (value == null || value == "" ? var.app_project_namespace : join(",", distinct(concat(split(",", value), [var.app_project_namespace])))) : value
     )
   }
   force = true
