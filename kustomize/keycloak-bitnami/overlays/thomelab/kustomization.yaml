@@ -8,20 +8,20 @@ patches:
   - target:
       kind: Application
       name: keycloak-helm-chart
-      patch: |-
-        - op: add
-          path: /spec/source
-          value:
-            helm:
-              valuesObject:
-                global:
-                  defaultStorageClass: keycloak-encrypted 
-                ingress:
-                  enabled: true
-                  ingressClassName: tailscale
-                  hostname: sso
-                  extraTls:
-                    - hosts:
-                      - sso
+    patch: |-
+      - op: add
+        path: /spec/source
+        value:
+          helm:
+            valuesObject:
+              global:
+                defaultStorageClass: keycloak-encrypted 
+              ingress:
+                enabled: true
+                ingressClassName: tailscale
+                hostname: sso
+                extraTls:
+                  - hosts:
+                    - sso
 
 
