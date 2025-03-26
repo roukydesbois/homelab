@@ -16,6 +16,7 @@ patchesStrategicMerge:
       source:
         helm:
           valuesObject:
+            production: true
             global:
               defaultStorageClass: keycloak-sc
             auth:
