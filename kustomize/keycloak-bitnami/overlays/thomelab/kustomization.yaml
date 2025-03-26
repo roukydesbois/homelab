@@ -22,6 +22,7 @@ patchesStrategicMerge:
               adminUser: admin
               existingSecret: keycloak-config
               passwordSecretKey: admin-keycloak-password
+            proxy: edge
             ingress:
               enabled: true
               ingressClassName: tailscale
