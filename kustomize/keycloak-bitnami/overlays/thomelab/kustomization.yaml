@@ -25,7 +25,9 @@ patchesStrategicMerge:
             ingress:
               enabled: true
               ingressClassName: tailscale
-              hostname: sso
+              hostname: sso.tail9a43.ts.net
+              extraHosts:
+                - sso
               extraTls:
                 - hosts:
                   - sso
