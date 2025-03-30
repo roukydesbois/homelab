@@ -38,7 +38,7 @@ patchesStrategicMerge:
             postgresql:
               auth:
                 existingSecret: keycloak-config
-            extraStartupArgs: "-Dkeycloak.import=/opt/bitnami/keycloak/data/import/realm.json"
+            extraStartupArgs: "-Dkeycloak.import=/opt/bitnami/keycloak/data/import/realm.json -Dkeycloak.profile.feature.upload_scripts=enabled"
             extraVolumes:
               - name: realm-json
                 secret:
