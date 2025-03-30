@@ -42,7 +42,7 @@ patchesStrategicMerge:
             extraVolumes:
               - name: realm-json
                 secret:
-                  name: self-hosted-apps-realm-secret
+                  secretName: self-hosted-apps-realm-secret
             extraVolumeMounts:
               - name: realm-json
                 mountPath: /opt/bitnami/keycloak/data/import/
