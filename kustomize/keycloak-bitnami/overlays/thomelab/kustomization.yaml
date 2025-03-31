@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - keycloak-sc.yaml
   - keycloak-config-sealed-secret.yaml
-  - self-hosted-apps-realm-sealed-secret.yaml
   - ../../base
 
 patchesStrategicMerge:
@@ -38,11 +37,3 @@ patchesStrategicMerge:
             postgresql:
               auth:
                 existingSecret: keycloak-config
-            extraStartupArgs: "-Dkeycloak.import=/opt/bitnami/keycloak/data/import/realm.json -Dkeycloak.profile.feature.upload_scripts=enabled"
-            extraVolumes:
-              - name: realm-json
-                secret:
-                  secretName: self-hosted-apps-realm-secret
-            extraVolumeMounts:
-              - name: realm-json
-                mountPath: /opt/bitnami/keycloak/data/import/
