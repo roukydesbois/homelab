@@ -13,7 +13,7 @@ patches:
         path: /spec/source/helm/valuesObject
         value:
           image:
-            tag: 1.131.2
+            tag: v1.131.2
           immich:
             persistence:
               library:
