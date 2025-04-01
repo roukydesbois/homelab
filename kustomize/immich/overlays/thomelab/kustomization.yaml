@@ -28,7 +28,7 @@ patches:
         path: /spec
         value:
           tls:
-            - hosts
+            - hosts:
                 - photos-temp
       - op: add
         path: /metadata
