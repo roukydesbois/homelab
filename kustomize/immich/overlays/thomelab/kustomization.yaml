@@ -34,7 +34,7 @@ patches:
         path: /metadata
         value:
           annotations:
-            tailscale.com/funnel: "true"
+            "tailscale.com/funnel": "true"
     target:
       group: networking.k8s.io
       version: v1
