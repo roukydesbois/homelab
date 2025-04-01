@@ -14,9 +14,10 @@ patches:
         value:
           image:
             tag: 1.131.2
-          persistence:
-            library:
-              existingClaim: immich-library
+          immich:
+            persistence:
+              library:
+                existingClaim: immich-library
     target:
       group: argoproj.io
       version: v1alpha1
