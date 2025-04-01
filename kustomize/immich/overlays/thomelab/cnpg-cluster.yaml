@@ -6,11 +6,7 @@ metadata:
   namespace: immich
 spec:
   instances: 3
-  imageCatalogRef:
-    apiGroup: postgresql.cnpg.io
-    kind: ClusterImageCatalog
-    name: postgis
-    major: 17
+
   startDelay: 30
   stopDelay: 100
   postgresql:
