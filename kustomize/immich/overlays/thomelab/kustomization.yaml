@@ -10,14 +10,15 @@ resources:
 patches:
   - patch: |-
       - op: add
-        path: /spec/source/helm/valuesObject
+        path: /spec/source/helm/valuesObject/image
         value:
-          image:
-            tag: v1.131.2
-          immich:
-            persistence:
-              library:
-                existingClaim: immich-library
+          tag: v1.131.2
+      - op: add
+        path: /spec/source/helm/valuesObject/immich
+        value:
+          persistence:
+            library:
+              existingClaim: immich-library
     target:
       group: argoproj.io
       version: v1alpha1
