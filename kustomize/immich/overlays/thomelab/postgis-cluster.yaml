@@ -9,7 +9,7 @@ spec:
   imageCatalogRef:
     apiGroup: postgresql.cnpg.io
     kind: ClusterImageCatalog
-    name: postgresql
+    name: postgis
     major: 17
   startDelay: 30
   stopDelay: 100
