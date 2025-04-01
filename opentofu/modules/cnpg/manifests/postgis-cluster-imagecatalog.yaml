@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgis-image-catalog
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/cloudnative-pg/postgis-containers.git
+    targetRevision: main
+    path: PostGIS
+  directory:
+    recurse: false
+    include: "ClusterImageCatalog.yaml"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ${var.cnpg_namespace}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+  info:
+    - name: "Image Catalog"
+      value: "CloudNative PG PostGIS"

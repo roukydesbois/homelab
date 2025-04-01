@@ -1,8 +1,16 @@
-resource "helm_release" "argocd" {
+resource "helm_release" "cnpg" {
   name = var.cnpg_helm_release_name
   repository = "https://cloudnative-pg.github.io/charts"
   chart = "cloudnative-pg"
   namespace = var.cnpg_namespace
   create_namespace = true
   version = var.cnpg_version
+}
+
+resource "kubernetes_manifest" "postgis_cluster_imagecatalog" {
+  name = "postgis-cluster-imagecatalog"
+  namespace = var.cnpg_namespace
+  manifest = templatefile("${path.module}/manifests/postgis-cluster-imagecatalog.yaml", {
+    cnpg_namespace = var.cnpg_namespace
+  })
 }
