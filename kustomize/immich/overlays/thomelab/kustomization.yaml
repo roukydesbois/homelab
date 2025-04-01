@@ -51,3 +51,31 @@ patches:
       kind: Ingress
       name: ts-immich
       namespace: immich
+  - patch: |-
+      - op: add
+        path: /spec/source/helm/env
+        value:
+          - name: DB_HOSTNAME
+            valueFrom:
+              secretKeyRef:
+                name: immich-pg-app
+                key: host
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: immich-pg-app
+                key: password
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: immich-pg-app
+                key: username
+          - name: DB_DATABASE_NAME
+            valueFrom:
+              secretKeyRef:
+                name: immich-pg-app
+                key: dbname
+          - name: REDIS_HOSTNAME
+            value: immich-redis-master
+          - name: IMMICH_MACHINE_LEARNING_URL
+            value: "http://immich-machine-learning:3003"
