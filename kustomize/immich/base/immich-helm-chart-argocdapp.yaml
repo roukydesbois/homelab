@@ -1,0 +1,34 @@
+# Argocd app to deploy Bitnami's Keycloak Helm chart
+# I consider it is deployed in the keycloak namespace and project, this can be patched via kustomize if need be
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: immich-helm-chart
+  namespace: immich
+spec:
+  project: immich
+  source:
+    repoURL: https://immich-app.github.io/immich-charts
+    targetRevision: 0.x
+    chart: immich
+    helm:
+      releaseName: immich
+      valuesObject:
+        redis:
+          enabled: true
+        env:
+          - name: REDIS_HOSTNAME
+            value: immich-redis-master
+          - name: IMMICH_MACHINE_LEARNING_URL
+            value: "http://immich-machine-learning:3003"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: immich
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
+      - ServerSideApply=true
+      - CreateNamespace=true

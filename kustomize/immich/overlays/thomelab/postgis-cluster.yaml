@@ -1,0 +1,42 @@
+# From https://github.com/immich-app/immich/discussions/9060#discussioncomment-9688353
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: immich-pg
+  namespace: immich
+spec:
+  instances: 3
+  imageCatalogRef:
+    apiGroup: postgresql.cnpg.io
+    kind: ClusterImageCatalog
+    name: postgresql
+    major: 17
+  startDelay: 30
+  stopDelay: 100
+  postgresql:
+    shared_preload_libraries:
+      - "vectors.so"
+    enableAlterSystem: true
+  storage:
+    storageClass: immich-db-sc
+    size: 8Gi
+  #  monitoring:
+  #    enablePodMonitor: false
+  bootstrap:
+    initdb:
+      database: immich
+      owner: immich
+      #      secret:
+      #        name: immich-pg-user
+      dataChecksums: true
+      postInitApplicationSQL:
+        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+        - SET search_path TO "$user", public, vectors;
+        - CREATE EXTENSION IF NOT EXISTS "vectors";
+        - CREATE EXTENSION IF NOT EXISTS "cube";
+        - CREATE EXTENSION IF NOT EXISTS "earthdistance";
+        - ALTER SCHEMA vectors OWNER TO "immich";
+        - GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA vectors TO "immich";
+        - GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "immich";
+        # - CREATE EXTENSION IF NOT EXISTS "vector";
+        # - ALTER ROLE "immich" WITH "superuser";
