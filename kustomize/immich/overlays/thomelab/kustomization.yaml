@@ -26,11 +26,10 @@ patches:
       namespace: immich
   - patch: |-
       - op: add
-        path: /spec
+        path: /spec/tls
         value:
-          tls:
-            - hosts:
-                - photos-temp
+          - hosts:
+              - photos-temp
       - op: add
         path: /metadata/annotations
         value:
