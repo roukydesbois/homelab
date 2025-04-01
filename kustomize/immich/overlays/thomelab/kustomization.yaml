@@ -7,31 +7,30 @@ resources:
   - ../../base
   - immich-ingress.yaml
 
-patchesStrategicMerge:
-  - |-
-    apiVersion: argoproj.io/v1alpha1
-    kind: Application
-    metadata:
+patches:
+  - patch: |-
+      - op: add
+        path: /spec/source/helm/valuesObject/image/tag
+        value: 1.131.2
+      - op: add
+        path: /spec/source/helm/valuesObject/persistence/library/existingClaim
+        value: immich-library
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
       name: immich-helm-chart
       namespace: immich
-    spec:
-      source:
-        helm:
-          valuesObject:
-            image:
-              tag: 1.131.2
-            persistence:
-              library:
-                existingClaim: immich-library
-  - |-
-    apiVersion: networking.k8s.io/v1
-    kind: Ingress
-    metadata:
+  - patch: |-
+      - op: add
+        path: /spec/tls/0/hosts/0
+        value: photos-temp
+      - op: add
+        path: /metadata/annotations/tailscale.com~1funnel
+        value: "true"
+    target:
+      group: networking.k8s.io
+      version: v1
+      kind: Ingress
       name: ts-immich
       namespace: immich
-      annotations:
-        tailscale.com/funnel: "true"
-    spec:
-      tls:
-        - hosts:
-            - photos-temp
