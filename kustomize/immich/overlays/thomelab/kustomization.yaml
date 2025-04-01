@@ -79,3 +79,9 @@ patches:
             value: immich-redis-master
           - name: IMMICH_MACHINE_LEARNING_URL
             value: "http://immich-machine-learning:3003"
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: immich-helm-chart
+      namespace: immich
