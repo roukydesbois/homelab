@@ -9,9 +9,9 @@ spec:
     repoURL: https://github.com/cloudnative-pg/postgis-containers.git
     targetRevision: main
     path: PostGIS
-  directory:
-    recurse: false
-    include: "ClusterImageCatalog.yaml"
+    directory:
+      recurse: false
+      include: "ClusterImageCatalog.yaml"
   destination:
     server: https://kubernetes.default.svc
     namespace: ${cnpg_namespace}
