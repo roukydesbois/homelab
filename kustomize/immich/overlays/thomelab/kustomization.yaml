@@ -53,7 +53,7 @@ patches:
       namespace: immich
   - patch: |-
       - op: add
-        path: /spec/source/helm/env
+        path: /spec/source/helm/valuesObject/env
         value:
           - name: DB_HOSTNAME
             valueFrom:
