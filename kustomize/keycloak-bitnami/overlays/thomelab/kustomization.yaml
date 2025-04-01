@@ -34,6 +34,8 @@ patchesStrategicMerge:
               extraTls:
                 - hosts:
                   - sso
+              annotations:
+                tailscale.com/funnel: "true"
             postgresql:
               auth:
                 existingSecret: keycloak-config
