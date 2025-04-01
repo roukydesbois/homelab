@@ -29,6 +29,8 @@ spec:
       #      secret:
       #        name: immich-pg-user
       dataChecksums: true
+      postInitSQL:
+        - ALTER USER immich WITH SUPERUSER;
       postInitApplicationSQL:
         - ALTER SYSTEM SET search_path TO "$user", public, vectors;
         - SET search_path TO "$user", public, vectors;
