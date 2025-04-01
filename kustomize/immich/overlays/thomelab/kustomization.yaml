@@ -67,7 +67,7 @@ patches:
         path: /spec/tls
         value:
           - hosts:
-              - photos-temp
+              - photos
       - op: add
         path: /metadata/annotations
         value:
