@@ -11,7 +11,7 @@ patches:
   - patch: |-
       - op: add
         path: /spec/imageName
-        value: ghcr.io/tensorchord/cloudnative-pgvecto.rs:17.4-v0.3.0
+        value: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.5-v0.3.0
     target:
       group: postgresql.cnpg.io
       version: v1
