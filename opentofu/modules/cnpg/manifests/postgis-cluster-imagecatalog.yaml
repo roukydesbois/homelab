@@ -14,7 +14,7 @@ spec:
     include: "ClusterImageCatalog.yaml"
   destination:
     server: https://kubernetes.default.svc
-    namespace: ${var.cnpg_namespace}
+    namespace: ${cnpg_namespace}
   syncPolicy:
     automated:
       prune: true
