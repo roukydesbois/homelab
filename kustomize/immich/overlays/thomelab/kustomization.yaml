@@ -9,12 +9,29 @@ resources:
 
 patches:
   - patch: |-
+      # - op: add
+      #   path: /spec/source/helm/valuesObject/image
+      #   value: {}
+      # - op: add
+      #   path: /spec/source/helm/valuesObject/image/tag
+      #   value: 1.131.2
+      # - op: add
+      #   path: /spec/source/helm/valuesObject/persistence
+      #   value: {}
+      # - op: add
+      #   path: /spec/source/helm/valuesObject/persistence/library
+      #   value: {}
+      # - op: add
+      #   path: /spec/source/helm/valuesObject/persistence/library/existingClaim
+      #   value: immich-library
       - op: add
-        path: /spec/source/helm/valuesObject/image/tag
-        value: 1.131.2
-      - op: add
-        path: /spec/source/helm/valuesObject/persistence/library/existingClaim
-        value: immich-library
+        path: /spec/source/helm/valuesObject
+        value:
+          image:
+            tag: 1.131.2
+          persistence:
+            library:
+              existingClaim: immich-library
     target:
       group: argoproj.io
       version: v1alpha1
