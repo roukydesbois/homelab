@@ -16,6 +16,10 @@ patchesStrategicMerge:
       source:
         helm:
           valuesObject:
+            server:
+              enabled: false
+            machine-learning:
+              enabled: false
             production: true
             global:
               defaultStorageClass: keycloak-sc
