@@ -80,11 +80,13 @@ patches:
       namespace: immich
   - patch: |-
       - op: add
-        path: /spec/source/helm/valuesObject/server/enabled
-        value: false
+        path: /spec/source/helm/valuesObject/server
+        value: 
+          enabled: false
       -op: add
-        path: /spec/source/helm/valuesObject/machine-learning/enabled
-        value: false
+        path: /spec/source/helm/valuesObject/machine-learning
+        value: 
+          enabled: false
     target:
       group: argoproj.io
       version: v1alpha1
