@@ -78,18 +78,3 @@ patches:
       kind: Ingress
       name: ts-immich
       namespace: immich
-  - patch: |-
-      - op: add
-        path: /spec/source/helm/valuesObject/server
-        value: 
-          enabled: false
-      - op: add
-        path: /spec/source/helm/valuesObject/machine-learning
-        value: 
-          enabled: false
-    target:
-      group: argoproj.io
-      version: v1alpha1
-      kind: Application
-      name: immich-helm-chart
-      namespace: immich
