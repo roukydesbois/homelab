@@ -83,7 +83,7 @@ patches:
         path: /spec/source/helm/valuesObject/server
         value: 
           enabled: false
-      -op: add
+      - op: add
         path: /spec/source/helm/valuesObject/machine-learning
         value: 
           enabled: false
