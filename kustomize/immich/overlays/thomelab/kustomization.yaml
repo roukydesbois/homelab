@@ -79,10 +79,10 @@ patches:
       name: ts-immich
       namespace: immich
   - patch: |-
-      - op: replace
+      - op: add
         path: /spec/source/helm/valuesObject/server/enabled
         value: false
-      -op: replace
+      -op: add
         path: /spec/source/helm/valuesObject/machine-learning/enabled
         value: false
     target:
