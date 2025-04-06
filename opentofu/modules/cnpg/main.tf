@@ -7,8 +7,8 @@ resource "helm_release" "cnpg" {
   version = var.cnpg_version
 }
 
-resource "kubernetes_manifest" "postgis_cluster_imagecatalog" {
-  manifest = yamldecode(templatefile("${path.module}/manifests/postgis-cluster-imagecatalog.yaml", {
-    cnpg_namespace = var.cnpg_namespace
-  }))
-}
+# resource "kubernetes_manifest" "postgis_cluster_imagecatalog" {
+#   manifest = yamldecode(templatefile("${path.module}/manifests/postgis-cluster-imagecatalog.yaml", {
+#     cnpg_namespace = var.cnpg_namespace
+#   }))
+# }
