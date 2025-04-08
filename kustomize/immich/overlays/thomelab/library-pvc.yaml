@@ -10,7 +10,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: evora.lan
-    path: "/mnt/immich-pictures" # Replace with your exported NFS path
+    path: "/data/immich-pictures" # Replace with your exported NFS path
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
