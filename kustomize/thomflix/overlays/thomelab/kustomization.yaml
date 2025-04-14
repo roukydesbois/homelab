@@ -8,14 +8,17 @@ resources:
 patches:
   - patch: |-
       - op: add
-        path: /spec/source/helm/valuesObject/persistence/type
+        path: /spec/source/helm/valuesObject/persistence/config/type
         value: pvc
-      - op: add
-        path: /spec/source/helm/valuesObject/persistence/subPath
-        value: /data/torrents
       - op:add
-        path: /spec/source/helm/valuesObject/persistence/existingClaim
-        value: thomflix-media
+        path: /spec/source/helm/valuesObject/persistence/config/size
+        value: 100Mi
+      - op: add
+        path: /spec/source/helm/valuesObject/persistence/config/storageClass
+        value: thomflix-config-sc
+      - op: add
+        path: /spec/source/helm/valuesObject/persistence/config/retain
+        value: true
     target:
       group: argoproj.io
       version: v1alpha1
