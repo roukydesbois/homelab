@@ -8,39 +8,39 @@ resource "kubernetes_manifest" "app_project_namespace" {
   }
 }
 
-data "kubernetes_config_map" "argocd_cmd_params_cm" {
-  metadata {
-    name = "argocd-cmd-params-cm"
-    namespace = var.argocd_namespace
-  }
-}
-
-resource "kubernetes_config_map_v1_data" "argocd_cmd_params_cm_update" {
-  depends_on = [ kubernetes_manifest.app_project_namespace ]
-  metadata {
-    name = data.kubernetes_config_map.argocd_cmd_params_cm.metadata[0].name
-    namespace = data.kubernetes_config_map.argocd_cmd_params_cm.metadata[0].namespace
-  }
-  data = {
-    for key, value in data.kubernetes_config_map.argocd_cmd_params_cm.data : key => (
-      key == "application.namespaces" ? (value == null || value == "" ? var.app_project_namespace : join(",", distinct(concat(split(",", value), [var.app_project_namespace])))) : value
-    )
-  }
-  force = true
-}
-
-resource "null_resource" "restart_argocd_server" {
-  depends_on = [ kubernetes_config_map_v1_data.argocd_cmd_params_cm_update ]
-  provisioner "local-exec" {
-    command = <<-EOT
-      kubectl rollout restart deployment argocd-server -n ${var.argocd_namespace} --kubeconfig=${var.kube_config}
-      kubectl rollout restart statefulset argocd-application-controller -n ${var.argocd_namespace} --kubeconfig=${var.kube_config}
-    EOT
-  }
-  triggers = {
-    always_run = timestamp()
-  }
-}
+# data "kubernetes_config_map" "argocd_cmd_params_cm" {
+#   metadata {
+#     name = "argocd-cmd-params-cm"
+#     namespace = var.argocd_namespace
+#   }
+# }
+# 
+# resource "kubernetes_config_map_v1_data" "argocd_cmd_params_cm_update" {
+#   depends_on = [ kubernetes_manifest.app_project_namespace ]
+#   metadata {
+#     name = data.kubernetes_config_map.argocd_cmd_params_cm.metadata[0].name
+#     namespace = data.kubernetes_config_map.argocd_cmd_params_cm.metadata[0].namespace
+#   }
+#   data = {
+#     for key, value in data.kubernetes_config_map.argocd_cmd_params_cm.data : key => (
+#       key == "application.namespaces" ? (value == null || value == "" ? var.app_project_namespace : join(",", distinct(concat(split(",", value), [var.app_project_namespace])))) : value
+#     )
+#   }
+#   force = true
+# }
+# 
+# resource "null_resource" "restart_argocd_server" {
+#   depends_on = [ kubernetes_config_map_v1_data.argocd_cmd_params_cm_update ]
+#   provisioner "local-exec" {
+#     command = <<-EOT
+#       kubectl rollout restart deployment argocd-server -n ${var.argocd_namespace} --kubeconfig=${var.kube_config}
+#       kubectl rollout restart statefulset argocd-application-controller -n ${var.argocd_namespace} --kubeconfig=${var.kube_config}
+#     EOT
+#   }
+#   triggers = {
+#     always_run = timestamp()
+#   }
+# }
 
 resource "kubernetes_manifest" "app_project" {
   depends_on = [ kubernetes_manifest.app_project_namespace ]
