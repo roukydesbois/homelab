@@ -19,6 +19,5 @@ variable "velero_values" {
   type = string
   description = "Values to pass to the velero Helm chart"
   default = <<EOF
-fullnameOverride: "sealed-secrets-controller"
 EOF
 }
