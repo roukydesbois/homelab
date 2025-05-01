@@ -5,4 +5,5 @@ resources:
   - kubelet-serving-certificate-approver-app.yaml
   - external-snapshotter-crd-app.yaml
   - external-snapshotter-controller-app.yaml
+  - longhorn-app.yaml
   - longhorn-volume-snapshot-class.yaml
