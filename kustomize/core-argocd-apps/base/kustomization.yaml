@@ -3,4 +3,5 @@ kind: Kustomization
 resources: 
   - metrics-server-app.yaml
   - kubelet-serving-certificate-approver-app.yaml
-
+  - external-snapshotter-crd-app.yaml
+  - external-snapshotter-controller.yaml
