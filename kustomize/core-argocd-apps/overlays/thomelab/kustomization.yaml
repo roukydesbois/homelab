@@ -18,18 +18,6 @@ patches:
         value:
           backupTarget: s3://longhorn-backup@us-west-1/
           backupTargetCredentialSecret: minio-creds
-      - op: add
-        path: /spec/source/helm/valuesObject/schedules
-        value:
-          default:
-            disabled: false
-            schedule: "0 * * * *"
-            template:
-              ttl: "10d"
-              storageLocation: default 
-              includeNamespaces:
-                - keycloak
-                - immich
     target:
       group: argoproj.io
       version: v1alpha1
