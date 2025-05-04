@@ -1,0 +1,12 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ts-immich
+  namespace: immich
+spec:
+  defaultBackend:
+    service:
+      name: immich-server
+      port:
+        name: http
+  ingressClassName: tailscale

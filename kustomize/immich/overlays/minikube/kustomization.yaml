@@ -1,0 +1,95 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - immich-db-sc.yaml
+  - library-pvc.yaml
+  - cnpg-cluster.yaml
+  - ../../base
+  - immich-ingress.yaml
+
+patches:
+  - patch: |-
+      - op: add
+        path: /spec/imageName
+        value: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.5-v0.3.0
+    target:
+      group: postgresql.cnpg.io
+      version: v1
+      kind: Cluster
+      name: immich-pg
+      namespace: immich
+  - patch: |-
+      - op: add
+        path: /spec/source/helm/valuesObject/image
+        value:
+          tag: v1.131.3
+      - op: add
+        path: /spec/source/helm/valuesObject/immich
+        value:
+          persistence:
+            library:
+              existingClaim: immich-library
+      - op: add
+        path: /spec/source/helm/valuesObject/env
+        value:
+          - name: DB_HOSTNAME
+            valueFrom:
+              secretKeyRef:
+                name: immich-pg-app
+                key: host
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: immich-pg-app
+                key: password
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: immich-pg-app
+                key: username
+          - name: DB_DATABASE_NAME
+            valueFrom:
+              secretKeyRef:
+                name: immich-pg-app
+                key: dbname
+          - name: REDIS_HOSTNAME
+            value: immich-redis-master
+          - name: IMMICH_MACHINE_LEARNING_URL
+            value: "http://immich-machine-learning:3003"
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: immich-helm-chart
+      namespace: immich
+  - patch: |-
+      - op: add
+        path: /spec/tls
+        value:
+          - hosts:
+              - photos
+      - op: add
+        path: /metadata/annotations
+        value:
+          tailscale.com/funnel: "true"
+    target:
+      group: networking.k8s.io
+      version: v1
+      kind: Ingress
+      name: ts-immich
+      namespace: immich
+  - patch: |-
+      - op: add
+        path: /spec/source/helm/valuesObject/server
+        value: 
+          enabled: false
+      - op: add
+        path: /spec/source/helm/valuesObject/machine-learning
+        value: 
+          enabled: false
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: immich-helm-chart
+      namespace: immich
