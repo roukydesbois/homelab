@@ -25,3 +25,14 @@ patches:
       kind: Application
       name: longhorn
       namespace: argocd
+  - patch: |-
+      - op: add
+        path: /spec/source/helm/valuesObject/operatorConfig
+        value:
+          hostname: thomelab-operator
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: tailscale-operator
+      namespace: argocd
