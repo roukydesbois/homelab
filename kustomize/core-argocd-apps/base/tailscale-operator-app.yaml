@@ -12,9 +12,7 @@ spec:
     helm:
       valuesObject:
         apiServerProxyConfig:
-          mode: false
-        operatorConfig:
-          hostname: thomelab-operator
+          mode: true
   destination:
     server: https://kubernetes.default.svc
     namespace: tailscale
