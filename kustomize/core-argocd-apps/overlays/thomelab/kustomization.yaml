@@ -79,7 +79,7 @@ patches:
                   name: plugins
             configuration:
               backupStorageLocation:
-              - name: minio-evora
+              - name: default
                 provider: aws
                 bucket: thomelab-velero
                 config:
@@ -87,7 +87,7 @@ patches:
                   s3ForcePathStyle: "true"
                   s3Url: http://192.168.100.210:9000
               volumeSnapshotLocation:
-              - name: minio-evora
+              - name: default
                 config:
                   region: us-east-1
             credentials:
