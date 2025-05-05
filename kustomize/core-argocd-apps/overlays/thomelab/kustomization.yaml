@@ -38,9 +38,11 @@ patches:
       namespace: argocd
   - patch: |-
       - op: add
-        path: /spec/source/helm/valuesObject/global
+        path: /spec/source/helm
         value:
-          domain: thomelab-argocd.tail9a43.ts.net
+          valuesObject:
+            global:
+              domain: thomelab-argocd.tail9a43.ts.net
       - op: add
         path: /spec/source/helm/valuesObject/configs
         value:
