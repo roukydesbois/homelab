@@ -86,7 +86,11 @@ patches:
                   region: us-east-1
                   s3ForcePathStyle: "true"
                   s3Url: http://192.168.100.210:9000
-                volumeSnapshotLocation: []
+              volumeSnapshotLocation: 
+              - name: default
+                provider: aws
+                config:
+                  region: us-east-1
             credentials:
               useSecret: true
               existingSecret: velero
