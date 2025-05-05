@@ -95,7 +95,7 @@ patches:
               useSecret: true
               existingSecret: velero
             schedules:
-              baseBackup:
+              basebackup:
                 disabled: false
                 schedule: "0 0 * * *"
                 template:
