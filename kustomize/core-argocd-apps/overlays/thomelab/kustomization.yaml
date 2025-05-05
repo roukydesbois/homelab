@@ -36,3 +36,29 @@ patches:
       kind: Application
       name: tailscale-operator
       namespace: argocd
+  - patch: |-
+      - op: add
+        path: /spec/source/helm/valuesObject/global
+        value:
+          domain: thomelab-argocd.tail9a43.ts.net
+      - op: add
+        path: /spec/source/helm/valuesObject/configs
+        value:
+          params:
+            server.insecure: true
+      - op: add
+        path: /spec/source/helm/valuesObject/server
+        value:
+          ingress:
+            enabled: true
+            ingressClassName: tailscale
+            hostname: thomelab-argocd
+            extraTls:
+              - hosts:
+                - thomelab-argocd
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: argocd
+      namespace: argocd
