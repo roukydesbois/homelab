@@ -71,28 +71,28 @@ patches:
         value:
           valuesObject:
             initContainers:
-              - name: velero-plugin-for-aws
-                image: velero/velero-plugin-for-aws:v1.10.0
-                imagePullPolicy: IfNotPresent
-                volumeMounts:
-                  - mountPath: /target
-                    name: plugins
-              configuration:
-                backupStorageLocation:
-                - name: minio-evora
-                  provider: aws
-                  bucket: thomelab-velero
-                  config:
-                    region: us-east-1
-                    s3ForcePathStyle: "true"
-                    s3Url: http://192.168.100.210:9000
-                volumeSnapshotLocation:
-                - name: minio-evora
-                  config:
-                    region: us-east-1
-              credentials:
-                useSecret: true
-                existingSecret: velero
+            - name: velero-plugin-for-aws
+              image: velero/velero-plugin-for-aws:v1.10.0
+              imagePullPolicy: IfNotPresent
+              volumeMounts:
+                - mountPath: /target
+                  name: plugins
+            configuration:
+              backupStorageLocation:
+              - name: minio-evora
+                provider: aws
+                bucket: thomelab-velero
+                config:
+                  region: us-east-1
+                  s3ForcePathStyle: "true"
+                  s3Url: http://192.168.100.210:9000
+              volumeSnapshotLocation:
+              - name: minio-evora
+                config:
+                  region: us-east-1
+            credentials:
+              useSecret: true
+              existingSecret: velero
     target:
       group: argoproj.io
       version: v1alpha1
