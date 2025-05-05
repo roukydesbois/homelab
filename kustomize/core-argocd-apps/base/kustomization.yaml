@@ -11,3 +11,4 @@ resources:
   - longhorn-volume-snapshot-class.yaml
   - tailscale-operator-app.yaml
   - cnpg-app.yaml
+  - velero-app.yaml
