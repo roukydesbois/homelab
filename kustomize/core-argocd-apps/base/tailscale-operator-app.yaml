@@ -12,7 +12,7 @@ spec:
     helm:
       valuesObject:
         apiServerProxyConfig:
-          mode: true
+          mode: "true"
   destination:
     server: https://kubernetes.default.svc
     namespace: tailscale
