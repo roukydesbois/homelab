@@ -91,6 +91,7 @@ patches:
                 provider: aws
                 config:
                   region: us-east-1
+              features: EnableCSI
             credentials:
               useSecret: true
               existingSecret: velero
