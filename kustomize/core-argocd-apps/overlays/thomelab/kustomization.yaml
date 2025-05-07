@@ -98,6 +98,10 @@ patches:
             schedules:
               basebackup:
                 disabled: false
+                labels:
+                  scheduled-backup: base
+                annotations:
+                  scheduled-backup: base
                 schedule: "0 0 * * *"
                 template:
                   ttl: "240h"
