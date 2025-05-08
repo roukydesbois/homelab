@@ -8,13 +8,10 @@ resources:
 
 patches:
   - patch: |-
-      - op: add
-        path: /data/application.namespaces
-        value: keycloak,immich,thomflix
-    target:
-      group: ""
-      version: v1
+      apiVersion: v1
       kind: ConfigMap
-      namespace: argocd
-      name: argocd-cmd-params-cm
-
+      metadata:
+        name: argocd-cmd-params-cm
+        namespace: argocd
+      data:
+        application.namespaces: "keycloak,immich,thomflix"
