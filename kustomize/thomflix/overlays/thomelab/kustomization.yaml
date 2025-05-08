@@ -5,6 +5,7 @@ resources:
   - directory-creation-job.yaml
   - thomflix-config-sc.yaml
   - ../../base
+  - ingresses.yaml
 
 patches:
   - patch: |-
