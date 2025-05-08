@@ -46,7 +46,7 @@ patches:
                         privileged: true
                         capabilities:
                           add: ["NET_ADMIN", "SYS_MODULE"]
-                      env:
+                      fixedEnv:
                         PUID: 1000
                         PGID: 1000
                         TZ: "Europe/Paris"
