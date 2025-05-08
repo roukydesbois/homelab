@@ -18,7 +18,6 @@ patches:
               repository: lscr.io/linuxserver/wireguard
               tag: latest
               pullPolicy: IfNotPresent
-
             persistence:
               config:
                 enabled: true
@@ -48,12 +47,9 @@ patches:
                         capabilities:
                           add: ["NET_ADMIN", "SYS_MODULE"]
                       env:
-                        - name: PUID
-                          value: 1000
-                        - name: PGID
-                          value: 1000
-                        - name: TZ
-                          value: "Europe/Paris"
+                        PUID: 1000
+                        PGID: 1000
+                        TZ: "Europe/Paris"
                       volumeMounts:
                         - name: vpn-config
                           mountPath: /config/wg_confs
