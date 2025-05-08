@@ -14,6 +14,11 @@ patches:
         path: /spec/source/helm
         value:
           valuesObject:
+            linuxserver-wg-image:
+              repository: lscr.io/linuxserver/wireguard
+              tag: latest
+              pullPolicy: IfNotPresent
+
             persistence:
               config:
                 enabled: true
@@ -37,10 +42,7 @@ patches:
                     vpn:
                       enabled: true
                       type: init
-                      imageSelector:
-                        repository: lscr.io/linuxserver/wireguard
-                        tag: latest
-                        pullPolicy: IfNotPresent
+                      imageSelector: linuxserver-wg-image
                       securityContext:
                         privileged: true
                         capabilities:
