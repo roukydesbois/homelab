@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-pv-thomflix
+spec:
+  capacity:
+    storage: 1.5Ti
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: evora.lan
+    path: "/data/thomflix-media" 
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: thomflix-library
+spec:
+  volumeName: nfs-pv-thomflix
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1.5Ti
+  storageClassName: "" 
