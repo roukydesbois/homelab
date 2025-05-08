@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: directory-check-job
+spec:
+  ttlSecondsAfterFinished: 86400  # Auto-delete after 24 hours
+  backoffLimit: 0  # No retries on failure
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: directory-checker
+        image: busybox:stable
+        command:
+        - "/bin/sh"
+        - "-c"
+        - |
+          # Define directories to check
+          DIRS_TO_CHECK="/mnt/data/torrents/books /mnt/data/torrents/movies /mnt/data/torrents/music /mnt/data/torrents/tv /mnt/data/media/books /mnt/data/media/movies /mnt/data/media/music /mnt/data/media/tv"
+          
+          echo "Starting directory check on PVC mount..."
+          MISSING_DIRS=""
+          
+          # Check each directory
+          for DIR in $DIRS_TO_CHECK; do
+            if [ ! -d "$DIR" ]; then
+              echo "❌ Directory not found: $DIR"
+              MISSING_DIRS="$MISSING_DIRS $DIR"
+            else
+              echo "✅ Directory exists: $DIR"
+            fi
+          done
+          
+          # Report results
+          if [ -z "$MISSING_DIRS" ]; then
+            echo "All required directories exist!"
+            exit 0
+          else
+            echo "Missing directories:$MISSING_DIRS"
+            exit 1  # Non-zero exit code indicates failure
+          fi
+        volumeMounts:
+        - name: data-volume
+          mountPath: /mnt
+      volumes:
+      - name: data-volume
+        persistentVolumeClaim:
+          claimName: thomflix-media

@@ -2,4 +2,35 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - library-pvc.yaml
+  - directory-creation-job.yaml
+  - thomflix-config-sc.yaml
   - ../../base
+
+patches:
+  - patch: |-
+      - op: add
+        path: /spec/source/helm
+        value:
+          valuesObject:
+            persistence:
+              config:
+                enabled: true
+                mountPath: "/config"
+                type: pvc
+                namespace: thomflix
+                accessModes: ReadWriteOnce
+                size: 100Mi
+                storageClass: thomflix-config
+              downloads:
+                enabled: true
+                mountPath: "/data/torrents"
+                type: pvc 
+                namespace: thomflix
+                existingClaim: thomflix-media
+                subPath: "data/torrents"
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: transmission
+      namespace: thomflix

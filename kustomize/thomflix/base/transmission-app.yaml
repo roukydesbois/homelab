@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: transmission
+  namespace: thomflix
+spec:
+  project: thomflix
+  source:
+    repoURL: "tccr.io/truecharts"
+    chart: transmission
+    targetRevision: 23.x
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: thomflix
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
