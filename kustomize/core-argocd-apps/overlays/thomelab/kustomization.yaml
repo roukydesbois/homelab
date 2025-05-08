@@ -49,6 +49,7 @@ patches:
         value:
           params:
             server.insecure: true
+            application.namespaces: "keycloak,immich,thomflix"
       - op: add
         path: /spec/source/helm/valuesObject/server
         value:

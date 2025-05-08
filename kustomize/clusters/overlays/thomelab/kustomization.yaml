@@ -6,23 +6,23 @@ resources:
   - immich-app-of-apps.yaml
   - thomflix-app-of-apps.yaml
 
-patches:
-  - patch: |-
-      apiVersion: argoproj.io/v1alpha1
-      kind: Application
-      metadata:
-        name: argocd
-        namespace: argocd
-      spec:
-        source:
-          helm:
-            valuesObject:
-              configs:
-                params:
-                  application.namespaces: "keycloak,immich,thomflix"
-    target:
-      group: argoproj.io
-      version: v1alpha1
-      kind: Application
-      name: argocd
-      namespace: argocd
+#patches:
+#  - patch: |-
+#      apiVersion: argoproj.io/v1alpha1
+#      kind: Application
+#      metadata:
+#        name: argocd
+#        namespace: argocd
+#      spec:
+#        source:
+#          helm:
+#            valuesObject:
+#              configs:
+#                params:
+#                  application.namespaces: "keycloak,immich,thomflix"
+#    target:
+#      group: argoproj.io
+#      version: v1alpha1
+#      kind: Application
+#      name: argocd
+#      namespace: argocd
