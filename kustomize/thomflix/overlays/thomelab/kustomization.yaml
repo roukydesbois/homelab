@@ -43,6 +43,7 @@ patches:
               wgConf:
                 enabled: true
                 type: secret
+                readOnly: true
                 objectName: wg-conf
                 mountPath: "/config/wg_confs"
                 items:
