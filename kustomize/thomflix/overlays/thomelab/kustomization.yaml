@@ -37,6 +37,8 @@ patches:
                   main: main
                 hosts:
                   - host: thomflix-transmission
+                    paths:
+                      - path: /
                 tls:
                   - hosts:
                     - thomflix-transmission
