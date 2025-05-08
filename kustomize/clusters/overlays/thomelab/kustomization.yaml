@@ -5,3 +5,16 @@ resources:
   - keycloak-app-of-apps.yaml
   - immich-app-of-apps.yaml
   - thomflix-app-of-apps.yaml
+
+patches:
+  - patch: |-
+      - op: replace
+        path: /data/application.namespaces
+        value: keycloak,immich,thomflix
+    target:
+      group: ""
+      version: v1
+      kind: ConfigMap
+      namespace: argocd
+      name: argocd-cmd-params-cm
+
