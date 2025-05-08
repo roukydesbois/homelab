@@ -35,6 +35,8 @@ patches:
                 ingressClassName: tailscale
                 targetSelector:
                   main: main
+                hosts:
+                  - host: thomflix-transmission
                 tls:
                   - hosts:
                     - thomflix-transmission
