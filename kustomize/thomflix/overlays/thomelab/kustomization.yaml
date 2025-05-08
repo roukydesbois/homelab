@@ -31,7 +31,6 @@ patches:
             ingress:
               main:
                 enabled: true
-                namespace: thomflix
                 ingressClassName: tailscale
                 targetSelector:
                   main: main
