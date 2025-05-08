@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: keycloak
+  namespace: argocd
+spec:
+  sourceRepos:
+    - https://github.com/roukydesbois/homelab
+    - registry-1.docker.io/bitnamicharts
+  sourceNamespaces:
+    - keycloak
+  destinations:
+    - namespace: keycloak
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: storage.k8s.io
+      kind: StorageClass
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: immich
+  namespace: argocd
+spec:
+  sourceRepos:
+    - https://github.com/roukydesbois/homelab
+    - https://immich-app.github.io/immich-charts
+  sourceNamespaces:
+    - immich
+  destinations:
+    - namespace: immich
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: storage.k8s.io
+      kind: StorageClass
+    - group: ""
+      kind: PersistentVolumeClaim
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
