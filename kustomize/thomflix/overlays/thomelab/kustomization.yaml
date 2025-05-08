@@ -39,6 +39,7 @@ patches:
                   - host: thomflix-transmission
                     paths:
                       - path: /
+                        pathType: Prefix
                 tls:
                   - hosts:
                     - thomflix-transmission
