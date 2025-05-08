@@ -12,8 +12,5 @@ patches:
       kind: ConfigMap
       metadata:
         name: argocd-cmd-params-cm
-        namespace: argocd
-      labels:
-        app.kubernetes.io/name: argocd-cmd-params-cm
       data:
         application.namespaces: "keycloak,immich,thomflix"
