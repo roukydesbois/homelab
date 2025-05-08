@@ -2,41 +2,16 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: keycloak
-  namespace: keycloak
+  namespace: argocd
 spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: keycloak
   project: keycloak
   source:
-    repoURL: registry-1.docker.io/bitnamicharts
-    targetRevision: 24.x
-    chart: keycloak
-    helm:                           
-      valuesObject:
-        auth:
-          adminUser: admin
-          existingSecret: keycloak-config
-          passwordSecretKey: admin-keycloak-password
-        global:
-          defaultStorageClass: keycloak-sc
-          ingress:
-          annotations:
-            tailscale.com/funnel: "true"
-          enabled: true
-          extraHosts:
-          - name: sso
-            path: /
-          extraTls:
-          - hosts:
-            - sso
-          hostname: sso.tail9a43.ts.net
-          ingressClassName: tailscale
-        postgresql:
-          auth:
-            existingSecret: keycloak-config
-        production: true
-        proxy: edge
+    repoURL: https://github.com/roukydesbois/homelab
+    targetRevision: main
+    path: kustomize/keycloak-bitnami/overlays/thomelab
   syncPolicy:
     automated:
       prune: true
