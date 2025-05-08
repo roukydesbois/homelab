@@ -5,7 +5,7 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: main
+      name: transmission
       port:
         name: main
   ingressClassName: tailscale
