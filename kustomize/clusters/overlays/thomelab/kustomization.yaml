@@ -5,6 +5,7 @@ resources:
   - keycloak-app-of-apps.yaml
   - immich-app-of-apps.yaml
   - thomflix/thomflix-app-of-apps.yaml
+  - thomflix/ingresses.yaml
 
 #patches:
 #  - patch: |-
