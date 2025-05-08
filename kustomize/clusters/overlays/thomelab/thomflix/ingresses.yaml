@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: transmission
+spec:
+  defaultBackend:
+    service:
+      name: main
+      port:
+        name: main
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - thomflix-transmission

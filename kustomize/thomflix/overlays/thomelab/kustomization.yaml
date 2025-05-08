@@ -28,20 +28,6 @@ patches:
                 namespace: thomflix
                 existingClaim: thomflix-media
                 subPath: "data/torrents"
-            ingress:
-              main:
-                enabled: true
-                ingressClassName: tailscale
-                targetSelector:
-                  main: main
-                hosts:
-                  - host: thomflix-transmission
-                    paths:
-                      - path: /
-                        pathType: Prefix
-                tls:
-                  - hosts:
-                    - thomflix-transmission
     target:
       group: argoproj.io
       version: v1alpha1
