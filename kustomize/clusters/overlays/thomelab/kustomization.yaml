@@ -4,3 +4,4 @@ resources:
   - ../../base
   - namespaces.yaml
   - argocd-projects.yaml
+  - apps.yaml
