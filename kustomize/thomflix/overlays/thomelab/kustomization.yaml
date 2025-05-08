@@ -29,6 +29,32 @@ patches:
                 namespace: thomflix
                 existingClaim: thomflix-media
                 subPath: "data/torrents"
+            workload:
+              main:
+                podSpec:
+                  initContainers:
+                    vpn:
+                      enabled: true
+                      type: init
+                      imageSelector: lscr.io/linuxserver/wireguard:latest
+                      securityContext:
+                        privileged: true
+                        capabilities:
+                          add: ["NET_ADMIN", "SYS_MODULE"]
+                      env:
+                        - name: PUID
+                          value: "1000"
+                        - name: PGID
+                          value: "1000"
+                        - name: TZ
+                          value: "Europe/Paris"
+                      volumeMounts:
+                        - name: vpn-config
+                          mountPath: /config/wg_confs
+                  volumes:
+                    - name: vpn-config
+                      secret:
+                        secretName: wg-conf
     target:
       group: argoproj.io
       version: v1alpha1
