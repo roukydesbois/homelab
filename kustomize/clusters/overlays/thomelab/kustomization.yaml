@@ -2,6 +2,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../../base
-  - namespaces.yaml
-  - argocd-projects.yaml
-  - apps.yaml
+  - keycloak-app-of-apps.yaml
+  - immich-app-of-apps.yaml
