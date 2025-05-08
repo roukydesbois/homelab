@@ -14,7 +14,7 @@ patches:
         name: argocd-cmd-params-cm
         namespace: argocd
       data:
-        application.namespaces: "keycloak,immich,thomflix"
+        application.namespaces: keycloak,immich,thomflix
     target:
       kind: ConfigMap
       name: argocd-cmd-params-cm
