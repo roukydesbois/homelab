@@ -11,6 +11,7 @@ metadata:
 spec:
   sourceRepos:
     - https://github.com/roukydesbois/homelab
+    - tccr.io/truecharts
   sourceNamespaces:
     - thomflix
   destinations:
