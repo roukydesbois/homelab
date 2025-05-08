@@ -39,6 +39,8 @@ spec:
       kind: StorageClass
     - group: ""
       kind: PersistentVolumeClaim
+    - group: ""
+      kind: PersistentVolume
   namespaceResourceWhitelist:
     - group: '*'
       kind: '*'
