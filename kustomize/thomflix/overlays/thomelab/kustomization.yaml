@@ -4,6 +4,7 @@ resources:
   - library-pvc.yaml
   - directory-creation-job.yaml
   - thomflix-config-sc.yaml
+  - wg-conf-sealed-secret.yaml
   - ../../base
   - ingresses.yaml
 
@@ -36,7 +37,10 @@ patches:
                     vpn:
                       enabled: true
                       type: init
-                      imageSelector: lscr.io/linuxserver/wireguard:latest
+                      imageSelector:
+                        repository: lscr.io/linuxserver/wireguard
+                        tag: latest
+                        pullPolicy: IfNotPresent
                       securityContext:
                         privileged: true
                         capabilities:
