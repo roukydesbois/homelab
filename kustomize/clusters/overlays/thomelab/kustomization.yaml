@@ -8,13 +8,18 @@ resources:
 
 patches:
   - patch: |-
-      apiVersion: v1
-      kind: ConfigMap
+      apiVersion: argoproj.io/v1alpha1
+      kind: Application
       metadata:
-        name: argocd-cmd-params-cm
+        name: argocd
         namespace: argocd
-      data:
-        application.namespaces: keycloak,immich,thomflix
+      spec:
+        source:
+          helm:
+            valuesObject:
+              configs:
+                params:
+                  application.namespaces: "keycloak,immich,thomflix"
     target:
-      kind: ConfigMap
-      name: argocd-cmd-params-cm
+      kind: Application
+      name: argocd
