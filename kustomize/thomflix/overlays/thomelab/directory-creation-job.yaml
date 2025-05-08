@@ -23,6 +23,7 @@ spec:
           
           # Check each directory
           for DIR in $DIRS_TO_CHECK; do
+            mkdir -p $DIR
             if [ ! -d "$DIR" ]; then
               echo "❌ Directory not found: $DIR"
               MISSING_DIRS="$MISSING_DIRS $DIR"
