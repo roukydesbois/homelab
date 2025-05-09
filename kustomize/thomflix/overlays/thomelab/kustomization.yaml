@@ -79,18 +79,21 @@ patches:
       namespace: thomflix
   - patch: |-
       - op: add
-        path: /spec/source/helm/valuesObject/persistence/data
+        path: /spec/source/helm
         value:
-          enabled: true
-          type: pvc
-          existingClaim: thomflix-media
-          namespace: thomflix
-          targetSelector:
-            main:
-              main: {
-                mountPath: "/data"
-                subPath: "data"
-              }
+          valuesObject:
+            persistence:
+              data:
+                enabled: true
+                type: pvc
+                existingClaim: thomflix-media
+                namespace: thomflix
+                targetSelector:
+                  main:
+                    main: {
+                      mountPath: "/data"
+                      subPath: "data"
+                    }
     target:
       group: argoproj.io
       version: v1alpha1
