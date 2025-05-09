@@ -4,6 +4,7 @@ resources:
   - ../../base
   - keycloak-app-of-apps.yaml
   - immich-app-of-apps.yaml
+  - gluetun-env-sealed.yaml
   - thomflix-app-of-apps.yaml
 
 #patches:
