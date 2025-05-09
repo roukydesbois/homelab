@@ -69,5 +69,4 @@ replacements:
           - spec.source.helm.valuesObject.addons.vpn.env
         options:
           create: true
-          fromYaml: true
 
