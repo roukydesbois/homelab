@@ -16,6 +16,7 @@ spec:
   sourceRepos:
     - https://github.com/roukydesbois/homelab
     - tccr.io/truecharts
+    - https://jellyfin.github.io/jellyfin-helm
   sourceNamespaces:
     - thomflix
   destinations:
