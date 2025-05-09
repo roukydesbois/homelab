@@ -82,6 +82,9 @@ patches:
         path: /spec/source/helm
         value:
           valuesObject:
+            metrics:
+              main:
+                enabled: false
             persistence:
               data:
                 enabled: true
