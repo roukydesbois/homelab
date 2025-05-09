@@ -77,3 +77,26 @@ patches:
       kind: Application
       name: transmission
       namespace: thomflix
+  - patch: |-
+      - op: add
+        path: /spec/source/helm
+        value:
+          valuesObject:
+            persistence:
+              config:
+                enabled: true
+                mountPath: "/config"
+                type: pvc
+                namespace: thomflix
+                accessModes: ReadWriteOnce
+                size: 100Mi
+                storageClass: thomflix-config
+                targetSelector:
+                  main:
+                    main: {}
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: jackett
+      namespace: thomflix

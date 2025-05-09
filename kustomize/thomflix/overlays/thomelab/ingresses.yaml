@@ -12,3 +12,18 @@ spec:
   tls:
     - hosts:
         - thomflix-transmission
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jackett
+spec:
+  defaultBackend:
+    service:
+      name: jackett
+      port:
+        name: main
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - thomflix-jackett
