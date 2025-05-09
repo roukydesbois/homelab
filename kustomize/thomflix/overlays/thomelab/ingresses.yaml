@@ -76,11 +76,11 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: overseerr
+  name: jellyseerr
 spec:
   defaultBackend:
     service:
-      name: overseerr 
+      name: jellyseerr 
       port:
         name: main
   ingressClassName: tailscale
