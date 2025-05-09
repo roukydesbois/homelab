@@ -3,3 +3,5 @@ kind: Kustomization
 resources:
   - transmission-app.yaml
   - jackett-app.yaml
+  - sonarr-app.yaml
+  - radarr-app.yaml

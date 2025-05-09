@@ -98,5 +98,26 @@ patches:
       group: argoproj.io
       version: v1alpha1
       kind: Application
-      name: jackett
       namespace: thomflix
+      labelSelector: "needs-config:true"
+  - patch: |-
+      - op: add
+        path: /spec/source/helm
+        value:
+          valuesObject:
+            persistence:
+              data:
+                enabled: true
+                mountPath: "/data"
+                type: pvc
+                namespace: thomflix
+                existingClaim: thomflix-media
+                targetSelector:
+                  main:
+                    main: {}
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      namespace: thomflix
+      labelSelector: "needs-data:true"

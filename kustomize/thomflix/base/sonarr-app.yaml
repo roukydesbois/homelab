@@ -1,15 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: jackett
+  name: sonarr
   namespace: thomflix
   labels:
-    needs-config: true 
+    needs-config: true
+    needs-media: true
 spec:
   project: thomflix
   source:
     repoURL: "tccr.io/truecharts"
-    chart: jackett
+    chart: sonarr
     targetRevision: 23.x
   destination:
     server: https://kubernetes.default.svc

@@ -27,3 +27,33 @@ spec:
   tls:
     - hosts:
         - thomflix-jackett
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sonarr
+spec:
+  defaultBackend:
+    service:
+      name: sonarr
+      port:
+        name: main
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - thomflix-sonarr
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: radarr
+spec:
+  defaultBackend:
+    service:
+      name: radarr
+      port:
+        name: main
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - thomflix-radarr
