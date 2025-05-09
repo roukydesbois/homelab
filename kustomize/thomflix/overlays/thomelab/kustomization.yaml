@@ -46,35 +46,33 @@ patches:
                   - "192.168.42.69/32"
                 excludedNetworks_IPv6: []
                 env:
-                  - name: VPN_SERVICE_PROVIDER
-                    value: custom
-                  - name: VPN_TYPE
-                    value: wireguard
-                  - name: WIREGUARD_ENDPOINT_IP
-                    valueFrom:
-                      secretKeyRef:
-                        name: gluetun-env
-                        key: WIREGUARD_ENDPOINT_IP
-                  - name: WIREGUARD_ENDPOINT_PORT
-                    valueFrom:
-                      secretKeyRef:
-                        name: gluetun-env
-                        key: WIREGUARD_ENDPOINT_PORT
-                  - name: WIREGUARD_PUBLIC_KEY
-                    valueFrom:
-                      secretKeyRef:
-                        name: gluetun-env
-                        key: WIREGUARD_PUBLIC_KEY
-                  - name: WIREGUARD_PRIVATE_KEY
-                    valueFrom:
-                      secretKeyRef:
-                        name: gluetun-env
-                        key: WIREGUARD_PRIVATE_KEY
-                  - name: WIREGUARD_ADDRESSES
-                    valueFrom:
-                      secretKeyRef:
-                        name: gluetun-env
-                        key: WIREGUARD_ADDRESSES
+                  VPN_SERVICE_PROVIDER: custom
+                  VPN_TYPE: wireguard
+                  WIREGUARD_ENDPOINT_IP:
+                    secretKeyRef:
+                      name: gluetun-env
+                      key: WIREGUARD_ENDPOINT_IP
+                      expandObjectName: false
+                  WIREGUARD_ENDPOINT_PORT:
+                    secretKeyRef:
+                      name: gluetun-env
+                      key: WIREGUARD_ENDPOINT_PORT
+                      expandObjectName: false
+                  WIREGUARD_PUBLIC_KEY:
+                    secretKeyRef:
+                      name: gluetun-env
+                      key: WIREGUARD_PUBLIC_KEY
+                      expandObjectName: false
+                  WIREGUARD_PRIVATE_KEY:
+                    secretKeyRef:
+                      name: gluetun-env
+                      key: WIREGUARD_PRIVATE_KEY
+                      expandObjectName: false
+                  WIREGUARD_ADDRESSES:
+                    secretKeyRef:
+                      name: gluetun-env
+                      key: WIREGUARD_ADDRESSES
+                      expandObjectName: false
     target:
       group: argoproj.io
       version: v1alpha1
