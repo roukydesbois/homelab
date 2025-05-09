@@ -90,10 +90,9 @@ patches:
                 namespace: thomflix
                 targetSelector:
                   main:
-                    main: {
+                    main: 
                       mountPath: "/data"
                       subPath: "data"
-                    }
     target:
       group: argoproj.io
       version: v1alpha1
