@@ -4,7 +4,8 @@ metadata:
   name: sonarr
   namespace: thomflix
   labels:
-    needs-config: yes
+    update-config: yes
+    add-thomflix-media: yes
 spec:
   project: thomflix
   source:

@@ -78,43 +78,25 @@ patches:
       name: transmission
       namespace: thomflix
   - patch: |-
-      apiVersion: argoproj.io/v1alpha1
-      kind: Application
-      metadata:
-        name: not-used
-      spec:
-        source:
-          helm:
-            valuesObject:
-              persistence:
-                config:
-                  enabled: true
-                  mountPath: "/config"
-                  type: pvc
-                  namespace: thomflix
-                  accessModes: ReadWriteOnce
-                  size: 100Mi
-                  storageClass: thomflix-config
-                  targetSelector:
-                    main:
-                      main: {}
-                data:
-                  enabled: true
-                  type: pvc
-                  existingClaim: thomflix-media
-                  namespace: thomflix
-                  targetSelector:
-                    main:
-                      main: {
-                        mountPath: "/data"
-                        subPath: "data"
-                }
+      - op: add
+        path: /spec/source/helm/valuesObject/persistence/data
+        value:
+          enabled: true
+          type: pvc
+          existingClaim: thomflix-media
+          namespace: thomflix
+          targetSelector:
+            main:
+              main: {
+                mountPath: "/data"
+                subPath: "data"
+              }
     target:
       group: argoproj.io
       version: v1alpha1
       kind: Application
       namespace: thomflix
-      labelSelector: "config-and-media=yes"
+      labelSelector: "add-thomflix-media=yes"
   - patch: |-
       apiVersion: argoproj.io/v1alpha1
       kind: Application
@@ -141,4 +123,4 @@ patches:
       version: v1alpha1
       kind: Application
       namespace: thomflix
-      name: jackett-app
+      labelSelector: "update-config=yes"

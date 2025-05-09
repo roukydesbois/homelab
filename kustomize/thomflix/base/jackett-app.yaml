@@ -4,7 +4,7 @@ metadata:
   name: jackett
   namespace: thomflix
   labels:
-    needs-config: yes 
+    update-config: yes
 spec:
   project: thomflix
   source:
