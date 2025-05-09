@@ -78,22 +78,24 @@ patches:
       name: transmission
       namespace: thomflix
   - patch: |-
-      - op: add
-        path: /spec/source/helm
-        value:
-          valuesObject:
-            persistence:
-              config:
-                enabled: true
-                mountPath: "/config"
-                type: pvc
-                namespace: thomflix
-                accessModes: ReadWriteOnce
-                size: 100Mi
-                storageClass: thomflix-config
-                targetSelector:
-                  main:
-                    main: {}
+      apiVersion: argoproj.io/v1alpha1
+      kind: Application
+      spec:
+        source:
+          helm:
+            valuesObject:
+              persistence:
+                config:
+                  enabled: true
+                  mountPath: "/config"
+                  type: pvc
+                  namespace: thomflix
+                  accessModes: ReadWriteOnce
+                  size: 100Mi
+                  storageClass: thomflix-config
+                  targetSelector:
+                    main:
+                      main: {}
     target:
       group: argoproj.io
       version: v1alpha1
@@ -101,20 +103,22 @@ patches:
       namespace: thomflix
       labelSelector: "needs-config=yes"
   - patch: |-
-      - op: add
-        path: /spec/source/helm
-        value:
-          valuesObject:
-            persistence:
-              data:
-                enabled: true
-                mountPath: "/data"
-                type: pvc
-                namespace: thomflix
-                existingClaim: thomflix-media
-                targetSelector:
-                  main:
-                    main: {}
+      apiVersion: argoproj.io/v1alpha1
+      kind: Application
+      spec:
+        source:
+          helm:
+            valuesObject:
+              persistence:
+                data:
+                  enabled: true
+                  mountPath: "/data"
+                  type: pvc
+                  namespace: thomflix
+                  existingClaim: thomflix-media
+                  targetSelector:
+                    main:
+                      main: {}
     target:
       group: argoproj.io
       version: v1alpha1
