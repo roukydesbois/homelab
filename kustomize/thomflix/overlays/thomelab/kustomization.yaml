@@ -78,6 +78,8 @@ patches:
       name: transmission
       namespace: thomflix
   - patch: |-
+      metadata:
+        name: not-used
       spec:
         source:
           helm:
@@ -101,6 +103,8 @@ patches:
       namespace: thomflix
       labelSelector: "needs-config=yes"
   - patch: |-
+      metadata:
+        name: not-used
       spec:
         source:
           helm:
