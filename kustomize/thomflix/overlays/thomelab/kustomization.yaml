@@ -78,7 +78,7 @@ patches:
       name: transmission
       namespace: thomflix
   - patch: |-
-      apiVersion: argoproj.io
+      apiVersion: argoproj.io/v1alpha1
       kind: Application
       metadata:
         name: not-used
@@ -105,7 +105,7 @@ patches:
       namespace: thomflix
       labelSelector: "needs-config=yes"
   - patch: |-
-      apiVersion: argoproj.io
+      apiVersion: argoproj.io/v1alpha1
       kind: Application
       metadata:
         name: not-used
