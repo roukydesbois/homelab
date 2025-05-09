@@ -65,9 +65,9 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: http
+      name: jellyfin 
       port:
-        name: service
+        name: http
   ingressClassName: tailscale
   tls:
     - hosts:
