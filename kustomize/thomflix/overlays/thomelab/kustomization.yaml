@@ -5,6 +5,7 @@ resources:
   - directory-creation-job.yaml
   - thomflix-config-sc.yaml
   - wg-conf-sealed-secret.yaml
+  - gluetun-env-sealed.yaml
   - ../../base
   - ingresses.yaml
 
@@ -14,10 +15,6 @@ patches:
         path: /spec/source/helm
         value:
           valuesObject:
-            linuxserverWgImage:
-              repository: lscr.io/linuxserver/wireguard
-              tag: latest
-              pullPolicy: IfNotPresent
             persistence:
               config:
                 enabled: true
@@ -40,34 +37,18 @@ patches:
                 targetSelector:
                   main:
                     main: {}
-              wgConf:
-                enabled: true
-                type: secret
-                readOnly: true
-                objectName: wg-conf
-                mountPath: "/config/wg_confs"
-                items:
-                  - key: wg0.conf
-                    path: wg0.conf
-                targetSelector:
-                  main:
-                    vpn: {}
-            workload:
-              main:
-                podSpec:
-                  initContainers:
-                    vpn:
-                      enabled: true
-                      type: init
-                      imageSelector: linuxserverWgImage
-                      securityContext:
-                        privileged: true
-                        capabilities:
-                          add: ["NET_ADMIN", "SYS_MODULE"]
-                      fixedEnv:
-                        PUID: 1000
-                        PGID: 1000
-                        TZ: "Europe/Paris"
+            addons:
+              vpn:
+                type: gluetun
+                killSwitch: true
+                excludedNetworks_IPv4:
+                  - "10.244.0.0/16"
+                  - "192.168.100.0/24"
+                  - "192.168.42.69/32"
+                excludedNetworks_IPv6: []
+                envFrom:
+                  - secretRef:
+                      name: gluetun-env
     target:
       group: argoproj.io
       version: v1alpha1
