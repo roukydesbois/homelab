@@ -2,6 +2,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: transmission
+  annotations:
+    tailscale.com/tags: "tag:k8s,tag:thomflix"
 spec:
   defaultBackend:
     service:
@@ -17,6 +19,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: jackett
+  annotations:
+    tailscale.com/tags: "tag:k8s,tag:thomflix"
 spec:
   defaultBackend:
     service:
@@ -32,6 +36,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: sonarr
+  annotations:
+    tailscale.com/tags: "tag:k8s,tag:thomflix"
 spec:
   defaultBackend:
     service:
@@ -47,6 +53,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: radarr
+  annotations:
+    tailscale.com/tags: "tag:k8s,tag:thomflix"
 spec:
   defaultBackend:
     service:
@@ -62,6 +70,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: jellyfin
+  annotations:
+    tailscale.com/tags: "tag:k8s,tag:thomflix"
 spec:
   defaultBackend:
     service:
@@ -77,6 +87,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: jellyseerr
+  annotations:
+    tailscale.com/tags: "tag:k8s,tag:thomflix"
 spec:
   defaultBackend:
     service:
