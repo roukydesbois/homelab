@@ -105,24 +105,17 @@ patches:
       namespace: thomflix
       labelSelector: "needs-config=yes"
   - patch: |-
-      apiVersion: argoproj.io/v1alpha1
-      kind: Application
-      metadata:
-        name: not-used
-      spec:
-        source:
-          helm:
-            valuesObject:
-              persistence:
-                data:
-                  enabled: true
-                  mountPath: "/data"
-                  type: pvc
-                  namespace: thomflix
-                  existingClaim: thomflix-media
-                  targetSelector:
-                    main:
-                      main: {}
+      - op: add
+        path: /spec/source/helm/valuesObject/persistence/data
+        value:
+          enabled: true
+          mountPath: "/data"
+          type: pvc
+          namespace: thomflix
+          existingClaim: thomflix-media
+          targetSelector:
+            main:
+              main: {}
     target:
       group: argoproj.io
       version: v1alpha1
