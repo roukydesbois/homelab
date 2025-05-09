@@ -45,28 +45,39 @@ patches:
                   - "192.168.100.0/24"
                   - "192.168.42.69/32"
                 excludedNetworks_IPv6: []
+                env:
+                  - name: VPN_SERVICE_PROVIDER
+                    value: custom
+                  - name: VPN_TYPE
+                    value: wireguard
+                  - name: WIREGUARD_ENDPOINT_IP
+                    valueFrom:
+                      secretKeyRef:
+                        name: gluetun-env
+                        key: WIREGUARD_ENDPOINT_IP
+                  - name: WIREGUARD_ENDPOINT_PORT
+                    valueFrom:
+                      secretKeyRef:
+                        name: gluetun-env
+                        key: WIREGUARD_ENDPOINT_PORT
+                  - name: WIREGUARD_PUBLIC_KEY
+                    valueFrom:
+                      secretKeyRef:
+                        name: gluetun-env
+                        key: WIREGUARD_PUBLIC_KEY
+                  - name: WIREGUARD_PRIVATE_KEY
+                    valueFrom:
+                      secretKeyRef:
+                        name: gluetun-env
+                        key: WIREGUARD_PRIVATE_KEY
+                  - name: WIREGUARD_ADDRESSES
+                    valueFrom:
+                      secretKeyRef:
+                        name: gluetun-env
+                        key: WIREGUARD_ADDRESSES
     target:
       group: argoproj.io
       version: v1alpha1
       kind: Application
       name: transmission
       namespace: thomflix
-
-replacements:
-  - source:
-      kind: Secret
-      name: gluetun-env
-      namespace: thomflix
-      fieldPath: data.env
-    targets:
-      - select:
-          group: argoproj.io
-          version: v1alpha1
-          kind: Application
-          name: transmission
-          namespace: thomflix
-        fieldPaths:
-          - spec.source.helm.valuesObject.addons.vpn.env
-        options:
-          create: true
-
