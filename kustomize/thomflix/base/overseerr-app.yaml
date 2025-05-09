@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: "tccr.io/truecharts"
     chart: overseerr
-    targetRevision: 23.x
+    targetRevision: 15.x
   destination:
     server: https://kubernetes.default.svc
     namespace: thomflix
