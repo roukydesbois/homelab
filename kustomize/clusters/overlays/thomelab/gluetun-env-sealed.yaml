@@ -23,7 +23,7 @@ rules:
 - apiGroups: [""]
   resources: ["secrets"]
   resourceNames: ["gluetun-env"]  # Limit to specific secret for better security
-  verbs: ["get"]
+  verbs: ["get","list","watch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
