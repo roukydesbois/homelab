@@ -4,8 +4,6 @@ resources:
   - library-pvc.yaml
   - directory-creation-job.yaml
   - thomflix-config-sc.yaml
-  - wg-conf-sealed-secret.yaml
-  - gluetun-env-sealed.yaml
   - ../../base
   - ingresses.yaml
 
