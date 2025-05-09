@@ -5,7 +5,6 @@ metadata:
   namespace: thomflix
   labels:
     needs-config: yes
-    needs-media: yes
 spec:
   project: thomflix
   source:

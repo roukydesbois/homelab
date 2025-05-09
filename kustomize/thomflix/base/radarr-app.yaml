@@ -4,8 +4,7 @@ metadata:
   name: radarr
   namespace: thomflix
   labels:
-    needs-config: yes 
-    needs-media: yes
+    config-and-media: yes 
 spec:
   project: thomflix
   source:
