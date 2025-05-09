@@ -46,9 +46,36 @@ patches:
                   - "192.168.42.69/32"
                 excludedNetworks_IPv6: []
                 env:
-                  VPN_SERVICE_PROVIDER: mullvad
-                  VPN_TYPE: wireguard
-                  SERVER_CITIES: Lisbon
+                  VPN_SERVICE_PROVIDER:
+                    secretKeyRef:
+                      name: gluetun-env
+                      key: VPN_SERVICE_PROVIDER
+                      expandObjectName: false
+                  VPN_TYPE:
+                    secretKeyRef:
+                      name: gluetun-env
+                      key: VPN_TYPE
+                      expandObjectName: false
+                  VPN_ENDPOINT_IP:
+                    secretKeyRef:
+                      name: gluetun-env
+                      key: VPN_ENDPOINT_IP
+                      expandObjectName: false
+                  VPN_ENDPOINT_PORT:
+                    secretKeyRef:
+                      name: gluetun-env
+                      key: VPN_ENDPOINT_PORT
+                      expandObjectName: false
+                  WIREGUARD_PUBLIC_KEY:
+                    secretKeyRef:
+                      name: gluetun-env
+                      key: WIREGUARD_PUBLIC_KEY
+                      expandObjectName: false
+                  SERVER_CITIES:
+                    secretKeyRef:
+                      name: gluetun-env
+                      key: SERVER_CITIES
+                      expandObjectName: false
                   WIREGUARD_PRIVATE_KEY:
                     secretKeyRef:
                       name: gluetun-env
