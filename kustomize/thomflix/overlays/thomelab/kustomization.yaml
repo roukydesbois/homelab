@@ -55,6 +55,7 @@ replacements:
   - source:
       kind: Secret
       name: gluetun-env
+      namespace: thomflix
       fieldPath: data.env
     targets:
       - select:
