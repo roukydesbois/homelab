@@ -99,7 +99,7 @@ patches:
       version: v1alpha1
       kind: Application
       namespace: thomflix
-      labelSelector: "needs-config:true"
+      labelSelector: "needs-config=true"
   - patch: |-
       - op: add
         path: /spec/source/helm
@@ -120,4 +120,4 @@ patches:
       version: v1alpha1
       kind: Application
       namespace: thomflix
-      labelSelector: "needs-data:true"
+      labelSelector: "needs-data=true"
