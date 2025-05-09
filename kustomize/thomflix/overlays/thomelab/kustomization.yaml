@@ -48,7 +48,7 @@ patches:
                 env:
                   VPN_SERVICE_PROVIDER: mullvad
                   VPN_TYPE: wireguard
-                  SERVER_CITIES=Lisbon
+                  SERVER_CITIES: Lisbon
                   WIREGUARD_PRIVATE_KEY:
                     secretKeyRef:
                       name: gluetun-env
