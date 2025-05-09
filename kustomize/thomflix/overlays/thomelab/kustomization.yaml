@@ -43,7 +43,7 @@ patches:
                 excludedNetworks_IPv4:
                   - "10.244.0.0/16"
                   - "192.168.100.0/24"
-                  - "192.168.42.69/32"
+                  - "149.88.20.206/32"
                 excludedNetworks_IPv6: []
                 env:
                   VPN_SERVICE_PROVIDER:
