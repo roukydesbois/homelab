@@ -129,3 +129,20 @@ patches:
       kind: Application
       namespace: thomflix
       labelSelector: "update-config=yes"
+  - patch: |-
+      apiVersion: argoproj.io/v1alpha1
+      kind: Application
+      metadata:
+        name: jellyfin
+      persistence:
+        config:
+          storageClass: thomflix-config
+        media:
+          accessModes: ReadWriteMany
+          existingClaim: thomflix-media
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: jellyfin
+      namespace: thomflix

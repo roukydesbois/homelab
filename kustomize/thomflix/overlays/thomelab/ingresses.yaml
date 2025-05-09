@@ -57,3 +57,18 @@ spec:
   tls:
     - hosts:
         - thomflix-radarr
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jellyfin
+spec:
+  defaultBackend:
+    service:
+      name: http
+      port:
+        name: service
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - jellyfin

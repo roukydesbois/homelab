@@ -5,3 +5,4 @@ resources:
   - jackett-app.yaml
   - sonarr-app.yaml
   - radarr-app.yaml
+  - jellyfin-app.yaml
