@@ -134,12 +134,16 @@ patches:
       kind: Application
       metadata:
         name: jellyfin
-      persistence:
-        config:
-          storageClass: thomflix-config
-        media:
-          accessModes: ReadWriteMany
-          existingClaim: thomflix-media
+      spec:
+        source:
+          helm:
+            valuesObject:
+              persistence:
+                config:
+                  storageClass: thomflix-config
+                media:
+                  accessModes: ReadWriteMany
+                  existingClaim: thomflix-media
     target:
       group: argoproj.io
       version: v1alpha1
