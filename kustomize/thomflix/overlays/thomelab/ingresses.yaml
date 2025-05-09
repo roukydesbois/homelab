@@ -72,3 +72,18 @@ spec:
   tls:
     - hosts:
         - jellyfin
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: overseerr
+spec:
+  defaultBackend:
+    service:
+      name: overseerr 
+      port:
+        name: main
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - thomflix
