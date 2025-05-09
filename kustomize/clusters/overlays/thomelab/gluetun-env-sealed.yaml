@@ -13,3 +13,28 @@ spec:
       creationTimestamp: null
       name: gluetun-env
       namespace: thomflix
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: secret-reader
+  namespace: thomflix
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  resourceNames: ["gluetun-env"]  # Limit to specific secret for better security
+  verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gitops-secret-reader
+  namespace: thomflix
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: thomflix
+roleRef:
+  kind: Role
+  name: secret-reader
+  apiGroup: rbac.authorization.k8s.io
