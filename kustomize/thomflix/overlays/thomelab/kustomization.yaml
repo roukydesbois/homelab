@@ -121,12 +121,3 @@ patches:
       kind: Application
       namespace: thomflix
       labelSelector: "needs-data=yes"
-  - patch: |-
-      - op: replace
-        path: /spec/source/helm/valuesObject/metrics/main/enabled
-        value: false
-    target:
-      group: argoproj.io
-      version: v1alpha1
-      kind: Application
-      namespace: thomflix
