@@ -114,15 +114,11 @@ patches:
               persistence:
                 config:
                   enabled: true
-                  mountPath: "/config"
                   type: pvc
                   namespace: thomflix
                   accessModes: ReadWriteOnce
                   size: 100Mi
                   storageClass: thomflix-config
-                  targetSelector:
-                    main:
-                      main: {}
     target:
       group: argoproj.io
       version: v1alpha1
