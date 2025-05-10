@@ -49,4 +49,9 @@ patches:
               nextcloudData:
                 enabled: true
                 existingClaim: nextcloud-data
-
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: nextcloud
+      namespace: nextcloud
