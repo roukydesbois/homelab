@@ -4,7 +4,7 @@ resources:
   - minio-creds-sealed-secret.yaml
   - sealed-tailscale-oauth.yaml
   - sealed-velero-creds.yaml
-  - notif-webhook-info-sealed.yaml
+  - argocd-notifications-secret-sealed.yaml
   - ../../base
 
 patches:
@@ -66,7 +66,6 @@ patches:
         value:
           secret:
             create: false
-            name: "notif-webhook-info"
           notifiers:
             service.webhook.ntfy: |
               url: $WEBHOOK_URL
