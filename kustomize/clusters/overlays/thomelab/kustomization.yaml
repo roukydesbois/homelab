@@ -5,6 +5,7 @@ resources:
   - keycloak-app-of-apps.yaml
   - immich-app-of-apps.yaml
   - thomflix-app-of-apps.yaml
+  - nextcloud-app-of-apps.yaml
 
 #patches:
 #  - patch: |-
