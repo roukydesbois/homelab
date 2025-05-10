@@ -77,7 +77,7 @@ patches:
                 password: $WEBHOOK_PASSWORD
           subscriptions:
             - recipients:
-              - webhook:ntfy
+              - ntfy
               triggers:
               - on-sync-succeeded
               - on-sync-failed
@@ -126,7 +126,7 @@ patches:
                       "topic": "thomelab-argocd-notifications",
                       "message": "Application {{.app.metadata.name}} is now running new version of deployments manifests",
                       "title": "App deployed",
-                      "priority": "3",
+                      "priority": 3,
                       "tag": "+1",
                       "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
                     }
@@ -139,7 +139,7 @@ patches:
                       "topic": "thomelab-argocd-notifications",
                       "message": "Application {{.app.metadata.name}} has degraded",
                       "title": "Degraded app",
-                      "priority": "1",
+                      "priority": 1,
                       "tag": "rotating_light",
                       "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
                     }
@@ -152,7 +152,7 @@ patches:
                       "topic": "thomelab-argocd-notifications",
                       "message": "The sync operation of application {{.app.metadata.name}} has failed at {{.app.status.operationState.finishedAt}} with the following error: {{.app.status.operationState.message}}",
                       "title": "Failed sync",
-                      "priority": "2",
+                      "priority": 2,
                       "tag": "triangular_flag_on_post",
                       "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
                     }
@@ -165,7 +165,7 @@ patches:
                       "topic": "thomelab-argocd-notifications",
                       "message": "The sync operation of application {{.app.metadata.name}} has started at {{.app.status.operationState.startedAt}}",
                       "title": "Sync starting",
-                      "priority": "3",
+                      "priority": 3,
                       "tag": "warning",
                       "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
                     }
@@ -178,7 +178,7 @@ patches:
                       "topic": "thomelab-argocd-notifications",
                       "message": "Application {{.app.metadata.name}} sync is 'Unknown'",
                       "title": "Unknown sync status",
-                      "priority": "2",
+                      "priority": 2,
                       "tag": "warning",
                       "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
                     }
@@ -191,7 +191,7 @@ patches:
                       "topic": "thomelab-argocd-notifications",
                       "message": "Application {{.app.metadata.name}} has been successfully synced at {{.app.status.operationState.finishedAt}}",
                       "title": "App synced",
-                      "priority": "3",
+                      "priority": 3,
                       "tag": "+1",
                       "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
                     }
