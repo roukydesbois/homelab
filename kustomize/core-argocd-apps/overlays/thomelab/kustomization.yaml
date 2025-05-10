@@ -81,11 +81,13 @@ patches:
       name: argocd
       namespace: argocd
   - patch: |-
-      - op: add
-        path: /spec/metadata/annotations
-        value:
+      apiVersion: argoproj.io/v1alpha1
+      kind: Application
+      metadata:
+        annotations:
           notifications.argoproj.io/subscribe.on-sync-succeeded.ntfy: ""
           notifications.argoproj.io/subscribe.on-sync-failed.ntfy: ""
+          notifications.argoproj.io/subscribe.on-health-degraded.ntfy: ""
     target:
       group: argoproj.io
       version: v1alpha1
