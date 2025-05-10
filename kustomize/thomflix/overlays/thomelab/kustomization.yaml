@@ -145,11 +145,6 @@ patches:
                 capabilities:
                   add:
                     - SYS_RAWIO
-              resources:
-                requests:
-                  gpu.intel.com/i915: 1
-                limits:
-                  gpu.intel.com/i915: 1
               volumeMounts:
                 - name: dev-dri
                   mountPath: /dev/dri
