@@ -89,8 +89,6 @@ patches:
           notifications.argoproj.io/subscribe.on-sync-failed.ntfy: ""
           notifications.argoproj.io/subscribe.on-health-degraded.ntfy: ""
     target:
-      group: argoproj.io
-      version: v1alpha1
       kind: Application
   - patch: |-
       - op: add
