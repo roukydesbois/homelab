@@ -79,7 +79,7 @@ patches:
                   password: $WEBHOOK_PASSWORD
           subscriptions:
             - recipients:
-              - ntfy
+              - webhook:ntfy
               triggers:
               - on-sync-succeeded
               - on-sync-failed
