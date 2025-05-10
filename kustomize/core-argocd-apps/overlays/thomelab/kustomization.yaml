@@ -67,16 +67,15 @@ patches:
           extraEnvFrom:
             - secretRef:
                 name: notif-webhook-info
-          secret:
-            items:
-              service.webhook.ntfy: |
-                url: $WEBHOOK_URL
-                headers:
-                  - name: Content-Type
-                    value: application/json
-                basicAuth:
-                  username: $WEBHOOK_USER
-                  password: $WEBHOOK_PASSWORD
+          notifiers:
+            service.webhook.ntfy: |
+              url: $WEBHOOK_URL
+              headers:
+                - name: Content-Type
+                  value: application/json
+              basicAuth:
+                username: $WEBHOOK_USER
+                password: $WEBHOOK_PASSWORD
           subscriptions:
             - recipients:
               - webhook:ntfy
