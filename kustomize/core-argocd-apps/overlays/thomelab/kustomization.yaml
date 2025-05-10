@@ -71,6 +71,9 @@ patches:
             items:
               service.webhook.ntfy: |
                 url: $WEBHOOK_URL
+                headers:
+                  - name: Content-Type
+                    value: application/json
                 basicAuth:
                   username: $WEBHOOK_USER
                   password: $WEBHOOK_PASSWORD
@@ -78,9 +81,11 @@ patches:
             - recipients:
               - ntfy
               triggers:
-              - on-sync-status-unknown
               - on-sync-succeeded
               - on-sync-failed
+              - on-health-degraded
+          templates:
+
     target:
       group: argoproj.io
       version: v1alpha1
