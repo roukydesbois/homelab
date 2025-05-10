@@ -1,3 +1,52 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources: []
+resources:
+  - nextcloud-config-sc.yaml
+  - nextcloud-config-sealed.yaml
+  - nextcloud-data-pvc.yaml
+  - psql-pvc.yaml
+  - ../../base
+
+patches:
+  - patch: |-
+      - op: add
+        path: /spec/source/helm
+        value:
+          valuesObject:
+            ingress:
+              enabled: true
+              ingressClassName: tailscale
+              tls:
+                - hosts:
+                    - nextcloud
+            nextcloud:
+              host: nextcloud.tail9a43.ts.net
+              existingSecret:
+                enabled: true
+                secretName: nextcloud-config
+                usernameKey: username
+                passwordKey: password
+            internalDatabase:
+              enabled: false
+            postgresql:
+              enabled: true
+              global:
+                postgresql:
+                  auth:
+                    existingSecret: nextcloud-config
+                    secretKeys:
+                      adminPasswordKey: psql-admin-password
+                      userPasswordKey: psql-user-password
+                      replicationPasswordKey: psql-replication-password
+              primary:
+                persistence:
+                  enabled: true
+                  existingClaim: psql-pvc
+            persistence:
+              enabled: true
+              storageClass: nextcloud-config
+              size: 8Gi
+              nextcloudData:
+                enabled: true
+                existingClaim: nextcloud-data
+
