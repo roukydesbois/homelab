@@ -6,6 +6,17 @@ resources:
   - immich-app-of-apps.yaml
   - thomflix-app-of-apps.yaml
 
+patches:
+  - patch: |-
+      apiVersion: argoproj.io/v1alpha1
+      kind: Application
+      metadata:
+        annotations:
+          notifications.argoproj.io/subscribe.on-sync-succeeded.ntfy: ""
+          notifications.argoproj.io/subscribe.on-sync-failed.ntfy: ""
+          notifications.argoproj.io/subscribe.on-health-degraded.ntfy: ""
+    target:
+      kind: Application
 #patches:
 #  - patch: |-
 #      apiVersion: argoproj.io/v1alpha1
