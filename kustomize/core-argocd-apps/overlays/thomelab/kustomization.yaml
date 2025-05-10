@@ -195,6 +195,16 @@ patches:
                       "tag": "+1",
                       "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
                     }
+      - op: add
+        path: /spec/source/helm/valuesObject/configs
+        value:
+          cm:
+            oidc.config: |
+              name: Keycloak
+              issuer: https://sso.tail9a43.ts.net/realms/self-hosted-apps
+              clientID: argocd
+              enablePKCEAuthentication: true
+              requestedScopes: ["openid", "profile", "email", "groups"]
     target:
       group: argoproj.io
       version: v1alpha1
