@@ -12,3 +12,4 @@ resources:
   - tailscale-operator-app.yaml
   - cnpg-app.yaml
   - velero-app.yaml
+  - cert-manager-app.yaml
