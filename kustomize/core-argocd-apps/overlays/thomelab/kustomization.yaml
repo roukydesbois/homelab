@@ -259,3 +259,10 @@ patches:
             manager:
               devices:
                 gpu: true
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: intel-device-plugins-operator
+      namespace: argocd
+
