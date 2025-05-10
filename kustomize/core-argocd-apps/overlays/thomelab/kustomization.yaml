@@ -64,9 +64,9 @@ patches:
       - op: add
         path: /spec/source/helm/valuesObject/notifications
         value:
-          extraEnvFrom:
-            - secretRef:
-                name: notif-webhook-info
+          secret:
+            create: false
+            name: "notif-webhook-info"
           notifiers:
             service.webhook.ntfy: |
               url: $WEBHOOK_URL
