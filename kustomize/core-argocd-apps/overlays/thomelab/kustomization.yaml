@@ -58,6 +58,9 @@ patches:
               clientID: argocd
               enablePKCEAuthentication: true
               requestedScopes: ["openid", "profile", "email", "groups"]
+          rbac:
+            policy.csv: |
+              g, ArgoCDAdmins, role:admin
       - op: add
         path: /spec/source/helm/valuesObject/server
         value:
