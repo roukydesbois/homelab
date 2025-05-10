@@ -82,6 +82,16 @@ patches:
       namespace: argocd
   - patch: |-
       - op: add
+        path: /spec/metadata/annotations
+        value:
+          notifications.argoproj.io/subscribe.on-sync-succeeded.ntfy: ""
+          notifications.argoproj.io/subscribe.on-sync-failed.ntfy: ""
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+  - patch: |-
+      - op: add
         path: /spec/source/helm
         value:
           valuesObject:
