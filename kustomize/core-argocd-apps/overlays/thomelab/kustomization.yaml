@@ -74,6 +74,13 @@ patches:
                 basicAuth:
                   username: $WEBHOOK_USER
                   password: $WEBHOOK_PASSWORD
+          subscriptions:
+            - recipients:
+              - ntfy
+              triggers:
+              - on-sync-status-unknown
+              - on-sync-succeeded
+              - on-sync-failed
     target:
       group: argoproj.io
       version: v1alpha1
