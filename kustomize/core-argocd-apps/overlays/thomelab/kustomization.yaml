@@ -124,42 +124,79 @@ patches:
                 ntfy:
                   method: POST
                   body: |
-                    Application {{.app.metadata.name}} is now running new version of deployments manifests.
+                    {
+                      "topic": "thomelab-argocd-notifications",
+                      "message": "Application {{.app.metadata.name}} is now running new version of deployments manifests",
+                      "title": "App deployed",
+                      "priority": "3",
+                      "tag": "+1",
+                      "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
+                    }
             template.app-health-degraded: |
               webhook:
                 ntfy:
                   method: POST
                   body: |
-                    Application {{.app.metadata.name}} has degraded.
-                    Application details: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}.
+                    {
+                      "topic": "thomelab-argocd-notifications",
+                      "message": "Application {{.app.metadata.name}} has degraded",
+                      "title": "Degraded app",
+                      "priority": "1",
+                      "tag": "rotating_light",
+                      "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
+                    }
             template.app-sync-failed: |
               webhook:
                 ntfy:
                   method: POST
                   body: |
-                    The sync operation of application {{.app.metadata.name}} has failed at {{.app.status.operationState.finishedAt}} with the following error: {{.app.status.operationState.message}}
-                    Sync operation details are available at: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true .
+                    {
+                      "topic": "thomelab-argocd-notifications",
+                      "message": "The sync operation of application {{.app.metadata.name}} has failed at {{.app.status.operationState.finishedAt}} with the following error: {{.app.status.operationState.message}}",
+                      "title": "Failed sync",
+                      "priority": "2",
+                      "tag": "triangular_flag_on_post",
+                      "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
+                    }
             template.app-sync-running: |
               webhook:
                 ntfy:
                   method: POST
                   body: |
-                    The sync operation of application {{.app.metadata.name}} has started at {{.app.status.operationState.startedAt}}.
-                    Sync operation details are available at: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true .
+                    {
+                      "topic": "thomelab-argocd-notifications",
+                      "message": "The sync operation of application {{.app.metadata.name}} has started at {{.app.status.operationState.startedAt}}",
+                      "title": "Sync starting",
+                      "priority": "3",
+                      "tag": "warning",
+                      "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
+                    }
             template.app-sync-status-unknown: |
               webhook:
                 ntfy:
                   method: POST
                   body: |
-                    Application {{.app.metadata.name}} sync is 'Unknown'.
-                    Application details: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}.
+                    {
+                      "topic": "thomelab-argocd-notifications",
+                      "message": "Application {{.app.metadata.name}} sync is 'Unknown'",
+                      "title": "Unknown sync status",
+                      "priority": "2",
+                      "tag": "warning",
+                      "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
+                    }
             template.app-sync-succeeded: |
               webhook:
                 ntfy:
                   method: POST
                   body: |
-                    Application {{.app.metadata.name}} has been successfully synced at {{.app.status.operationState.finishedAt}}.
-                    Sync operation details are available at: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true .
+                    {
+                      "topic": "thomelab-argocd-notifications",
+                      "message": "Application {{.app.metadata.name}} has been successfully synced at {{.app.status.operationState.finishedAt}}",
+                      "title": "App synced",
+                      "priority": "3",
+                      "tag": "+1",
+                      "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
+                    }
     target:
       group: argoproj.io
       version: v1alpha1
