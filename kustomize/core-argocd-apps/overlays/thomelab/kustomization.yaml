@@ -4,6 +4,7 @@ resources:
   - minio-creds-sealed-secret.yaml
   - sealed-tailscale-oauth.yaml
   - sealed-velero-creds.yaml
+  - notif-webhook-info-sealed.yaml
   - ../../base
 
 patches:
@@ -60,6 +61,19 @@ patches:
             extraTls:
               - hosts:
                 - thomelab-argocd
+      - op: add
+        path: /spec/source/helm/valuesObject/notifications
+        value:
+          extraEnvFrom:
+            - secretRef:
+                name: notif-webhook-info
+          secret:
+            items:
+              service.webhook.ntfy: |
+                url: $WEBHOOK_URL
+                basicAuth:
+                  username: $WEBHOOK_USER
+                  password: $WEBHOOK_PASSWORD
     target:
       group: argoproj.io
       version: v1alpha1
