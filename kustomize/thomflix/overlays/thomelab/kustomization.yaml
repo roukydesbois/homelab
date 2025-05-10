@@ -140,6 +140,26 @@ patches:
                 media:
                   accessModes: ReadWriteMany
                   existingClaim: thomflix-media
+              podSecurityContext:
+                runAsUser: 1000
+                runAsGroup: 1000
+              securityContext:
+                privileged: false
+                capabilities:
+                  add:
+                    - SYS_RAWIO
+              resources:
+                requests:
+                  gpu.intel.com/i915: 1
+                limits:
+                  gpu.intel.com/i915: 1
+              volumeMounts:
+                - name: dev-dri
+                  mountPath: /dev/dri
+              volumes:
+                - name: dev-dri
+                  hostPath:
+                    path: /dev/dri
     target:
       group: argoproj.io
       version: v1alpha1
