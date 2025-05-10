@@ -140,11 +140,8 @@ patches:
                 media:
                   accessModes: ReadWriteMany
                   existingClaim: thomflix-media
-              podSecurityContext:
-                runAsUser: 1000
-                runAsGroup: 1000
               securityContext:
-                privileged: false
+                privileged: true
                 capabilities:
                   add:
                     - SYS_RAWIO
