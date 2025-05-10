@@ -8,10 +8,9 @@ resources:
 
 patches:
   - patch: |-
-      apiVersion: argoproj.io/v1alpha1
-      kind: Application
-      metadata:
-        annotations:
+      - op: add
+        path: /spec/metadata/annotations
+        value:
           notifications.argoproj.io/subscribe.on-sync-succeeded.ntfy: ""
           notifications.argoproj.io/subscribe.on-sync-failed.ntfy: ""
           notifications.argoproj.io/subscribe.on-health-degraded.ntfy: ""
