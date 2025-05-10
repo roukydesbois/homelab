@@ -251,3 +251,11 @@ patches:
       kind: Application
       name: velero
       namespace: argocd
+  - patch: |-
+      - op: add
+        path: /spec/source/helm
+        value:
+          valuesObject:
+            manager:
+              devices:
+                gpu: true
