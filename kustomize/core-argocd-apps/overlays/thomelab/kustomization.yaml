@@ -50,7 +50,7 @@ patches:
         value:
           params:
             server.insecure: true
-            application.namespaces: "keycloak,immich,thomflix"
+            application.namespaces: "keycloak,immich,thomflix,nextcloud"
       - op: add
         path: /spec/source/helm/valuesObject/server
         value:
