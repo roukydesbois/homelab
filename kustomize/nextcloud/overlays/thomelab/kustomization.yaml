@@ -29,14 +29,13 @@ patches:
             externalDatabase:
               type: postgresql
               enabled: true
-              host: nextcloud-helm-chart-postgresql
-              port: 5432
-              database: nextcloud
-              user: nextcloud
               existingSecret:
                 enabled: true
                 secretName: nextcloud-config
-                password-key: plsql-user-password
+                username-key: psql-username
+                password-key: psql-user-password
+                hostKey: psql-host
+                databaseKey: psql-database
             postgresql:
               enabled: true
               global:
