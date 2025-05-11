@@ -22,7 +22,7 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: collabora
+      name: nextcloud-helm-chart-collabora
       port:
         name: http
   ingressClassName: tailscale
