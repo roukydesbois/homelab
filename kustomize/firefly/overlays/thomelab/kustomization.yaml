@@ -35,6 +35,14 @@ patches:
               existingSecret: firefly-config
             persistence:
               storageClassName: firefly-config
+            ingress:
+              enabled: true
+              className: tailscale
+              hosts: 
+                - firefly-iii
+              tls:
+                - hosts:
+                    - firefly-iii
     target:
       group: argoproj.io
       version: v1alpha1
@@ -50,6 +58,14 @@ patches:
               existingSecret: firefly-config
             persistence:
               storageClassName: firefly-config
+            ingress:
+              enabled: true
+              className: tailscale
+              hosts: 
+                - firefly-importer
+              tls:
+                - hosts:
+                    - firefly-importer
     target:
       group: argoproj.io
       version: v1alpha1
