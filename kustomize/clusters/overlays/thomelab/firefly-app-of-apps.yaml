@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: firefly
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: firefly
+  namespace: argocd
+spec:
+  sourceRepos:
+    - https://github.com/roukydesbois/homelab
+    - https://firefly.github.io/helm
+  sourceNamespaces:
+    - firefly
+  destinations:
+    - namespace: firefly
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: storage.k8s.io
+      kind: StorageClass
+    - group: ""
+      kind: PersistentVolumeClaim
+    - group: ""
+      kind: PersistentVolume
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: firefly
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: firefly
+  project: firefly
+  source:
+    repoURL: https://github.com/roukydesbois/homelab
+    targetRevision: main
+    path: kustomize/firefly/overlays/thomelab
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
