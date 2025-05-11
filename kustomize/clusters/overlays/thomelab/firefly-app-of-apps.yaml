@@ -11,7 +11,7 @@ metadata:
 spec:
   sourceRepos:
     - https://github.com/roukydesbois/homelab
-    - https://firefly.github.io/helm
+    - https://firefly-iii.github.io/kubernetes
   sourceNamespaces:
     - firefly
   destinations:
