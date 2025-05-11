@@ -92,6 +92,9 @@ patches:
                 className: tailscale
                 hosts:
                   - host: office
+                    paths:
+                      - path: /
+                        pathType: ImplementationSpecific
                 tls:
                   - hosts:
                     - office
