@@ -13,3 +13,20 @@ spec:
   tls:
     - hosts:
         - nextcloud
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: collabora
+  namespace: nextcloud
+spec:
+  defaultBackend:
+    service:
+      name: collabora
+      port:
+        name: http
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - office
+
