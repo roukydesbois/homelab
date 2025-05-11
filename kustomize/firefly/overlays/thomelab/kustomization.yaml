@@ -33,13 +33,6 @@ patches:
           valuesObject:
             config:
               existingSecret: firefly-config
-            ingress:
-              enabled: true
-              className: tailscale
-              hosts: firefly-iii
-              tls:
-                - hosts:
-                    - firefly-iii
             persistence:
               storageClassName: firefly-config
     target:
@@ -55,13 +48,6 @@ patches:
           valuesObject:
             config:
               existingSecret: firefly-config
-            ingress:
-              enabled: true
-              className: tailscale
-              hosts: firefly-importer
-              tls:
-                - hosts:
-                    - firefly-importer
             persistence:
               storageClassName: firefly-config
     target:
