@@ -6,6 +6,7 @@ resources:
   - nextcloud-data-pvc.yaml
   - psql-pvc.yaml
   - ../../base
+  - nextcloud-ingress.yaml
 
 patches:
   - patch: |-
