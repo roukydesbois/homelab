@@ -80,7 +80,7 @@ patches:
               enabled: true
               collabora:
                 aliasgroups:
-                  - nextcloud.tail9a43.net
+                  - host: "https://nextcloud.tail9a43.net:443"
                 server_name: office.tail9a43.ts.net
                 existingSecret:
                   enabled: true
