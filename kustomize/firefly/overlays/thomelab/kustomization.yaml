@@ -36,8 +36,7 @@ patches:
             ingress:
               enabled: true
               className: tailscale
-              hosts: 
-                - firefly-iii
+              hosts: firefly-iii
               tls:
                 - hosts:
                     - firefly-iii
@@ -59,8 +58,7 @@ patches:
             ingress:
               enabled: true
               className: tailscale
-              hosts:
-                - firefly-importer
+              hosts: firefly-importer
               tls:
                 - hosts:
                     - firefly-importer
