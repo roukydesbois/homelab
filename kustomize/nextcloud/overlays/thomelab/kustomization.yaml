@@ -87,8 +87,6 @@ patches:
                   secretName: nextcloud-config
                   usernameKey: username
                   passwordKey: password
-              ingress:
-                enabled: false
     target:
       group: argoproj.io
       version: v1alpha1
