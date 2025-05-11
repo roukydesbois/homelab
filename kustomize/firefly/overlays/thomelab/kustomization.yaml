@@ -2,6 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - firefly-config-sc.yaml
+  - firefly-config-sealed.yaml
   - ../../base
 
 patches:
@@ -10,14 +11,61 @@ patches:
         path: /spec/source/helm
         value:
           valuesObject:
-            firefly-db:
-              storage:
+            backup:
+              pvc:
                 class: firefly-config
-                accessModes:
-                  - ReadWriteOnce
+            configs:
+              existingSecret: firefly-config
+              TZ: Europe/Paris
+            storage:
+              class: firefly-config
     target:
       group: argoproj.io
       version: v1alpha1
       kind: Application
-      name: firefly-iii-stack-helm-chart
+      name: firefly-db-chart
+      namespace: firefly
+  - patch: |-
+      - op: add
+        path: /spec/source/helm
+        value:
+          valuesObject:
+            config:
+              existingSecret: firefly-config
+            ingress:
+              enabled: true
+              className: tailscale
+              hosts[0]: firefly-iii
+              tls:
+                - hosts:
+                    - firefly-iii
+            persistence:
+              storageClassName: firefly-config
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: firefly-iii-chart
+      namespace: firefly
+  - patch: |-
+      - op: add
+        path: /spec/source/helm
+        value:
+          valuesObject:
+            config:
+              existingSecret: firefly-config
+            ingress:
+              enabled: true
+              className: tailscale
+              hosts[0]: firefly-importer
+              tls:
+                - hosts:
+                    - firefly-importer
+            persistence:
+              storageClassName: firefly-config
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: importer-chart
       namespace: firefly
