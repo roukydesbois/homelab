@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nextcloud
+  namespace: nextcloud
+spec:
+  defaultBackend:
+    service:
+      name: nextcloud-helm-chart
+      port:
+        name: http
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - nextcloud

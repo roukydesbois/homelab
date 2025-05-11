@@ -14,11 +14,8 @@ patches:
         value:
           valuesObject:
             ingress:
-              enabled: true
+              enabled: false
               className: tailscale
-              tls:
-                - hosts:
-                    - nextcloud
             nextcloud:
               host: nextcloud.tail9a43.ts.net
               existingSecret:
