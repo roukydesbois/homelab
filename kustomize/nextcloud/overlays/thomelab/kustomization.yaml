@@ -90,11 +90,7 @@ patches:
               ingress:
                 enabled: true
                 className: tailscale
-                hosts:
-                  - host: office
-                    paths:
-                      - path: /
-                        pathType: ImplementationSpecific
+                hosts: [{"host": "office", "paths": [{"path": "/", "pathType": "ImplementationSpecific"}]}]
                 tls:
                   - hosts:
                     - office
