@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: firefly-iii-chart
+  name: firefly-db-chart
   namespace: firefly
 spec:
   project: firefly
   source:
     repoURL: https://firefly-iii.github.io/kubernetes
     targetRevision: 0.x
-    chart: firefly-iii
+    chart: firefly-db
   destination:
     server: https://kubernetes.default.svc
     namespace: firefly

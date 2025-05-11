@@ -7,7 +7,7 @@ spec:
   project: firefly
   source:
     repoURL: https://firefly-iii.github.io/kubernetes
-    targetRevision: 0.x
+    targetRevision: 1.x
     chart: importer
   destination:
     server: https://kubernetes.default.svc
