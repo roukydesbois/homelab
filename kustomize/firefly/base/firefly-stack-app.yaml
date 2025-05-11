@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: firefly
+  name: firefly-iii-stack-helm-chart
   namespace: argocd
 spec:
   project: default

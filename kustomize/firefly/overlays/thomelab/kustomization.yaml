@@ -15,3 +15,9 @@ patches:
                 class: firefly-config
                 accessModes:
                   - ReadWriteOnce
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: firefly-iii-stack-helm-chart
+      namespace: firefly
