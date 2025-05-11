@@ -66,6 +66,9 @@ patches:
               tls:
                 - hosts:
                     - firefly-importer
+            fireflyiii.
+              url: http://firefly-iii-chart:80
+              vanityUrl: https://firefly-importer.tail9a43.ts.net
     target:
       group: argoproj.io
       version: v1alpha1
