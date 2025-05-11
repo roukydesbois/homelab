@@ -12,6 +12,7 @@ patches:
         value:
           valuesObject:
             backup:
+              destination: pvc
               pvc:
                 class: firefly-config
             configs:
