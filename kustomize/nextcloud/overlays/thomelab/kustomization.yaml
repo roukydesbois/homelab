@@ -57,6 +57,26 @@ patches:
               nextcloudData:
                 enabled: true
                 existingClaim: nextcloud-data
+            collabora:
+              enabled: true
+              collabora:
+                aliasgroups:
+                  - nextcloud.tail9a43.net
+                server_name: office.tail9a43.ts.net
+                existingSecret:
+                  enabled: true
+                  secretName: nextcloud-config
+                  usernameKey: username
+                  passwordKey: password
+              ingress:
+                enabled: true
+                className: tailscale
+                hosts:
+                  - host: office
+                tls:
+                  - hosts:
+                    - office
+
     target:
       group: argoproj.io
       version: v1alpha1
