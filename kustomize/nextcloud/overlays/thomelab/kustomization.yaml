@@ -43,6 +43,12 @@ patches:
                       'OC\Preview\PDF'
                     ),
                   );
+                openid.config.php: |-
+                  <?php
+                  $CONFIG = array (
+                    'allow_local_remote_servers' => true,
+                    'debug' => true,
+                  );
             internalDatabase:
               enabled: false
             externalDatabase:
