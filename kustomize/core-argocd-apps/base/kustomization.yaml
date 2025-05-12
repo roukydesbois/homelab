@@ -14,3 +14,4 @@ resources:
   - velero-app.yaml
   - cert-manager-app.yaml
   - intel-device-plugins-operator-app.yaml
+  - descheduler-app.yaml
