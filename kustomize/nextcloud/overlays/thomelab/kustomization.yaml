@@ -17,6 +17,9 @@ patches:
             ingress:
               enabled: false
               className: tailscale
+            phpClientHttpsFix:
+              enabled:true
+            protocol: https
             nextcloud:
               host: nextcloud.tail9a43.ts.net
               existingSecret:
