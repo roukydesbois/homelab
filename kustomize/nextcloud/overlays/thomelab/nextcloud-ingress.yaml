@@ -3,9 +3,6 @@ kind: Ingress
 metadata:
   name: nextcloud
   namespace: nextcloud
-  annotations:
-    tailscale.com/funnel: "true"
-    tailscale.com/tags: "tag:k8s,tag:funnel"
 spec:
   defaultBackend:
     service:
@@ -17,22 +14,19 @@ spec:
     - hosts:
         - nextcloud
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: collabora
-  namespace: nextcloud
-  annotations:
-    tailscale.com/funnel: "true"
-    tailscale.com/tags: "tag:k8s,tag:funnel"
-spec:
-  defaultBackend:
-    service:
-      name: nextcloud-helm-chart-collabora
-      port:
-        name: http
-  ingressClassName: tailscale
-  tls:
-    - hosts:
-        - office
-
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: collabora
+#   namespace: nextcloud
+# spec:
+#   defaultBackend:
+#     service:
+#       name: nextcloud-helm-chart-collabora
+#       port:
+#         name: http
+#   ingressClassName: tailscale
+#   tls:
+#     - hosts:
+#         - office
+#
