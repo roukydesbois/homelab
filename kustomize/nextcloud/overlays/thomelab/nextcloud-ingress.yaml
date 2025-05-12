@@ -19,4 +19,14 @@ kind: Ingress
 metadata:
   name: collabora
   namespace: nextcloud
-spec
+spec:
+  defaultBackend:
+    service:
+      name: nextcloud-helm-chart-collabora
+      port:
+        name: http
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - office
+
