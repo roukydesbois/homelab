@@ -3,6 +3,9 @@ kind: Ingress
 metadata:
   name: nextcloud
   namespace: nextcloud
+  annotations:
+    tailscale.com/funnel: "true"
+    tailscale.com/tags: "tag:k8s,tag:funnel"
 spec:
   defaultBackend:
     service:
@@ -21,6 +24,7 @@ metadata:
   namespace: nextcloud
   annotations:
     tailscale.com/funnel: "true"
+    tailscale.com/tags: "tag:k8s,tag:funnel"
 spec:
   defaultBackend:
     service:
