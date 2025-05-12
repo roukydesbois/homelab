@@ -6,7 +6,6 @@ resources:
   - sealed-velero-creds.yaml
   - argocd-notifications-secret-sealed.yaml
   - ../../base
-  - tailscale-dnsconfig.yaml
 
 patches:
   - patch: |-
@@ -276,21 +275,3 @@ patches:
       kind: Application
       name: intel-device-plugins-operator
       namespace: argocd
-  - patch: |-
-      apiVersion: v1
-      kind: ConfigMap
-      metadata:
-        name: coredns
-        namespace: kube-system
-      data:
-        Corefile: |-
-          $(Corefile)+
-          ts.net {
-            errors
-            cache 30
-            forward . 10.100.124.196
-          }
-    target:
-      kind: ConfigMap
-      name: coredns
-      namespace: kube-system

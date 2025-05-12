@@ -19,16 +19,4 @@ kind: Ingress
 metadata:
   name: collabora
   namespace: nextcloud
-  annotations:
-    tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
-spec:
-  defaultBackend:
-    service:
-      name: nextcloud-helm-chart-collabora
-      port:
-        name: http
-  ingressClassName: tailscale
-  tls:
-    - hosts:
-        - office
-
+spec
