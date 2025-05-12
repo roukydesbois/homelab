@@ -86,7 +86,7 @@ patches:
                 enabled: true
                 existingClaim: nextcloud-data
             collabora:
-              enabled: true
+              enabled: false
               collabora:
                 extra_params: "--o:ssl.enable=false --o:ssl.termination=false"
                 aliasgroups:
