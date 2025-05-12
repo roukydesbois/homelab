@@ -88,7 +88,6 @@ patches:
             collabora:
               enabled: true
               collabora:
-                extra_params: "extra_params=--o:ssl.enable=false --o:ssl.termination=true"
                 aliasgroups:
                   - host: "https://nextcloud.tail9a43.net:443"
                 server_name: office.tail9a43.ts.net
