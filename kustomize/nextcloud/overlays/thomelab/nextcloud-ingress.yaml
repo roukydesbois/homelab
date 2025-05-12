@@ -19,6 +19,8 @@ kind: Ingress
 metadata:
   name: collabora
   namespace: nextcloud
+  annotations:
+    tailscale.com/funnel: "true"
 spec:
   defaultBackend:
     service:
