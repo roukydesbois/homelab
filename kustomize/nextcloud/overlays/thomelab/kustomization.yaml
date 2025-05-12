@@ -86,12 +86,11 @@ patches:
                 enabled: true
                 existingClaim: nextcloud-data
             collabora:
-              enabled: false
+              enabled: true
               collabora:
-                extra_params: "--o:ssl.enable=false --o:ssl.termination=true --o:ssl.sssl_verification=false"
+                extra_params: "--o:ssl.enable=false --o:ssl.termination=false"
                 aliasgroups:
                   - host: "https://nextcloud.tail9a43.net:443"
-                server_name: office.tail9a43.ts.net
                 existingSecret:
                   enabled: true
                   secretName: nextcloud-config
