@@ -36,6 +36,7 @@ patchesStrategicMerge:
                   - sso
               annotations:
                 tailscale.com/funnel: "true"
+                tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
             postgresql:
               auth:
                 existingSecret: keycloak-config
