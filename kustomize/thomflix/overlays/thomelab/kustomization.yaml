@@ -158,3 +158,26 @@ patches:
       kind: Application
       name: jellyfin
       namespace: thomflix
+  - patch: |-
+      - op: add
+        path: /spec/source/helm/valuesObject/persistence/icons
+        value:
+          type: pvc
+          namespace: thomflix
+          accessModes: ReadWriteOnce
+          size: 100Mi
+          storageClass: thomflix-config
+      - op: add
+        path: /spec/source/helm/valuesObject/persistence/data
+        value:
+          type: pvc
+          namespace: thomflix
+          accessModes: ReadWriteOnce
+          size: 1Gi
+          storageClass: thomflix-config
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: homarr
+      namespace: thomflix

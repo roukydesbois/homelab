@@ -7,3 +7,4 @@ resources:
   - radarr-app.yaml
   - jellyfin-app.yaml
   - jellyseerr-app.yaml
+  - homarr-app.yaml

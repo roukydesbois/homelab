@@ -99,3 +99,20 @@ spec:
   tls:
     - hosts:
         - thomflix
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: homarr
+  annotations:
+    tailscale.com/tags: "tag:k8s,tag:thomflix"
+spec:
+  defaultBackend:
+    service:
+      name: homarr
+      port:
+        name: main
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - home
