@@ -156,6 +156,10 @@ patches:
                 main:
                   annotations:
                     tailscale.com/expose: "true"
+                  ports:
+                    main:
+                      port: 8096
+                      targetPort: 8096
     target:
       group: argoproj.io
       version: v1alpha1
