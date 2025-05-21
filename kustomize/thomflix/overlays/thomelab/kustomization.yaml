@@ -152,6 +152,10 @@ patches:
                 - name: dev-dri
                   hostPath:
                     path: /dev/dri
+              service:
+                main:
+                  annotations:
+                    tailscale.com/expose: "true"
     target:
       group: argoproj.io
       version: v1alpha1
@@ -180,16 +184,4 @@ patches:
       version: v1alpha1
       kind: Application
       name: homarr
-      namespace: thomflix
-  - patch: |-
-      apiVersion: v1
-      kind: Service
-      metadata:
-        name: jellyfin
-        namespace: thomflix
-        annotations:
-          tailscale.com/expose: "true"
-    target:
-      kind: Service
-      name: jellyfin
       namespace: thomflix
