@@ -1,0 +1,19 @@
+# Service to expose Jellyfin to the talinet
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-jellyfin
+  namespace: thomflix
+  annotations:
+    tailscale.com/expose: "true"
+spec:
+  selector:
+    app.kubernetes.io/instance: jellyfin
+    app.kubernetes.io/name: jellyfin
+  type: ClusterIP
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: http
+
