@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: protonmail-bridge
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: protonmail-bridge
+  namespace: argocd
+spec:
+  sourceRepos:
+    - https://github.com/roukydesbois/homelab
+  sourceNamespaces:
+    - immich
+  destinations:
+    - namespace: protonmail-bridge
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: storage.k8s.io
+      kind: StorageClass
+    - group: ""
+      kind: PersistentVolumeClaim
+    - group: ""
+      kind: PersistentVolume
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: protonmail-bridge
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: protonmail-bridge
+  project: protonmail-bridge
+  source:
+    repoURL: https://github.com/roukydesbois/homelab
+    targetRevision: protonmail-bridge
+    path: kustomize/protonmail-bridge/overlays/thomelab
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
