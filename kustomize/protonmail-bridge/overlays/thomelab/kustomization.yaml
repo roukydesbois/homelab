@@ -16,7 +16,7 @@ patches:
       name: protonmail-bridge-pvc 
   - patch: |-
       - op: replace
-        path: /spec/containers/0/image
+        path: /spec/template/spec/containers/0/image
         value: shenxn/protonmail-bridge:3.19.0-build
     target:
       group: apps
