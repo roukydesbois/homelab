@@ -23,19 +23,19 @@ spec:
             name: protonmail-data
         image: shenxn/protonmail-bridge:latest
         ports:
-          - containerPort: 1025
+          - containerPort: 25
             name: smtp
             protocol: TCP
-          - containerPort: 1143
+          - containerPort: 143
             name: imap
             protocol: TCP
         livenessProbe:
           tcpSocket:
-            port: 1025
+            port: 25
           initialDelaySeconds: 30
           periodSeconds: 30
         readinessProbe:
           tcpSocket:
-            port: 1025
+            port: 25
           initialDelaySeconds: 15
           periodSeconds: 10
