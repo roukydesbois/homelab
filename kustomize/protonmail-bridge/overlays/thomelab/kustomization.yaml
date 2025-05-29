@@ -22,4 +22,14 @@ patches:
       group: apps
       version: 'v1'
       kind: Deployment 
-      name: protonmail-bridge-deployment 
+      name: protonmail-bridge-deployment
+  - patch: |-
+      - op: add
+        path: /metadata/annotations
+        value:
+          tailscale.com/expose: "true"
+    target:
+      group: ""
+      version: v1
+      kind: Service
+      name: protonmail-bridge
