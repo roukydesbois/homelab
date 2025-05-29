@@ -39,7 +39,7 @@ spec:
   project: protonmail-bridge
   source:
     repoURL: https://github.com/roukydesbois/homelab
-    targetRevision: protonmail-bridge
+    targetRevision: main
     path: kustomize/protonmail-bridge/overlays/thomelab
   syncPolicy:
     automated:
