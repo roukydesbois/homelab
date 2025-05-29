@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: protonmail-bridge
+  namespace: protonmail-bridge
+spec:
+  selector:
+    app: protonmail-bridge
+  ports:
+    - name: smtp
+      port: 25
+      targetPort: 1025
+      protocol: TCP
+    - name: imap
+      port: 143
+      targetPort: 1143
+      protocol: TCP
+  type: ClusterIP

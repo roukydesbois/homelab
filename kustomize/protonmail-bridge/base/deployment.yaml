@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: protonmail-bridge-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: protonmail-bridge
+  template:
+    metadata:
+      labels:
+        app: protonmail-bridge
+    spec:
+      volumes: 
+        - name: protonmail-data
+          persistentVolumeClaim: 
+            claimName: protonmail-bridge-pvc
+      containers:
+      - name: protonmail-bridge-container
+        volumeMounts:
+          - mountPath: "/root/"
+            name: protonmail-data
+        image: shenxn/protonmail-bridge:latest
+        ports:
+          - containerPort: 1025
+            name: smtp
+            protocol: TCP
+          - containerPort: 1143
+            name: imap
+            protocol: TCP
+        livenessProbe:
+          tcpSocket:
+            port: 1025
+          initialDelaySeconds: 30
+          periodSeconds: 30
+        readinessProbe:
+          tcpSocket:
+            port: 1025
+          initialDelaySeconds: 15
+          periodSeconds: 10

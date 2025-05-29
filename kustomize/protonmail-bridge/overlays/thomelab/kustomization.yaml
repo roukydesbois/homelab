@@ -1,3 +1,24 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources: []
+resources:
+  - ../../base
+
+patches:
+  - patch: |-
+      op: add
+      path: /spec/storageClassName
+      value: protonmail-bridge-sc
+    target:
+      group: ""
+      version: v1
+      kind: PersistentVolumeClaim
+      name: protonmail-bridge-pvc 
+  - patch: |-
+      op: replace
+      path: /spec/containers/0/image
+      value: shenxn/protonmail-bridge:3.19.0-build
+    target:
+      group: apps
+      version: 'v1'
+      kind: Deployment 
+      name: protonmail-bridge-deployment 
