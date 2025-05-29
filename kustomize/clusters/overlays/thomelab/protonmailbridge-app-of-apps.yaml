@@ -12,7 +12,7 @@ spec:
   sourceRepos:
     - https://github.com/roukydesbois/homelab
   sourceNamespaces:
-    - immich
+    - protonmail-bridge
   destinations:
     - namespace: protonmail-bridge
       server: https://kubernetes.default.svc
