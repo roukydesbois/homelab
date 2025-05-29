@@ -9,10 +9,10 @@ spec:
   ports:
     - name: smtp
       port: 25
-      targetPort: 1025
+      targetPort: 25
       protocol: TCP
     - name: imap
       port: 143
-      targetPort: 1143
+      targetPort: 143
       protocol: TCP
   type: ClusterIP
