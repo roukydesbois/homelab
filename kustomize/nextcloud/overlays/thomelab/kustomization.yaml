@@ -96,6 +96,8 @@ patches:
                   secretName: nextcloud-config
                   usernameKey: username
                   passwordKey: password
+            cronjob:
+              enabled: true
     target:
       group: argoproj.io
       version: v1alpha1
