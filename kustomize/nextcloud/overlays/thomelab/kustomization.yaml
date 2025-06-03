@@ -54,6 +54,10 @@ patches:
                     'allow_local_remote_servers' => true,
                     'debug' => true,
                   );
+              # extraVolumes:
+              #   - name: syncthing
+              #     persistentVolumeClaim:
+              #       claimName: syncthing-data
             internalDatabase:
               enabled: false
             externalDatabase:
