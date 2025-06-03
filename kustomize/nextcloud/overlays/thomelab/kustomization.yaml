@@ -4,9 +4,11 @@ resources:
   - nextcloud-config-sc.yaml
   - nextcloud-config-sealed.yaml
   - nextcloud-data-pvc.yaml
+  #- syncthing-data-pvc.yaml
   - psql-pvc.yaml
   - ../../base
   - nextcloud-ingress.yaml
+  #- syncthing-ingress.yaml
 
 patches:
   - patch: |-
@@ -104,3 +106,17 @@ patches:
       kind: Application
       name: nextcloud-helm-chart
       namespace: nextcloud
+  - patch: |-
+      - op: add
+        path: /spec/source/helm
+        value:
+          valuesObject:
+            persistence:
+              config:
+                storageClass: syncthing-data
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: syncthing-helm-chart
+      namespace: syncthing

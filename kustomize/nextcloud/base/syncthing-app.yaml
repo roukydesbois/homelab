@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: syncthing-helm-chart
+  namespace: nextcloud
+spec:
+  project: nextcloud
+  source:
+    repoURL: tccr.io/truecharts
+    targetRevision: 20.x
+    chart: syncthing
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nextcloud
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
+      - ServerSideApply=true

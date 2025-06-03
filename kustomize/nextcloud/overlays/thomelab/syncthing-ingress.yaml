@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: syncthing
+  namespace: nextcloud
+spec:
+  defaultBackend:
+    service:
+      name: syncthing-helm-chart
+      port:
+        name: http
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - syncthing
