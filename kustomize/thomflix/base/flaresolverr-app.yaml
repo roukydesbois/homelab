@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: flaresolverr
+  namespace: thomflix
+  labels:
+    update-config: yes
+spec:
+  project: thomflix
+  source:
+    repoURL: "tccr.io/truecharts"
+    chart: flaresolverr
+    targetRevision: 15.x
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: thomflix
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    jsonPointers:
+    - /spec/template/spec/hostUsers
