@@ -118,7 +118,7 @@ patches:
                   type: pvc
                   namespace: thomflix
                   accessModes: ReadWriteOnce
-                  size: 500Mi
+                  size: 1Gi
                   storageClass: thomflix-config
     target:
       group: argoproj.io
