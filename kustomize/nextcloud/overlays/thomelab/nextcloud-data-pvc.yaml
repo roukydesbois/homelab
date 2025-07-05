@@ -9,8 +9,8 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: evora.lan
-    path: "/data/nextcloud" # Replace with your exported NFS path
+    server: openmediavault.lan
+    path: "/export/nextcloud-data" # Replace with your exported NFS path
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
