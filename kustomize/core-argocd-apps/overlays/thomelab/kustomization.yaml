@@ -20,8 +20,7 @@ patches:
       - op: add
         path: /spec/source/helm/valuesObject/defaultBackupStore
         value:
-          backupTarget: s3://longhorn-backup@us-west-1/
-          backupTargetCredentialSecret: minio-creds
+          backupTarget: nfs://192.168.100.210/longhorn-backup
     target:
       group: argoproj.io
       version: v1alpha1
