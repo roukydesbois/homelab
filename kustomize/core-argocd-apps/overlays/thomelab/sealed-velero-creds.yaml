@@ -7,18 +7,9 @@ metadata:
   namespace: velero
 spec:
   encryptedData:
-    cloud: AgAs2uncxKpF8DfMyRKyvPLzw8p14x8QaHaw+2xEaSrNi7R4SauNBX8EbNtZepsKGuycAt1ut1iz0w9juE/LvsnIBKMKoSZ+DhH92T9Lz94EzsQw0SkHqxxTPcvPAPkhZpmGSOsvvSB0119F1NcTA+sWejzttlmKk6+KQwK5vTc2i5uq3fm6VRE/7xYsxkW6zb1q+kRBRVhzeTtdzd1ZUZv5eDMegcIh9NEfeBG/mme43x+MqBB7IrHF80Y1YYY08J8np54XnVWCvtVi+Mua9JDbTyK/SfqRwoAh4OwUpT5xdf/xu4z49mbDlCe9TiQU0Oh1k3WMVzLN3kcwVnLyzHqaS3YaRFkayTojiykEcnYQNoDRD9U2Uc8NKPSszMyw2bIFVHrH5gu74/lR9S6sX+v3Mx/7h6TdIzxQuWH84JkQgsocylQJP6X36o7grcjUmQIfDMgoGSF6nReh9KAPXOUlOX39GPgg4G6oJtxrBCn+BWVfiQDoi39gX57o177QdD0J5wvjrGd9piJ74PMaScJT8f5nlDjdjQj4cwGnBhlJMS5TxccIZVtUPStd5SRwl6cuva1W9KEhPYGvhhnSt64MJvnf+owOmWoKWq2RK4RgmXXkrh8ikCHw7VdisQKwPoq5trMgqMLyOuMvGkHzATNxj9qVlzBqGkuoIfuRlHGdPQLPnO/jENNJ6Kf9d/hPVctF1lRdehLDbdFXYc3D0WGYiuoayMRG7lCQRnzzNRj2UtR5VIFZBX2OD22Fbs4GKT5JcXlZld64izj9wmAMmtzbSicLRfZBzXqTNAoI66QNbPO4tl0+QWNSElpsxJf1CNQFYj9dGgEEBsxO6RfKBwEp
+    cloud: AgBJso3DlThbFc7OjeM8gyyJmOv3ULD7l2uIZKnxeGueakCEDbFR+oTNeY7QG7wuLWau17cwC7DYMiyRDepgMbGAk6gihhoKmdwYzHK8ML9XP3JJn6ghvallemyvvehHN2jWcNBsHwL/CHiDwBov1pt1UZwuwANq9H0lIbFc0vFQIr+y95rIHDVJYEoOtdgRtXZzRBW0NaFfsoslfStx4F9oWuzjEWAdEqjZ2LjGyhVFe3Xo13NGK3/zB1tR4h1iHBdYUao/8es4BZujT6KMiMoC44hXkhbb6cNlrgaH1cxwu+RO8dRLPaSlxVzMExJze612Lib5K0yWea/Vno7ua0hkEST6QUK+JLYwA7vH4kvfp8Z5i+lDbRVME6ZdwEy0DmXc5ce7A2SLlmTQSgDFeS0dzrUFAkBNm4OwROvRwWOMMMC77jp8ZQ6R5kb3FXNCPGGjVr8YNd/5HffpCu7Aom1yQ7LcTW2U+VbMHjAbRhRYziBW/vmAeOwhd9+8PS9Nabq0GkscyQlzpIvcgH1rXSuMfkZ5jMLHU2cJ3NZZiGfyAxp5VRaU1FDjL5ltGSFeKyZPYeXS0GAGTDHCmfA/U8+wpjjzfw1ZjVdVUD/SeXfGxFcVEyzkq6l3p956O/4caNhz7IvAqwyUVnbcoe4AfD2ztkrMd+r+emzxUMHU20NEUVut7tESHHrkRO8lp268Y+KdllEjaqZJEx5W1bzc5XotuSB3W2ukMVfUpuAMhraNNsfUhDorMx448cOiDRjghLv/iPwgaN0nOhc9cKGYT6LGacI71ZUkquIj+qui+rtl4kagMRFv222nUQzyCHWNKFnd+AzF5e2aNaKd4HkgZE61LNigH/8TFb8rnprxCUr2NjNnVkp97ThkwO9454hk
   template:
     metadata:
-      annotations:
-        meta.helm.sh/release-name: velero
-        meta.helm.sh/release-namespace: velero
       creationTimestamp: null
-      labels:
-        app.kubernetes.io/instance: velero
-        app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/name: velero
-        helm.sh/chart: velero-9.0.4
       name: velero
       namespace: velero
-    type: Opaque

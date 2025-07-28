@@ -227,16 +227,15 @@ patches:
               backupStorageLocation:
               - name: default
                 provider: aws
-                bucket: thomelab-velero
+                bucket: velero
                 config:
-                  region: us-east-1
-                  s3ForcePathStyle: "true"
-                  s3Url: http://192.168.100.210:9000
+                  region: garage
+                  s3Url: http://192.168.100.210:3000
               volumeSnapshotLocation: 
               - name: default
                 provider: aws
                 config:
-                  region: us-east-1
+                  region: garage
               features: EnableCSI
             credentials:
               useSecret: true
@@ -255,6 +254,7 @@ patches:
                   includedNamespaces:
                     - keycloak
                     - immich
+                    - nextcloud
     target:
       group: argoproj.io
       version: v1alpha1
