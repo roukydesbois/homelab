@@ -21,6 +21,7 @@ patches:
         path: /spec/source/helm/valuesObject/defaultBackupStore
         value:
           backupTarget: s3://longhorn@garage/
+          backupTargetCredentialSecret: garage-creds-longhorn 
     target:
       group: argoproj.io
       version: v1alpha1
