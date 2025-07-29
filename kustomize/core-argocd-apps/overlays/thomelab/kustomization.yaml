@@ -232,7 +232,7 @@ patches:
                 config:
                   region: garage
                   s3Url: http://192.168.100.210:3900
-                  s3ForcePathStyle="true"
+                  s3ForcePathStyle: "true"
               volumeSnapshotLocation: 
               - name: default
                 provider: aws
