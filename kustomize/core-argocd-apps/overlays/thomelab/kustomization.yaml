@@ -262,6 +262,9 @@ patches:
                     - keycloak
                     - immich
                     - nextcloud
+                    - thomflix
+                    - firefly
+                    - cert-manager
     target:
       group: argoproj.io
       version: v1alpha1
