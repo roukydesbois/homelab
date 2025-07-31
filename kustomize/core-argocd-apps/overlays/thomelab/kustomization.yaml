@@ -21,7 +21,7 @@ patches:
         path: /spec/source/helm/valuesObject/defaultBackupStore
         value:
           backupTarget: s3://longhorn@garage/
-          backupTargetCredentialSecret: garage-creds-longhorn 
+          backupTargetCredentialSecret: garage-creds-longhorn
     target:
       group: argoproj.io
       version: v1alpha1
@@ -219,7 +219,7 @@ patches:
           valuesObject:
             initContainers:
             - name: velero-plugin-for-aws
-              image: velero/velero-plugin-for-aws:v1.12.1
+              image: velero/velero-plugin-for-aws:v1.12.2
               imagePullPolicy: IfNotPresent
               volumeMounts:
                 - mountPath: /target
@@ -233,7 +233,7 @@ patches:
                   region: garage
                   s3Url: http://192.168.100.210:3900
                   s3ForcePathStyle: "true"
-              volumeSnapshotLocation: 
+              volumeSnapshotLocation:
               - name: default
                 provider: aws
                 config:
