@@ -3,7 +3,7 @@ apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
   creationTimestamp: null
-  name: velero
+  name: credentials-velero
   namespace: velero
 spec:
   encryptedData:
