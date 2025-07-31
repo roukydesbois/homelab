@@ -241,7 +241,7 @@ patches:
               features: EnableCSI
             credentials:
               useSecret: true
-              existingSecret: velero
+              existingSecret: credentials-velero
             schedules:
               basebackup:
                 disabled: false
