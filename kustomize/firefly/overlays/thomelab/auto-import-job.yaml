@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: auto-import-job
+  namespace: firefly
+spec:
+  schedule: "0 18 * * *"
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: data-importer-cli
+          image: fireflyiii/data-importer:latest-cli
+          envFrom:
+            - secretRef:
+                name: firefly-config
+          volumeMounts:
+            - name: bank-imports
+              mountPath: /import
+      volumes:
+        - name: bank-imports
+          secret:
+            secretName: bank-imports
+            items:
+              - key: bank-import-1.json
+                path: bank-import-1.json

@@ -4,6 +4,7 @@ resources:
   - firefly-config-sc.yaml
   - firefly-config-sealed.yaml
   - bank-imports-sealed.yaml
+  - auto-import-job.yaml
   - ../../base
 
 patches:
