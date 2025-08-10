@@ -75,7 +75,7 @@ patches:
             additionalVolumes:
               - name: bank-imports
                 secret:
-                  secretName: bank-imports-sealed
+                  secretName: bank-imports
                   items:
                     - key: bank-import-1.json
                       path: bank-import-1.json
