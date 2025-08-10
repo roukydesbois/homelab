@@ -70,6 +70,8 @@ patches:
             fireflyiii:
               url: http://firefly-iii-chart:80
               vanityUrl: https://firefly-iii.tail9a43.ts.net
+              auth:
+                existingSecret: firefly-config
             additionalVolumes:
               - name: bank-imports
                 secret:
