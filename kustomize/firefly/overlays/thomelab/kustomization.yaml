@@ -83,6 +83,8 @@ patches:
                       path: bank-import-1.json
                     - key: bank-import-2.json
                       path: bank-import-2.json
+                    - key: bank-import-3.json
+                      path: bank-import-3.json
             additionalVolumeMounts:
               - name: bank-imports
                 mountPath: /var/www/html/storage/configurations
