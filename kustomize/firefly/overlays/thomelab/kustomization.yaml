@@ -79,7 +79,7 @@ patches:
                   items:
                     - key: bank-import-1.json
                       path: bank-import-1.json
-            additionalMounts:
+            additionalVolumeMounts:
               - name: bank-imports
                 mountPath: /import
     target:
