@@ -31,3 +31,5 @@ spec:
                 items:
                   - key: bank-import-1.json
                     path: bank-import-1.json
+                  - key: bank-import-2.json
+                    path: bank-import-2.json

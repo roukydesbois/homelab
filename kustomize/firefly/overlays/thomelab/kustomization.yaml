@@ -58,6 +58,7 @@ patches:
           valuesObject:
             config:
               existingSecret: firefly-config
+              files: {}
             persistence:
               storageClassName: firefly-config
             ingress:
@@ -80,9 +81,11 @@ patches:
                   items:
                     - key: bank-import-1.json
                       path: bank-import-1.json
+                    - key: bank-import-2.json
+                      path: bank-import-2.json
             additionalVolumeMounts:
               - name: bank-imports
-                mountPath: /import
+                mountPath: /var/www/html/storage/configurations
     target:
       group: argoproj.io
       version: v1alpha1
