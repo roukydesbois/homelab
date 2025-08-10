@@ -9,7 +9,7 @@ spec:
     spec:
       template:
         spec:
-          restartPolicy: OnFailure
+          restartPolicy: Never
           containers:
             - name: data-importer-cli
               image: fireflyiii/data-importer:latest-cli
