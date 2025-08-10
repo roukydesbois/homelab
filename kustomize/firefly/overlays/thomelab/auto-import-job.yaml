@@ -16,6 +16,11 @@ spec:
               envFrom:
                 - secretRef:
                     name: firefly-config
+              env:
+                - name: FIREFLY_III_URL
+                  value: http://firefly-iii-chart:80
+                - name: WEB_SERVER
+                  value: false
               volumeMounts:
                 - name: bank-imports
                   mountPath: /import
