@@ -11,3 +11,31 @@
         autoremove: yes
         autoclean: yes
       when: update_methods is defined and 'apt' in update_methods
+      register: apt_result
+
+    - name: Send ntfy notification when apt packages were updated
+      uri:
+        url: "{{ ntfy_server_url }}/{{ ntfy_topic | default('server-updates') }}"
+        method: POST
+        body: |
+          {{ inventory_hostname }}: APT packages updated successfully
+
+          Updated: {{ apt_result.cache_updated_time | default('N/A') }}
+          Packages changed: {{ apt_result.cache_update_time | default('Unknown') }}
+          Autoremove: {{ 'Yes' if apt_result.autoremoved else 'No' }}
+        headers: "{{ ntfy_headers | combine({'Authorization': 'Bearer ' + ntfy_token} if ntfy_token is defined else {}) }}"
+        user: "{{ ntfy_username | default(omit) }}"
+        password: "{{ ntfy_password | default(omit) }}"
+      vars:
+        ntfy_headers:
+          Content-Type: "text/plain"
+          Title: "Server Update Complete: {{ inventory_hostname }}"
+          Priority: "{{ ntfy_priority | default('default') }}"
+          Tags: "{{ ntfy_tags | default('computer,updates') }}"
+      when:
+        - update_methods is defined and 'apt' in update_methods
+        - apt_result is defined and apt_result.changed
+        - ntfy_server_url is defined
+        - (ntfy_username is undefined or ntfy_password is defined)
+        - (ntfy_password is undefined or ntfy_username is defined)
+      ignore_errors: yes
