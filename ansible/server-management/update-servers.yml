@@ -10,4 +10,4 @@
         upgrade: dist
         autoremove: yes
         autoclean: yes
-        when: update_methods is defined and 'apt' in update_methods
+      when: update_methods is defined and 'apt' in update_methods
