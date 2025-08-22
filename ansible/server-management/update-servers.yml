@@ -33,14 +33,14 @@
 
     - name: Check if system upgrade is needed
       set_fact:
-        yunohost_system_upgrade_needed: "{{ yunohost_update_parsed.system is defined and yunohost_update_parsed.system | length > 0 }}"
+        yunohost_system_upgrade_needed: "{{ yunohost_update_parsed.system is defined and yunohost_update_parsed.system is not none and yunohost_update_parsed.system | length > 0 }}"
       when:
         - update_methods is defined and 'yunohost' in update_methods
         - yunohost_update_result is defined
 
     - name: Check if apps upgrade is needed
       set_fact:
-        yunohost_apps_upgrade_needed: "{{ yunohost_update_parsed.apps is defined and yunohost_update_parsed.apps | length > 0 }}"
+        yunohost_apps_upgrade_needed: "{{ yunohost_update_parsed.apps is defined and yunohost_update_parsed.apps is not none and yunohost_update_parsed.apps | length > 0 }}"
       when:
         - update_methods is defined and 'yunohost' in update_methods
         - yunohost_update_result is defined
