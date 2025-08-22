@@ -13,8 +13,13 @@
       when: update_methods is defined and 'apt' in update_methods
       register: apt_result
 
-    - name: Run YunoHost tools update
+    - name: Run YunoHost tools update to refresh the catalog
       command: yunohost tools update
+      become: yes
+      when: update_methods is defined and 'yunohost' in update_methods
+
+    - name: Run YunoHost tools update to get the info
+      command: yunohost tools update --no-refresh
       become: yes
       when: update_methods is defined and 'yunohost' in update_methods
       register: yunohost_update_result
