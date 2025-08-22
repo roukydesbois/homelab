@@ -11,8 +11,9 @@ This directory contains Ansible playbooks for managing server updates with notif
 ## Features
 
 - **APT Package Updates**: Performs `dist-upgrade`, cache updates, autoremove, and autoclean
+- **YunoHost Updates**: Runs `yunohost tools update` and conditionally executes system/apps upgrades
 - **NTFY Notifications**: Sends notifications to a custom ntfy server when packages are updated
-- **Conditional Execution**: Only runs updates when `update_methods` includes 'apt'
+- **Conditional Execution**: Only runs updates when `update_methods` includes 'apt' or 'yunohost'
 - **Error Handling**: Notification failures don't stop the playbook execution
 
 ## Quick Start
@@ -30,6 +31,11 @@ This directory contains Ansible playbooks for managing server updates with notif
        your-server.example.com:
          ansible_host: 192.168.1.100
          ansible_user: your_user
+   yunohost:
+     hosts:
+       yunohost.example.com:
+         ansible_host: 192.168.1.200
+         ansible_user: root
    ```
 
 3. **Run the playbook**:
@@ -99,23 +105,51 @@ Set `update_methods` to control which update mechanisms to use:
 
 ```yaml
 update_methods:
-  - apt  # Enable APT updates
+  - apt       # Enable APT updates
+  - yunohost  # Enable YunoHost updates
 ```
+
+#### YunoHost Update Method
+
+The YunoHost update method performs the following steps:
+
+1. **Update Check**: Runs `yunohost tools update` as root to check for available updates
+2. **Conditional System Upgrade**: If system updates are detected, runs `yunohost tools upgrade system`
+3. **Conditional Apps Upgrade**: If app updates are detected, runs `yunohost tools upgrade apps`
+4. **Notification**: Sends detailed ntfy notification with update status and results
+
+**Requirements for YunoHost servers:**
+- Must run as root user (set `ansible_user: root` in inventory)
+- YunoHost must be installed and configured
+- Server must have network access to download updates
 
 ## Notification Details
 
 When packages are updated, the ntfy notification includes:
 
+### APT Updates
 - **Title**: "Server Update Complete: [hostname]"
 - **Body**: Update status with timestamp and autoremove information
 - **Priority**: Configurable priority level
 - **Tags**: Configurable tags for filtering
+
+### YunoHost Updates
+- **Title**: "YunoHost Update Complete: [hostname]"
+- **Body**: Detailed update status including:
+  - Whether system/apps upgrades were needed
+  - Whether upgrades were performed
+  - Original update check output
+- **Priority**: Configurable priority level
+- **Tags**: Includes 'yunohost' tag by default
 
 ## Example Run
 
 ```bash
 # Update all servers in the sbcs group
 ansible-playbook -i inventory.yml server-management/update-servers.yml
+
+# Update only YunoHost servers
+ansible-playbook -i inventory.yml server-management/update-servers.yml --limit yunohost
 
 # Update with vault-encrypted credentials
 ansible-playbook -i inventory.yml server-management/update-servers.yml --ask-vault-pass
@@ -135,6 +169,8 @@ ansible-playbook -i inventory.yml server-management/update-servers.yml -e ntfy_t
 - **No notifications**: Check that `ntfy_server_url` is defined and accessible
 - **Wrong topic**: Verify `ntfy_topic` is set correctly
 - **Permission errors**: Ensure the playbook runs with `become: yes` for apt operations
+- **YunoHost permission errors**: Ensure `ansible_user: root` is set for YunoHost servers
+- **YunoHost command not found**: Verify YunoHost is properly installed on target servers
 - **Network issues**: Notification failures are ignored to prevent blocking updates
 
 ## Security Notes

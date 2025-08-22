@@ -31,3 +31,16 @@ ntfy_topic: "homelab-updates"
 # Optional: Custom notification settings
 ntfy_priority: "default" # low, default, high, max
 ntfy_tags: "computer,package-manager"
+
+# YunoHost-specific settings
+# Default topic for YunoHost update notifications
+yunohost_ntfy_topic: "yunohost-updates"
+
+# YunoHost update check timeout (in seconds)
+yunohost_update_timeout: 300
+
+# Whether to automatically upgrade system when updates are found
+yunohost_auto_upgrade_system: true
+
+# Whether to automatically upgrade apps when updates are found
+yunohost_auto_upgrade_apps: true

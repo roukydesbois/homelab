@@ -18,3 +18,17 @@ all:
           - apt
         # Override ntfy settings for this group if needed
         # ntfy_topic: "sbc-updates"
+    yunohost:
+      hosts:
+        yunohost1.example.com:
+          ansible_host: 192.168.1.200
+          ansible_user: root
+        yunohost2.example.com:
+          ansible_host: 192.168.1.201
+          ansible_user: root
+      vars:
+        # Update methods to use for this group
+        update_methods:
+          - yunohost
+        # Override ntfy settings for YunoHost servers
+        ntfy_tags: "computer,updates,yunohost"

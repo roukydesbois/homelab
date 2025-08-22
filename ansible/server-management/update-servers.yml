@@ -13,6 +13,49 @@
       when: update_methods is defined and 'apt' in update_methods
       register: apt_result
 
+    - name: Run YunoHost tools update
+      command: yunohost tools update
+      become: yes
+      when: update_methods is defined and 'yunohost' in update_methods
+      register: yunohost_update_result
+
+    - name: Parse YunoHost update result
+      set_fact:
+        yunohost_update_parsed: "{{ yunohost_update_result.stdout | from_yaml }}"
+      when:
+        - update_methods is defined and 'yunohost' in update_methods
+        - yunohost_update_result is defined
+
+    - name: Check if system upgrade is needed
+      set_fact:
+        yunohost_system_upgrade_needed: "{{ yunohost_update_parsed.system is defined and yunohost_update_parsed.system | length > 0 }}"
+      when:
+        - update_methods is defined and 'yunohost' in update_methods
+        - yunohost_update_result is defined
+
+    - name: Check if apps upgrade is needed
+      set_fact:
+        yunohost_apps_upgrade_needed: "{{ yunohost_update_parsed.apps is defined and yunohost_update_parsed.apps | length > 0 }}"
+      when:
+        - update_methods is defined and 'yunohost' in update_methods
+        - yunohost_update_result is defined
+
+    - name: Run YunoHost system upgrade
+      command: yunohost tools upgrade system
+      become: yes
+      when:
+        - update_methods is defined and 'yunohost' in update_methods
+        - yunohost_system_upgrade_needed is defined and yunohost_system_upgrade_needed
+      register: yunohost_system_result
+
+    - name: Run YunoHost apps upgrade
+      command: yunohost tools upgrade apps
+      become: yes
+      when:
+        - update_methods is defined and 'yunohost' in update_methods
+        - yunohost_apps_upgrade_needed is defined and yunohost_apps_upgrade_needed
+      register: yunohost_apps_result
+
     - name: Send ntfy notification when apt packages were updated
       uri:
         url: "{{ ntfy_server_url }}/{{ ntfy_topic | default('server-updates') }}"
@@ -37,4 +80,36 @@
         - ntfy_server_url is defined
         - (ntfy_username is undefined or ntfy_password is defined)
         - (ntfy_password is undefined or ntfy_username is defined)
+      ignore_errors: yes
+
+    - name: Send ntfy notification when YunoHost updates were applied
+      uri:
+        url: "{{ ntfy_server_url }}/{{ ntfy_topic | default('server-updates') }}"
+        method: POST
+        body: |
+          {{ inventory_hostname }}: YunoHost updates completed
+
+          System upgrade needed: {{ yunohost_system_upgrade_needed | default('N/A') }}
+          System upgrade performed: {{ yunohost_system_result.changed | default('N/A') }}
+          Apps upgrade needed: {{ yunohost_apps_upgrade_needed | default('N/A') }}
+          Apps upgrade performed: {{ yunohost_apps_result.changed | default('N/A') }}
+
+          Update check output:
+          {{ yunohost_update_result.stdout | default('No output') }}
+        headers: "{{ ntfy_headers | combine({'Authorization': 'Bearer ' + ntfy_token} if ntfy_token is defined else {}) }}"
+        user: "{{ ntfy_username | default(omit) }}"
+        password: "{{ ntfy_password | default(omit) }}"
+      vars:
+        ntfy_headers:
+          Content-Type: "text/plain"
+          Title: "YunoHost Update Complete: {{ inventory_hostname }}"
+          Priority: "{{ ntfy_priority | default('default') }}"
+          Tags: "{{ ntfy_tags | default('computer,updates,yunohost') }}"
+      when:
+        - update_methods is defined and 'yunohost' in update_methods
+        - yunohost_update_result is defined
+        - ntfy_server_url is defined
+        - (ntfy_username is undefined or ntfy_password is defined)
+        - (ntfy_password is undefined or ntfy_username is defined)
+        - (yunohost_system_result is defined and yunohost_system_result.changed) or (yunohost_apps_result is defined and yunohost_apps_result.changed) or (yunohost_system_upgrade_needed or yunohost_apps_upgrade_needed)
       ignore_errors: yes
