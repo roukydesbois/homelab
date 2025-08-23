@@ -7,7 +7,7 @@ spec:
   project: nextcloud
   source:
     repoURL: tccr.io/truecharts
-    targetRevision: 20.x
+    targetRevision: 22.x
     chart: syncthing
   destination:
     server: https://kubernetes.default.svc

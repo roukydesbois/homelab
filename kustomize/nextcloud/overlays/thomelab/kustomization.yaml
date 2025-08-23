@@ -4,11 +4,11 @@ resources:
   - nextcloud-config-sc.yaml
   - nextcloud-config-sealed.yaml
   - nextcloud-data-pvc.yaml
-  #- syncthing-data-pvc.yaml
+  - syncthing-thomas-data-pvc.yaml
   - psql-pvc.yaml
   - ../../base
+  - syncthing-thomas-app.yaml
   - nextcloud-ingress.yaml
-  #- syncthing-ingress.yaml
 
 patches:
   - patch: |-
