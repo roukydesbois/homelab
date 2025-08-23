@@ -12,6 +12,7 @@ spec:
   sourceRepos:
     - https://github.com/roukydesbois/homelab
     - https://nextcloud.github.io/helm
+    - tccr.io/truecharts
   sourceNamespaces:
     - nextcloud
   destinations:
@@ -25,8 +26,8 @@ spec:
     - group: ""
       kind: PersistentVolume
   namespaceResourceWhitelist:
-    - group: '*'
-      kind: '*'
+    - group: "*"
+      kind: "*"
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
