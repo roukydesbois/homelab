@@ -27,7 +27,7 @@ spec:
               - syncthing-thomas
             tls:
               - hosts:
-                  - synchting-thomas
+                  - syncthing-thomas
   destination:
     server: https://kubernetes.default.svc
     namespace: nextcloud
