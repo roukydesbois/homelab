@@ -10,7 +10,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: evora.lan
-    path: "/data/syncthing/thomas" # Replace with your exported NFS path
+    path: "/export/syncthing/thomas" # Replace with your exported NFS path
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
