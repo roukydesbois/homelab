@@ -17,7 +17,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: syncthing-thomas-data
 spec:
-  volumeName: nfs-pv-syncthing
+  volumeName: nfs-pv-syncthing-thomas
   accessModes:
     - ReadWriteMany
   resources:
