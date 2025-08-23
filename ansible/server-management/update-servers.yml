@@ -26,7 +26,7 @@
 
     - name: Parse YunoHost update result
       set_fact:
-        yunohost_update_parsed: "{{ yunohost_update_result.stdout | from_yaml }}"
+        yunohost_update_parsed: "{{ yunohost_update_result.stdout | regex_replace('^Info.*\n?', '', 'M') | from_yaml }}"
       when:
         - update_methods is defined and 'yunohost' in update_methods
         - yunohost_update_result is defined
