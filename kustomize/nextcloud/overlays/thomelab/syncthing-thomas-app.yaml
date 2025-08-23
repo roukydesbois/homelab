@@ -23,6 +23,7 @@ spec:
             ingressClassName: tailscale
             targetSelector:
               main: main
+            hosts: []
             tls:
               - hosts:
                   - synchting-thomas
