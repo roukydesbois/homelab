@@ -24,7 +24,10 @@ spec:
             targetSelector:
               main: main
             hosts:
-              - syncthing-thomas
+              - host: syncthing-thomas
+                paths:
+                  - path: /
+                    pathType: Prefix
             tls:
               - hosts:
                   - syncthing-thomas
