@@ -54,10 +54,13 @@ patches:
                     'allow_local_remote_servers' => true,
                     'debug' => true,
                   );
-              # extraVolumes:
-              #   - name: syncthing
-              #     persistentVolumeClaim:
-              #       claimName: syncthing-data
+              extraVolumes:
+                - name: syncthing-thomas
+                  persistentVolumeClaim:
+                    claimName: syncthing-thomas-data
+              extraVolumeMounts:
+                - name: syncthing-thomas
+                  mountPath: /mnt/syncthing-thomas
             internalDatabase:
               enabled: false
             externalDatabase:
