@@ -8,7 +8,7 @@ resources:
   - nextcloud-app-of-apps.yaml
   - firefly-app-of-apps.yaml
   - protonmailbridge-app-of-apps.yaml
-
+  - trillium-app-of-apps.yaml
 #patches:
 #  - patch: |-
 #      - op: add
