@@ -22,3 +22,11 @@ spec:
       - ApplyOutOfSyncOnly=true
       - ServerSideApply=true
       - CreateNamespace=true
+  ignoreDifferences:
+    - group: ""
+      kind: PersistentVolumeClaim
+      jsonPointers:
+        - /metadata/creationTimestamp
+        - /metadata/generation
+        - /metadata/resourceVersion
+        - /metadata/uid
