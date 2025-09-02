@@ -40,3 +40,4 @@ spec:
         - /metadata/generation
         - /metadata/resourceVersion
         - /metadata/uid
+        - /spec/volumeClaimTemplates/*/metadata/creationTimestamp
