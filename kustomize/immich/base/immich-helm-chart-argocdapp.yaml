@@ -33,11 +33,7 @@ spec:
       - ServerSideApply=true
       - CreateNamespace=true
   ignoreDifferences:
-    - group: ""
+    - group: "apps"
       kind: StatefulSet
       jsonPointers:
-        - /metadata/creationTimestamp
-        - /metadata/generation
-        - /metadata/resourceVersion
-        - /metadata/uid
         - /spec/volumeClaimTemplates/*/metadata/creationTimestamp
