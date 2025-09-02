@@ -24,7 +24,7 @@ spec:
       - CreateNamespace=true
   ignoreDifferences:
     - group: ""
-      kind: PersistentVolumeClaim
+      kind: StatefulSet
       jsonPointers:
         - /metadata/creationTimestamp
         - /metadata/generation
