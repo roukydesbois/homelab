@@ -20,10 +20,10 @@ spec:
       selfHeal: true
     syncOptions:
       - ApplyOutOfSyncOnly=true
-      - ServerSideApply=true
+      # - ServerSideApply=true
       - CreateNamespace=true
-  ignoreDifferences:
-    - group: "apps"
-      kind: StatefulSet
-      jsonPointers:
-        - /spec/volumeClaimTemplates/*/metadata/creationTimestamp
+  # ignoreDifferences:
+  #   - group: "apps"
+  #     kind: StatefulSet
+  #     jsonPointers:
+  #       - /spec/volumeClaimTemplates/*/metadata/creationTimestamp
