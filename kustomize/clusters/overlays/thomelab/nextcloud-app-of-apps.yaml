@@ -12,7 +12,7 @@ spec:
   sourceRepos:
     - https://github.com/roukydesbois/homelab
     - https://nextcloud.github.io/helm
-    - tccr.io/truecharts
+    - oci.trueforge.org/truecharts
   sourceNamespaces:
     - nextcloud
   destinations:
