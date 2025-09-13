@@ -8,7 +8,7 @@ metadata:
 spec:
   project: thomflix
   source:
-    repoURL: "tccr.io/truecharts"
+    repoURL: oci.trueforge.org/truecharts
     chart: homarr
     targetRevision: 12.x
   destination:
