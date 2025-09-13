@@ -6,7 +6,7 @@ metadata:
 spec:
   project: thomflix
   source:
-    repoURL: "tccr.io/truecharts"
+    repoURL: oci.trueforge.org/truecharts
     chart: transmission
     targetRevision: 23.x
   destination:
