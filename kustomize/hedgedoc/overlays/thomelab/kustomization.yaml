@@ -33,3 +33,9 @@ patches:
             secretKeyRef:
               name: hedgedoc-config
               key: CMD_DOMAIN
+    target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: hedgedoc
+      namespace: hedgedoc
