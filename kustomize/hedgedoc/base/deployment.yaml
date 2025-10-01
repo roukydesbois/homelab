@@ -23,7 +23,7 @@ spec:
             - name: CMD_DB_URL
               valueFrom:
                 secretKeyRef:
-                  name: hedgedoc-db-app
+                  name: hedgedoc-pg-app
                   key: uri
           volumeMounts:
             - name: uploads
