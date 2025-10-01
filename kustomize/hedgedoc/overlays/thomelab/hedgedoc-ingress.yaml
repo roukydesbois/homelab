@@ -1,0 +1,12 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ts-hedgedoc
+  namespace: hedgedoc
+spec:
+  defaultBackend:
+    service:
+      name: hedgedoc
+      port:
+        name: http
+  ingressClassName: tailscale
