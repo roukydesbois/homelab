@@ -1,6 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - hedgedoc-config-sealed.yaml
   - hedgedoc-db-sc.yaml
   - hedgedoc-db.yaml
   - hedgedoc-ingress.yaml
@@ -23,3 +24,12 @@ patches:
       kind: Ingress
       name: ts-hedgedoc
       namespace: hedgedoc
+  - patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_DOMAIN
+          valueFrom:
+            secretKeyRef:
+              name: hedgedoc-config
+              key: CMD_DOMAIN
