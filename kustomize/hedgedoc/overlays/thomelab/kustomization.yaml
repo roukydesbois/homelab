@@ -102,12 +102,12 @@ patches:
         path: /spec/template/spec/containers/0/env/-
         value:
           name: CMD_PROTOCOL_USESSL
-          value: true
+          value: "true"
       - op: add
         path: /spec/template/spec/containers/0/env/-
         value:
           name: CMD_URL_ADDPORT
-          value: false
+          value: "false"
     target:
       group: apps
       version: v1
