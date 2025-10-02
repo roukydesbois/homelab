@@ -33,6 +33,71 @@ patches:
             secretKeyRef:
               name: hedgedoc-config
               key: CMD_DOMAIN
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_USER_PROFILE_URL
+          valueFrom:
+            secretKeyRef:
+              name: hedgedoc-config
+              key: CMD_OAUTH2_USER_PROFILE_URL
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_USER_PROFILE_USERNAME_ATTR
+          value: preferred_username
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_USER_PROFILE_DISPLAY_NAME
+          value: name
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_USER_PROFILE_EMAIL_ATTR
+          value: email
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_TOKEN_URL
+          valueFrom:
+            secretKeyRef:
+              name: hedgedoc-config
+              key: CMD_OAUTH2_TOKEN_URL
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_AUTHORIZATION_URL
+          valueFrom:
+            secretKeyRef:
+              name: hedgedoc-config
+              key: CMD_OAUTH2_AUTHORIZATION_URL
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: hedgedoc-config
+              key: CMD_OAUTH2_CLIENT_ID
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: hedgedoc-config
+              key: CMD_OAUTH2_CLIENT_SECRET
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_PROVIDER_NAME
+          value: Keycloak
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_SCOPE
+          value: openid email profile
     target:
       group: apps
       version: v1
