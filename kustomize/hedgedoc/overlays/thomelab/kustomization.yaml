@@ -98,6 +98,16 @@ patches:
         value:
           name: CMD_OAUTH2_SCOPE
           value: openid email profile
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_PROTOCOL_USESSL
+          value: true
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_URL_ADDPORT
+          value: false
     target:
       group: apps
       version: v1
