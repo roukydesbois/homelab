@@ -1,6 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - letsencrypt-ca-configmap.yaml
   - hedgedoc-config-sealed.yaml
   - hedgedoc-db-sc.yaml
   - hedgedoc-db.yaml
@@ -108,6 +109,24 @@ patches:
         value:
           name: CMD_URL_ADDPORT
           value: "false"
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: NODE_EXTRA_CA_CERTS
+          value: /etc/ssl/certs/ca-bundle.pem
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts/-
+        value:
+          name: letsencrypt-ca
+          mountPath: /etc/ssl/certs/ca-bundle.pem
+          subPath: ca-bundle.pem
+          readOnly: true
+      - op: add
+        path: /spec/template/spec/volumes/-
+        value:
+          name: letsencrypt-ca
+          configMap:
+            name: letsencrypt-root-ca
     target:
       group: apps
       version: v1
