@@ -1,0 +1,135 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - letsencrypt-ca-configmap.yaml
+  - hedgedoc-config-sealed.yaml
+  - hedgedoc-db-sc.yaml
+  - hedgedoc-db.yaml
+  - hedgedoc-ingress.yaml
+  - ../../base
+
+patches:
+  - patch: |-
+      - op: add
+        path: /spec/tls
+        value:
+          - hosts:
+              - doc
+      # - op: add
+      #   path: /metadata/annotations
+      #   value:
+      #     tailscale.com/funnel: "true"
+    target:
+      group: networking.k8s.io
+      version: v1
+      kind: Ingress
+      name: ts-hedgedoc
+      namespace: hedgedoc
+  - patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_DOMAIN
+          valueFrom:
+            secretKeyRef:
+              name: hedgedoc-config
+              key: CMD_DOMAIN
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_USER_PROFILE_URL
+          valueFrom:
+            secretKeyRef:
+              name: hedgedoc-config
+              key: CMD_OAUTH2_USER_PROFILE_URL
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_USER_PROFILE_USERNAME_ATTR
+          value: preferred_username
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_USER_PROFILE_DISPLAY_NAME_ATTR
+          value: name
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_USER_PROFILE_EMAIL_ATTR
+          value: email
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_TOKEN_URL
+          valueFrom:
+            secretKeyRef:
+              name: hedgedoc-config
+              key: CMD_OAUTH2_TOKEN_URL
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_AUTHORIZATION_URL
+          valueFrom:
+            secretKeyRef:
+              name: hedgedoc-config
+              key: CMD_OAUTH2_AUTHORIZATION_URL
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: hedgedoc-config
+              key: CMD_OAUTH2_CLIENT_ID
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: hedgedoc-config
+              key: CMD_OAUTH2_CLIENT_SECRET
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_PROVIDER_NAME
+          value: Keycloak
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_OAUTH2_SCOPE
+          value: openid email profile
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_PROTOCOL_USESSL
+          value: "true"
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_URL_ADDPORT
+          value: "false"
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: NODE_EXTRA_CA_CERTS
+          value: /etc/ssl/certs/ca-bundle.pem
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts/-
+        value:
+          name: letsencrypt-ca
+          mountPath: /etc/ssl/certs/ca-bundle.pem
+          subPath: ca-bundle.pem
+          readOnly: true
+      - op: add
+        path: /spec/template/spec/volumes/-
+        value:
+          name: letsencrypt-ca
+          configMap:
+            name: letsencrypt-root-ca
+    target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: hedgedoc
+      namespace: hedgedoc

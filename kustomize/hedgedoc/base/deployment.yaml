@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hedgedoc
+  namespace: hedgedoc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hedgedoc
+  template:
+    metadata:
+      labels:
+        app: hedgedoc
+    spec:
+      containers:
+        - name: hedgedoc
+          image: quay.io/hedgedoc/hedgedoc:1.10.3
+          ports:
+            - containerPort: 3000
+              name: http
+          env:
+            - name: CMD_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: hedgedoc-pg-app
+                  key: uri
+          volumeMounts:
+            - name: uploads
+              mountPath: /hedgedoc/public/uploads
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: 3000
+            initialDelaySeconds: 120
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /status
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 5
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+      volumes:
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: hedgedoc-uploads

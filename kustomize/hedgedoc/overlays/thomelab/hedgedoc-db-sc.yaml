@@ -1,0 +1,13 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: hedgedoc-db-sc
+provisioner: driver.longhorn.io
+allowVolumeExpansion: true
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+parameters:
+  numberOfReplicas: "1" # No need for replicates, as I have 3 db replicates
+  fromBackup: ""
+  fsType: "ext4"
+  dataLocality: "disabled"

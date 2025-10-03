@@ -1,0 +1,13 @@
+# From https://github.com/hedgedoc-app/hedgedoc/discussions/9060#discussioncomment-9688353
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: hedgedoc-pg
+  namespace: hedgedoc
+spec:
+  instances: 3
+  startDelay: 30
+  stopDelay: 100
+  storage:
+    storageClass: hedgedoc-db-sc
+    size: 8Gi
