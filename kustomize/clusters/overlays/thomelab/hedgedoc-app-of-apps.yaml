@@ -39,7 +39,7 @@ spec:
   project: hedgedoc
   source:
     repoURL: https://github.com/roukydesbois/homelab
-    targetRevision: hedgedoc
+    targetRevision: main
     path: kustomize/hedgedoc/overlays/thomelab
   syncPolicy:
     automated:
