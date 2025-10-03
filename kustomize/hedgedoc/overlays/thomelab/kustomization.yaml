@@ -112,6 +112,16 @@ patches:
       - op: add
         path: /spec/template/spec/containers/0/env/-
         value:
+          name: CMD_EMAIL
+          value: "false"
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: CMD_ALLOW_EMAIL_REGISTER
+          value: "false"
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
           name: NODE_EXTRA_CA_CERTS
           value: /etc/ssl/certs/ca-bundle.pem
       - op: add
