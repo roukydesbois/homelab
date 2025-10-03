@@ -50,7 +50,7 @@ patches:
       - op: add
         path: /spec/template/spec/containers/0/env/-
         value:
-          name: CMD_OAUTH2_USER_PROFILE_DISPLAY_NAME
+          name: CMD_OAUTH2_USER_PROFILE_DISPLAY_NAME_ATTR
           value: name
       - op: add
         path: /spec/template/spec/containers/0/env/-
