@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: letsencrypt-root-ca
-  namespace: default
+  namespace: hedgedoc
 data:
   # ISRG Root X1 (RSA) - Self-signed root certificate
   isrg-root-x1.pem: |
