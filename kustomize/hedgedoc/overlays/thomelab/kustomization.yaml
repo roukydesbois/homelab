@@ -15,10 +15,10 @@ patches:
         value:
           - hosts:
               - doc
-      # - op: add
-      #   path: /metadata/annotations
-      #   value:
-      #     tailscale.com/funnel: "true"
+      - op: add
+        path: /metadata/annotations
+        value:
+          tailscale.com/funnel: "true"
     target:
       group: networking.k8s.io
       version: v1
