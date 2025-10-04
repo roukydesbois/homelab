@@ -2,6 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - argocd-app.yaml
+  - argocd-image-updater-app.yaml
   - sealed-secrets-app.yaml
   - metrics-server-app.yaml
   - kubelet-serving-certificate-approver-app.yaml
