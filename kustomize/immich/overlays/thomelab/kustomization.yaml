@@ -22,7 +22,7 @@ patches:
       - op: add
         path: /spec/source/helm/valuesObject/image
         value:
-          tag: v2.0.0
+          tag: v2.0.1
       - op: add
         path: /spec/source/helm/valuesObject/immich
         value:
