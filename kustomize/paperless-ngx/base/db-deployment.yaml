@@ -24,9 +24,9 @@ spec:
     spec:
       containers:
         - name: db
-          # env:
-          #   - name: POSTGRES_DB
-          #     value: paperless
+          env:
+            - name: POSTGRES_DB
+              value: paperless
           #   - name: POSTGRES_PASSWORD
           #     value: paperless
           #   - name: POSTGRES_USER
