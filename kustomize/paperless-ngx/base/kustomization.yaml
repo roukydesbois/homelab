@@ -4,7 +4,6 @@ resources:
   - redisdata-persistentvolumeclaim.yaml
   - data-persistentvolumeclaim.yaml
   - pgdata-persistentvolumeclaim.yaml
-  - media-persistentvolumeclaim.yaml
   - consume-persistentvolumeclaim.yaml
   - export-persistentvolumeclaim.yaml
   - broker-deployment.yaml

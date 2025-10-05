@@ -19,8 +19,10 @@ metadata:
     io.kompose.service: media
   name: media
 spec:
+  volumeName: nfs-pv-paperless-media
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 100Gi
+  storageClassName: ""
