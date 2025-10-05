@@ -22,6 +22,7 @@ patches:
       - op: add
         path: /spec/source/helm/valuesObject/image
         value:
+          # renovate: datasource=docker depName=ghcr.io/immich-app/immich-server
           tag: v2.0.1
       - op: add
         path: /spec/source/helm/valuesObject/immich

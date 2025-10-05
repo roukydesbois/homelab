@@ -1,3 +1,40 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json"
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base"],
+  "regexManagers": [
+    {
+      "fileMatch": ["^kustomize/immich/overlays/.*/kustomization\\.yaml$"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s+tag: (?<currentValue>.*?)$"
+      ],
+      "datasourceTemplate": "{{datasource}}",
+      "depNameTemplate": "{{depName}}",
+      "versioningTemplate": "semver"
+    },
+    {
+      "fileMatch": ["^kustomize/immich/overlays/.*/kustomization\\.yaml$"],
+      "matchStrings": [
+        "(?s)tag: (?<currentValue>v?\\d+\\.\\d+\\.\\d+(?:-[a-zA-Z0-9\\.\\-]+)?)"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "ghcr.io/immich-app/immich-server",
+      "versioningTemplate": "semver"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "matchDepNames": ["ghcr.io/immich-app/immich-server"],
+      "schedule": ["before 6am on monday"],
+      "labels": ["renovate", "immich", "dependencies"],
+      "commitMessageTopic": "Immich",
+      "prTitle": "Update Immich to {{newValue}}",
+      "automerge": false,
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps"
+    }
+  ],
+  "prConcurrentLimit": 3,
+  "prHourlyLimit": 1,
+  "timezone": "UTC"
 }
