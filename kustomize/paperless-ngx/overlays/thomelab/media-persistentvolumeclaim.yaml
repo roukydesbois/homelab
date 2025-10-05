@@ -21,7 +21,7 @@ metadata:
 spec:
   volumeName: nfs-pv-paperless-media
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 100Gi
