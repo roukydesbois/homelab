@@ -22,9 +22,14 @@ spec:
       labels:
         io.kompose.service: broker
     spec:
+      securityContext:
+        fsGroup: 999
       containers:
         - image: docker.io/library/redis:8
           name: broker
+          securityContext:
+            runAsUser: 999
+            runAsGroup: 999
           volumeMounts:
             - mountPath: /data
               name: redisdata
