@@ -15,3 +15,4 @@ resources:
   - broker-service.yaml
   - tika-service.yaml
   - gotenberg-service.yaml
+  - db-service.yaml
