@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: renovate-helm-chart
+  namespace: renovate
+spec:
+  project: renovate
+  source:
+    repoURL: https://mend.github.io/renovate-ce-ee
+    targetRevision: 11.x
+    chart: mend-renovate-ce
+    helm:
+      releaseName: renovate
+      valuesObject:
+        renovate:
+          mendRnvAcceptTos: y
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: renovate
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
+      # - ServerSideApply=true
+      - CreateNamespace=true
+  # ignoreDifferences:
+  #   - group: "apps"
+  #     kind: StatefulSet
+  #     jsonPointers:
+  #       - /spec/volumeClaimTemplates/*/metadata/creationTimestamp
