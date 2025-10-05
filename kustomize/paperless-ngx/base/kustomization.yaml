@@ -12,3 +12,6 @@ resources:
   - tika-deployment.yaml
   - webserver-deployment.yaml
   - webserver-service.yaml
+  - broker-service.yaml
+  - tika-service.yaml
+  - gotenberg-service.yaml
