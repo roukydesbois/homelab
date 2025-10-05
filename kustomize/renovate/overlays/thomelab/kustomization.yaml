@@ -16,7 +16,7 @@ patches:
         path: /spec/source/helm/valuesObject/renovate/mendRnvGithubBotUserId
         value: "236257271"
       - op: add
-        path: /spec/source/helm/valuesObject/renovate/existingSecret:
+        path: /spec/source/helm/valuesObject/renovate/existingSecret
         value: "renovate-secret"
     target:
       group: argoproj.io
