@@ -23,6 +23,14 @@ patches:
             secretKeyRef:
               name: paperless-db-secret
               key: POSTGRES_PASSWORD
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: PGDATA
+          value: /var/lib/postgresql/pgdata
+      - op: replace
+        path: /spec/template/spec/containers/0/volumeMounts/0/mountPath
+        value: /var/lib/postgresql
     target:
       group: apps
       version: v1
