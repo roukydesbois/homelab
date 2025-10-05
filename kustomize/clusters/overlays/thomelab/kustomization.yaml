@@ -9,6 +9,7 @@ resources:
   - firefly-app-of-apps.yaml
   - protonmailbridge-app-of-apps.yaml
   - hedgedoc-app-of-apps.yaml
+  - paperless-app-of-apps.yaml
 #  - trillium-app-of-apps.yaml
 #patches:
 #  - patch: |-
