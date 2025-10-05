@@ -4,6 +4,7 @@ resources:
   - media-persistentvolumeclaim.yaml
   - postgres-sealed-secret.yaml
   - paperless-sealed-secret.yaml
+  - keycloak-config-sealed-secret.yaml
   - ../../base/
   - paperless-ingress.yaml
 
@@ -63,6 +64,19 @@ patches:
             secretKeyRef:
               name: paperless-config-secret
               key: PAPERLESS_URL
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: PAPERLESS_SOCIALACCOUNT_PROVIDERS
+          valueFrom:
+            secretKeyRef:
+              name: paperless-keycloak-config-secret
+              key: PAPERLESS_SOCIALACCOUNT_PROVIDERS
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: PAPERLESS_APPS
+          value: allauth.socialaccount.providers.openid_connect
     target:
       group: apps
       version: v1
