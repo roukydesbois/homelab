@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: renovate
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: renovate
+  namespace: argocd
+spec:
+  sourceRepos:
+    - https://github.com/roukydesbois/homelab
+  sourceNamespaces:
+    - renovate
+  destinations:
+    - namespace: renovate
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: storage.k8s.io
+      kind: StorageClass
+    - group: ""
+      kind: PersistentVolumeClaim
+    - group: ""
+      kind: PersistentVolume
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: renovate
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: renovate
+  project: renovate
+  source:
+    repoURL: https://github.com/roukydesbois/homelab
+    targetRevision: main
+    path: kustomize/renovate/overlays/thomelab
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
