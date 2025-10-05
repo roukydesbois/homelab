@@ -13,29 +13,11 @@ patches:
         path: /spec/source/helm/valuesObject/renovate/mendRnvEndpoint
         value: "https://api.github.com/"
       - op: add
-        path: /spec/source/helm/valuesObject/renovate/mendRnvGithubAppId
-        valueFrom:
-          secretKeyRef:
-            name: renovate-secret
-            key: github-app-id
-      - op: add
         path: /spec/source/helm/valuesObject/renovate/mendRnvGithubBotUserId
-        valueFrom:
-          secretKeyRef:
-            name: renovate-secret
-            key: github-bot-user-id
+        value: "236257271"
       - op: add
-        path: /spec/source/helm/valuesObject/renovate/mendRnvGithubAppKey
-        valueFrom:
-          secretKeyRef:
-            name: renovate-secret
-            key: github-app-private-key
-      - op: add
-        path: /spec/source/helm/valuesObject/renovate/mendRnvLicenseKey
-        valueFrom:
-          secretKeyRef:
-            name: renovate-secret
-            key: mend-licence-key
+        path: /spec/source/helm/valuesObject/renovate/existingSecret:
+        value: "renovate-secret"
     target:
       group: argoproj.io
       version: v1alpha1
