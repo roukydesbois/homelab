@@ -76,7 +76,7 @@ patches:
         path: /spec/template/spec/containers/0/env/-
         value:
           name: PAPERLESS_APPS
-          value: allauth.socialaccount.providers.openid_connect
+          value: "allauth.socialaccount.providers.openid_connect"
     target:
       group: apps
       version: v1
