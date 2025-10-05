@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - media-persistentvolumeclaim.yaml
   - postgres-sealed-secret.yaml
+  - paperless-sealed-secret.yaml
   - ../../base/
   - paperless-ingress.yaml
 
@@ -54,6 +55,14 @@ patches:
             secretKeyRef:
               name: paperless-db-secret
               key: POSTGRES_PASSWORD
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: PAPERLESS_URL
+          valueFrom:
+            secretKeyRef:
+              name: paperless-config-secret
+              key: PAPERLESS_URL
     target:
       group: apps
       version: v1
