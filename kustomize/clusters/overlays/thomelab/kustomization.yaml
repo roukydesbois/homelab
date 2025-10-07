@@ -11,6 +11,7 @@ resources:
   - hedgedoc-app-of-apps.yaml
   - paperless-app-of-apps.yaml
   - renovate-app-of-apps.yaml
+  - kasm-app-of-apps.yaml
 #  - trillium-app-of-apps.yaml
 #patches:
 #  - patch: |-
