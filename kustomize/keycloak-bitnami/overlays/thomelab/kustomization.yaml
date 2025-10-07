@@ -23,11 +23,7 @@ patchesStrategicMerge:
               adminUser: admin
               existingSecret: keycloak-config
               passwordSecretKey: admin-keycloak-password
-            proxyHeaders: |
-              X-Forwarded-Proto: https
-              X-Forwarded-Host: $host
-              X-Forwarded-Port: "443"
-              X-Forwarded-For: $remote_addr
+            proxyHeaders: xforwarded
             ingress:
               enabled: true
               ingressClassName: tailscale
