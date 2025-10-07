@@ -41,5 +41,10 @@ patchesStrategicMerge:
               annotations:
                 tailscale.com/funnel: "true"
             postgresql:
+              global:
+                security:
+                  allowInsecureImages: true
+              image:
+                repository: bitnamilegacy/postgresql
               auth:
                 existingSecret: keycloak-config
