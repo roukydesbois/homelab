@@ -4,6 +4,9 @@ metadata:
   name: kasm
 spec:
   ingressClassName: tailscale
+  tls:
+    - hosts:
+        - kasm
   rules:
     - http:
         paths:
