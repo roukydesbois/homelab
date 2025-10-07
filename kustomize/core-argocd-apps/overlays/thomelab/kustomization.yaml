@@ -51,7 +51,7 @@ patches:
         value:
           params:
             server.insecure: true
-            application.namespaces: "keycloak,immich,thomflix,nextcloud,firefly,renovate,paperless,hedgedoc"
+            application.namespaces: "keycloak,immich,thomflix,nextcloud,firefly,renovate,paperless,hedgedoc,kasm"
           cm:
             oidc.config: |
               name: Keycloak

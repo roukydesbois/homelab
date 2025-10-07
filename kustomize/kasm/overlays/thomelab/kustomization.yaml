@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+
+patches:
+  - patch: |-
+      - op: add
+        path: /spec/source/helm/valuesObject/global/hostname
+        value: kasm
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: kasm-helm-chart
+      namespace: kasm
