@@ -9,7 +9,7 @@ spec:
   project: keycloak
   source:
     repoURL: registry-1.docker.io/bitnamicharts
-    targetRevision: 25.x
+    targetRevision: 24.x
     chart: keycloak
   destination:
     server: https://kubernetes.default.svc

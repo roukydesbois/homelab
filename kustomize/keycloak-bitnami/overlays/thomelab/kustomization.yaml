@@ -16,6 +16,8 @@ patchesStrategicMerge:
       source:
         helm:
           valuesObject:
+            image:
+              repository: bitnamilegacy/keycloak
             production: true
             global:
               defaultStorageClass: keycloak-sc
@@ -23,7 +25,7 @@ patchesStrategicMerge:
               adminUser: admin
               existingSecret: keycloak-config
               passwordSecretKey: admin-keycloak-password
-            proxyHeaders: xforwarded
+            proxy: edge
             ingress:
               enabled: true
               ingressClassName: tailscale
