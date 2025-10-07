@@ -21,11 +21,11 @@ spec:
                 name: kasm-api
                 port:
                   number: 8080
-		  - path: /api/share/
-			pathType: Prefix
-			backend: 
-			  service:
-			    name: kasm-share
-				port:
-				  number: 8182
+          - path: /api/share/
+            pathType: Prefix
+            backend: 
+              service:
+                name: kasm-share
+                port:
+                  number: 8182
 
