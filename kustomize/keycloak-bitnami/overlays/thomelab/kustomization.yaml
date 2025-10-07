@@ -21,6 +21,8 @@ patchesStrategicMerge:
             production: true
             global:
               defaultStorageClass: keycloak-sc
+              security:
+                allowInsecureImages: true
             auth:
               adminUser: admin
               existingSecret: keycloak-config
