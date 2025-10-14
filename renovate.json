@@ -1,9 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base"],
-  "regexManagers": [
+  "extends": [
+    "config:recommended"
+  ],
+  "customManagers": [
     {
-      "fileMatch": ["^kustomize/immich/overlays/.*/kustomization\\.yaml$"],
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^kustomize/immich/overlays/.*/kustomization\\.yaml$/"
+      ],
       "matchStrings": [
         "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s+tag: (?<currentValue>.*?)$"
       ],
@@ -12,7 +17,10 @@
       "versioningTemplate": "semver"
     },
     {
-      "fileMatch": ["^kustomize/immich/overlays/.*/kustomization\\.yaml$"],
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^kustomize/immich/overlays/.*/kustomization\\.yaml$/"
+      ],
       "matchStrings": [
         "(?s)tag: (?<currentValue>v?\\d+\\.\\d+\\.\\d+(?:-[a-zA-Z0-9\\.\\-]+)?)"
       ],
@@ -23,10 +31,20 @@
   ],
   "packageRules": [
     {
-      "matchDatasources": ["docker"],
-      "matchDepNames": ["ghcr.io/immich-app/immich-server"],
-      "schedule": ["before 6am on monday"],
-      "labels": ["renovate", "immich", "dependencies"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchDepNames": [
+        "ghcr.io/immich-app/immich-server"
+      ],
+      "schedule": [
+        "before 6am on monday"
+      ],
+      "labels": [
+        "renovate",
+        "immich",
+        "dependencies"
+      ],
       "commitMessageTopic": "Immich",
       "prTitle": "Update Immich to {{newValue}}",
       "automerge": false,
