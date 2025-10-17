@@ -16,9 +16,9 @@ spec:
       valuesObject:
         valkey:
           enabled: true
-        env:
-          - name: IMMICH_MACHINE_LEARNING_URL
-            value: "http://immich-machine-learning:3003"
+        # env:
+        #   - name: IMMICH_MACHINE_LEARNING_URL
+        #     value: "http://immich-machine-learning:3003"
   destination:
     server: https://kubernetes.default.svc
     namespace: immich

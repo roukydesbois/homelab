@@ -19,11 +19,11 @@ patches:
       name: immich-pg
       namespace: immich
   - patch: |-
-      - op: add
-        path: /spec/source/helm/valuesObject/image
-        value:
-          # renovate: datasource=docker depName=ghcr.io/immich-app/immich-server
-          tag: v2.1.0
+      # - op: add
+      #   path: /spec/source/helm/valuesObject/image
+      #   value:
+      #     # renovate: datasource=docker depName=ghcr.io/immich-app/immich-server
+      #     tag: v2.1.0
       - op: add
         path: /spec/source/helm/valuesObject/immich
         value:
@@ -31,32 +31,41 @@ patches:
             library:
               existingClaim: immich-library
       - op: add
-        path: /spec/source/helm/valuesObject/env
+        path: /spec/source/helm/valuesObject/controllers
         value:
-          - name: DB_HOSTNAME
-            valueFrom:
-              secretKeyRef:
-                name: immich-pg-app
-                key: host
-          - name: DB_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: immich-pg-app
-                key: password
-          - name: DB_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: immich-pg-app
-                key: username
-          - name: DB_DATABASE_NAME
-            valueFrom:
-              secretKeyRef:
-                name: immich-pg-app
-                key: dbname
-          # - name: REDIS_HOSTNAME
-          #   value: immich-redis-master
-          # - name: IMMICH_MACHINE_LEARNING_URL
-          #   value: "http://immich-machine-learning:3003"
+          main:
+            containers:
+              main:
+                image:
+                  tag: v2.1.0
+      - op: add
+        path: /spec/source/helm/valuesObject/server
+        value:
+          controllers:
+            main:
+              containers:
+                main:
+                  env:
+                    DB_HOSTNAME
+                      valueFrom:
+                        secretKeyRef:
+                          name: immich-pg-app
+                          key: host
+                    DB_PASSWORD
+                      valueFrom:
+                        secretKeyRef:
+                          name: immich-pg-app
+                          key: password
+                    DB_USERNAME
+                      valueFrom:
+                        secretKeyRef:
+                          name: immich-pg-app
+                          key: username
+                    DB_DATABASE_NAME
+                      valueFrom:
+                        secretKeyRef:
+                          name: immich-pg-app
+                          key: dbname
     target:
       group: argoproj.io
       version: v1alpha1
