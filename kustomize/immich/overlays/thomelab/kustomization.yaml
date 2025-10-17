@@ -31,6 +31,10 @@ patches:
             library:
               existingClaim: immich-library
       - op: add
+        path: /spec/source/helm/valuesObject/valkey
+        value:
+          enabled: true
+      - op: add
         path: /spec/source/helm/valuesObject/env
         value:
           - name: DB_HOSTNAME
@@ -53,10 +57,10 @@ patches:
               secretKeyRef:
                 name: immich-pg-app
                 key: dbname
-          - name: REDIS_HOSTNAME
-            value: immich-redis-master
-          - name: IMMICH_MACHINE_LEARNING_URL
-            value: "http://immich-machine-learning:3003"
+          # - name: REDIS_HOSTNAME
+          #   value: immich-redis-master
+          # - name: IMMICH_MACHINE_LEARNING_URL
+          #   value: "http://immich-machine-learning:3003"
     target:
       group: argoproj.io
       version: v1alpha1
