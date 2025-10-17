@@ -31,10 +31,6 @@ patches:
             library:
               existingClaim: immich-library
       - op: add
-        path: /spec/source/helm/valuesObject/valkey
-        value:
-          enabled: true
-      - op: add
         path: /spec/source/helm/valuesObject/env
         value:
           - name: DB_HOSTNAME

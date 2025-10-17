@@ -9,16 +9,14 @@ spec:
   project: immich
   source:
     repoURL: https://immich-app.github.io/immich-charts
-    targetRevision: 0.x
+    targetRevision: 0.10.x
     chart: immich
     helm:
       releaseName: immich
       valuesObject:
-        redis:
+        valkey:
           enabled: true
         env:
-          - name: REDIS_HOSTNAME
-            value: immich-redis-master
           - name: IMMICH_MACHINE_LEARNING_URL
             value: "http://immich-machine-learning:3003"
   destination:
