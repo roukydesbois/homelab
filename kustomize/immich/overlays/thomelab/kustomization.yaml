@@ -23,7 +23,7 @@ patches:
       #   path: /spec/source/helm/valuesObject/image
       #   value:
       #     # renovate: datasource=docker depName=ghcr.io/immich-app/immich-server
-      #     tag: v2.1.0
+      #     tag: v2.2.0
       - op: add
         path: /spec/source/helm/valuesObject/immich
         value:
@@ -37,7 +37,7 @@ patches:
             containers:
               main:
                 image:
-                  tag: v2.1.0
+                  tag: v2.2.0
       - op: add
         path: /spec/source/helm/valuesObject/server
         value:
