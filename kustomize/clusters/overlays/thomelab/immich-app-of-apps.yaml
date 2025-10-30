@@ -40,7 +40,7 @@ spec:
   project: immich
   source:
     repoURL: https://github.com/roukydesbois/homelab
-    targetRevision: main
+    targetRevision: immich-debug
     path: kustomize/immich/overlays/thomelab
   syncPolicy:
     automated:
