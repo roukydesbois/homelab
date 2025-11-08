@@ -3,7 +3,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: immich-pg
-  namespace: immich
+  # namespace: immich
 spec:
   instances: 3
 

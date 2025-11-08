@@ -7,6 +7,8 @@ resources:
   - ../../base
   - immich-ingress.yaml
 
+namespace: immich-test
+
 patches:
   - patch: |-
       - op: add
