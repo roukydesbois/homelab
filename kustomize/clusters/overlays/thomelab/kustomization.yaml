@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - ../../base
   - nas-persistent-volumes.yaml
+  - storage-classes.yaml
   - keycloak-app-of-apps.yaml
   - immich-app-of-apps.yaml
   - thomflix-app-of-apps.yaml
