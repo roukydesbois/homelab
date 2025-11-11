@@ -59,6 +59,8 @@ spec:
             secretKeyRef:
               name: immich-database-app
               key: dbname
+        - name: POSTGRES_DB
+          value: postgres
         - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:
