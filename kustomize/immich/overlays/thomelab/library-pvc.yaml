@@ -1,23 +1,9 @@
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: nfs-pv-immich
-spec:
-  capacity:
-    storage: 500Gi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: 192.168.100.210 
-    path: "/export/immich-pictures" # Replace with your exported NFS path
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: immich-library
 spec:
-  volumeName: nfs-pv-immich
+  volumeName: nfs-pv-immich-test
   accessModes:
     - ReadWriteMany
   resources:

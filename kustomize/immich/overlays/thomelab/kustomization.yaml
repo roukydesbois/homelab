@@ -1,9 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources: []
-  # - immich-db-sc.yaml
-  # - library-pvc.yaml
-  # - cnpg-cluster.yaml
+resources: 
+  - library-pvc.yaml
+  - cnpg-cluster.yaml
   # - ../../base
   # - immich-ingress.yaml
 
@@ -18,8 +17,7 @@ patches:
       group: postgresql.cnpg.io
       version: v1
       kind: Cluster
-      name: immich-pg
-      namespace: immich
+      name: immich-database
   - patch: |-
       # - op: add
       #   path: /spec/source/helm/valuesObject/image
