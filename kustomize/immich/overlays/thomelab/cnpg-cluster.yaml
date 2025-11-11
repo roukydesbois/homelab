@@ -14,6 +14,17 @@ spec:
     initdb:
       database: immich
       owner: immich
+      postInitSQL:
+        - ALTER USER immich WITH SUPERUSER;
       postInitApplicationSQL:
+        - ALTER SYSTEM SET search_path TO "$user", public, vectors;
+        - SET search_path TO "$user", public, vectors;
+        # - CREATE EXTENSION IF NOT EXISTS "vectors";
+        # - CREATE EXTENSION IF NOT EXISTS "cube";
+        # - CREATE EXTENSION IF NOT EXISTS "earthdistance";
         - CREATE EXTENSION vchord CASCADE;
         - CREATE EXTENSION earthdistance CASCADE;
+        - ALTER SCHEMA vectors OWNER TO "immich";
+        - GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA vectors TO "immich";
+        - GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO "immich";
+      # postInitApplicationSQL:
