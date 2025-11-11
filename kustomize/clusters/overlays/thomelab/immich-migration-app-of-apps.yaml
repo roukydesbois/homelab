@@ -17,13 +17,13 @@ spec:
   destinations:
     - namespace: immich-test
       server: https://kubernetes.default.svc
-  clusterResourceWhitelist:
-    - group: storage.k8s.io
-      kind: StorageClass
-    - group: ""
-      kind: PersistentVolumeClaim
-    - group: ""
-      kind: PersistentVolume
+  # clusterResourceWhitelist:
+  #   - group: storage.k8s.io
+  #     kind: StorageClass
+  #   - group: ""
+  #     kind: PersistentVolumeClaim
+  #   - group: ""
+  #     kind: PersistentVolume
   namespaceResourceWhitelist:
     - group: '*'
       kind: '*'
