@@ -20,10 +20,10 @@ spec:
           echo "Starting database restore..."
           
           # Find the most recent .sql.gz file in /backup
-          DUMP_FILE=$(ls -t /backup/*.sql.gz 2>/dev/null | head -n 1)
+          DUMP_FILE=$(ls -t /backups/*.sql.gz 2>/dev/null | head -n 1)
           
           if [ -z "$DUMP_FILE" ]; then
-            echo "ERROR: No .sql.gz files found in /backup"
+            echo "ERROR: No .sql.gz files found in /backups"
             exit 1
           fi
           
