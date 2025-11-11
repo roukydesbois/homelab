@@ -28,17 +28,16 @@ spec:
           fi
           
           echo "Found dump file: $DUMP_FILE"
-          
+
           gunzip --stdout "$DUMP_FILE" \
           | sed "s/SELECT pg_catalog.set_config('search_path', '', false);/SELECT pg_catalog.set_config('search_path', 'public, pg_catalog', true);/g" \
-          | sed '/^\\connect/d' \
           | PGPASSWORD="${POSTGRES_PASSWORD}" psql \
               --host="${POSTGRES_HOST}" \
               --port="${POSTGRES_PORT}" \
               --dbname="${POSTGRES_DB}" \
               --username="${POSTGRES_USER}" \
               --no-psqlrc \
-              # --set ON_ERROR_STOP=on
+              --file=-          
           
           echo "Database restore completed successfully!"
         
