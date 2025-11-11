@@ -3,6 +3,7 @@ kind: Kustomization
 resources: 
   - library-pvc.yaml
   - cnpg-cluster.yaml
+  - db-restore-job.yaml
   # - ../../base
   # - immich-ingress.yaml
 

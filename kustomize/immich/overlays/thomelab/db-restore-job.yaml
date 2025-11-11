@@ -1,0 +1,87 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-restore-job
+spec:
+  # Optionally set ttlSecondsAfterFinished to auto-cleanup completed jobs
+  ttlSecondsAfterFinished: 3600  # Deletes job 1 hour after completion
+  backoffLimit: 2  # Number of retries before considering job failed
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: postgres-restore
+        image: postgres:16  # Match your PostgreSQL version
+        command:
+        - /bin/bash
+        - -c
+        - |
+          set -e
+          echo "Starting database restore..."
+          
+          # Find the most recent .sql.gz file in /backup
+          DUMP_FILE=$(ls -t /backup/*.sql.gz 2>/dev/null | head -n 1)
+          
+          if [ -z "$DUMP_FILE" ]; then
+            echo "ERROR: No .sql.gz files found in /backup"
+            exit 1
+          fi
+          
+          echo "Found dump file: $DUMP_FILE"
+          
+          gunzip --stdout "$DUMP_FILE" \
+          | sed "s/SELECT pg_catalog.set_config('search_path', '', false);/SELECT pg_catalog.set_config('search_path', 'public, pg_catalog', true);/g" \
+          | PGPASSWORD="${POSTGRES_PASSWORD}" psql \
+              --host="${POSTGRES_HOST}" \
+              --port="${POSTGRES_PORT}" \
+              --dbname="${POSTGRES_DB}" \
+              --username="${POSTGRES_USER}"
+          
+          echo "Database restore completed successfully!"
+        
+        
+        env:
+        - name: POSTGRES_HOST
+          valueFrom:
+            secretKeyRef:
+              name: immich-database-app
+              key: host
+        - name: POSTGRES_PORT
+          valueFrom:
+            secretKeyRef:
+              name: immich-database-app
+              key: port
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: immich-database-app
+              key: dbname
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: immich-database-app
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: immich-database-app
+              key: password
+        
+        volumeMounts:
+        - name: backup-volume
+          mountPath: /backups
+          subPath: backups
+          readOnly: true
+        
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+      
+      volumes:
+      - name: backup-volume
+        persistentVolumeClaim:
+          claimName: immich-library
