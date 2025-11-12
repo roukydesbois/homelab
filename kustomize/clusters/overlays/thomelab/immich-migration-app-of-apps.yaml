@@ -1,29 +1,29 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: immich
+  name: immich-test
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: immich
+  name: immich-test
   namespace: argocd
 spec:
   sourceRepos:
     - https://github.com/roukydesbois/homelab
     - https://immich-app.github.io/immich-charts
   sourceNamespaces:
-    - immich
+    - immich-test
   destinations:
-    - namespace: immich
+    - namespace: immich-test
       server: https://kubernetes.default.svc
-  clusterResourceWhitelist:
-    - group: storage.k8s.io
-      kind: StorageClass
-    - group: ""
-      kind: PersistentVolumeClaim
-    - group: ""
-      kind: PersistentVolume
+  # clusterResourceWhitelist:
+  #   - group: storage.k8s.io
+  #     kind: StorageClass
+  #   - group: ""
+  #     kind: PersistentVolumeClaim
+  #   - group: ""
+  #     kind: PersistentVolume
   namespaceResourceWhitelist:
     - group: '*'
       kind: '*'
@@ -31,16 +31,16 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: immich
+  name: immich-test
   namespace: argocd
 spec:
   destination:
     server: https://kubernetes.default.svc
-    namespace: immich
-  project: immich
+    namespace: immich-test
+  project: immich-test
   source:
     repoURL: https://github.com/roukydesbois/homelab
-    targetRevision: immich-debug
+    targetRevision: immich-0.10
     path: kustomize/immich/overlays/thomelab
   syncPolicy:
     automated:
