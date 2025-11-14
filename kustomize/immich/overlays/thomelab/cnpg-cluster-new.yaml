@@ -40,8 +40,8 @@ spec:
     - name: immich-pg-source
       connectionParameters:
         host: immich-pg-rw
-        user: immich
-        dbname: immich
+        user: app
+        dbname: app
       password:
         name: immich-pg-app
         key: password
