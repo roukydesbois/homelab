@@ -1,13 +1,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+namespace: immich
   - immich-db-sc.yaml
   - library-pvc.yaml
   - cnpg-cluster.yaml
+  - cnpg-cluster-new.yaml  # New cluster that bootstraps from immich-pg
   - ../../base
   - immich-ingress.yaml
 
 patches:
+  # Patch for existing immich-pg cluster
   - patch: |-
       - op: add
         path: /spec/imageName
@@ -17,6 +20,17 @@ patches:
       version: v1
       kind: Cluster
       name: immich-pg
+      namespace: immich
+  # Patch for new immich-database cluster (with vchord)
+  - patch: |-
+      - op: add
+        path: /spec/imageName
+        value: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3
+    target:
+      group: postgresql.cnpg.io
+      version: v1
+      kind: Cluster
+      name: immich-database
       namespace: immich
   - patch: |-
       # - op: add
