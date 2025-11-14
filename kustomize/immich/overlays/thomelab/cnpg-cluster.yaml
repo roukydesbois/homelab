@@ -5,7 +5,7 @@ metadata:
   name: immich-pg
   namespace: immich
 spec:
-  instances: 3
+  instances: 2
 
   startDelay: 30
   stopDelay: 100
