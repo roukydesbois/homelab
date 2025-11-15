@@ -11,8 +11,8 @@ spec:
     size: 8Gi
     storageClass: cnpg-storage-class
   postgresql:
-    shared_preload_libraries:
-      - "vchord.so"
+    # shared_preload_libraries:
+    #   - "vchord.so"
     enableAlterSystem: true
 
   startDelay: 30
@@ -33,10 +33,10 @@ spec:
     # Drop old vectors extension and related objects
     - DROP EXTENSION IF EXISTS vectors CASCADE;
     # Create new vchord extension
-    - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
-    - CREATE EXTENSION IF NOT EXISTS earthdistance CASCADE;
+    # - CREATE EXTENSION IF NOT EXISTS vchord CASCADE;
+    # - CREATE EXTENSION IF NOT EXISTS earthdistance CASCADE;
     # Ensure proper ownership and permissions
-    - ALTER SCHEMA vectors OWNER TO immich;
+    # - ALTER SCHEMA vectors OWNER TO immich;
     - GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA vectors TO immich;
     - GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO immich;
 
