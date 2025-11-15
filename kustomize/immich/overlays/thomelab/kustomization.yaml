@@ -6,8 +6,8 @@ resources:
   - library-pvc.yaml
   - cnpg-cluster.yaml
   - cnpg-cluster-new.yaml  # New cluster that bootstraps from immich-pg
-  - ../../base
-  - immich-ingress.yaml
+  # - ../../base
+  # - immich-ingress.yaml
 
 patches:
   # Patch for existing immich-pg cluster
