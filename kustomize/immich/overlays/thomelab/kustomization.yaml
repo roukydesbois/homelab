@@ -31,7 +31,7 @@ patches:
       version: v1
       kind: Cluster
       name: immich-database
-      namespace: immich
+      # namespace: immich
   - patch: |-
       # - op: add
       #   path: /spec/source/helm/valuesObject/image
