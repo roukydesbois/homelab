@@ -6,8 +6,8 @@ resources:
   - library-pvc.yaml
   - cnpg-cluster.yaml
   - cnpg-cluster-new.yaml  # New cluster that bootstraps from immich-pg
-  # - ../../base
-  # - immich-ingress.yaml
+  - ../../base
+  - immich-ingress.yaml
 
 patches:
   # Patch for existing immich-pg cluster
@@ -64,22 +64,22 @@ patches:
                     DB_HOSTNAME:
                       valueFrom:
                         secretKeyRef:
-                          name: immich-pg-app
+                          name: immich-database-app
                           key: host
                     DB_PASSWORD:
                       valueFrom:
                         secretKeyRef:
-                          name: immich-pg-app
+                          name: immich-database-app
                           key: password
                     DB_USERNAME:
                       valueFrom:
                         secretKeyRef:
-                          name: immich-pg-app
+                          name: immich-database-app
                           key: username
                     DB_DATABASE_NAME:
                       valueFrom:
                         secretKeyRef:
-                          name: immich-pg-app
+                          name: immich-database-app
                           key: dbname
     target:
       group: argoproj.io
