@@ -97,6 +97,17 @@ patches:
               # Needed for bitnami changes
               image:
                 repository: bitnamilegacy/postgresql
+              # For upgrade to 17
+              primary:
+                initContainers:
+                  - name: upgrade
+                    image: "pgautoupgrade/pgautoupgrade:17-alpine"
+                    env:
+                      - name: "PGAUTO_ONESHOT"
+                        value: "yes"
+                    volumeMounts:
+                      - mountPath: "/bitnami/postgresql"
+                        name: "data"
             persistence:
               enabled: true
               storageClass: nextcloud-config
