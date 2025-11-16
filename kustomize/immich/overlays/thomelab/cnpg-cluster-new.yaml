@@ -20,11 +20,6 @@ spec:
 
   # Bootstrap from existing immich-pg cluster using pg_basebackup
   bootstrap:
-    initdb:
-      database: immich
-      owner: immich
-      postInitSQL:
-        - ALTER USER immich WITH SUPERUSER;
     pg_basebackup:
       source: immich-pg-source
 
