@@ -22,6 +22,12 @@ patches:
         value:
           backupTarget: s3://longhorn@garage/
           backupTargetCredentialSecret: garage-creds-longhorn
+      - op: add
+        path: /spec/source/helm/valuesObject/defaultSettings/recurringJobMaxRetention
+        value: 20
+      - op: add
+        path: /spec/source/helm/valuesObject/defaultSettings/snapshotMaxCount
+        value: 50
     target:
       group: argoproj.io
       version: v1alpha1
