@@ -5,7 +5,7 @@ metadata:
   name: immich-pg
   namespace: immich
 spec:
-  instances: 3
+  instances: 2
 
   startDelay: 30
   stopDelay: 100
@@ -13,6 +13,8 @@ spec:
     shared_preload_libraries:
       - "vectors.so"
     enableAlterSystem: true
+    pg_hba:
+      - host replication immich 10.244.0.0/16 scram-sha-256
   storage:
     storageClass: immich-db-sc
     size: 8Gi
