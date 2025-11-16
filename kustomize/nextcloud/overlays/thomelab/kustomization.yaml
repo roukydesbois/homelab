@@ -90,15 +90,14 @@ patches:
                       adminPasswordKey: psql-admin-password
                       userPasswordKey: psql-user-password
                       replicationPasswordKey: psql-replication-password
-              primary:
-                persistence:
-                  enabled: true
-                  existingClaim: psql-pvc
               # Needed for bitnami changes
               image:
                 repository: bitnamilegacy/postgresql
               # For upgrade to 17
               primary:
+                persistence:
+                  enabled: true
+                  existingClaim: psql-pvc
                 initContainers:
                   - name: upgrade
                     image: "pgautoupgrade/pgautoupgrade:17-alpine"
