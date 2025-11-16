@@ -16,6 +16,13 @@ patches:
         path: /spec/source/helm
         value:
           valuesObject:
+          # Needed for bitnami legacy
+            global:
+              security:
+                allowInsecureImages: true
+            redis:
+              image:
+                repository: bitnamilegacy/redis
             ingress:
               enabled: false
               className: tailscale
@@ -87,6 +94,9 @@ patches:
                 persistence:
                   enabled: true
                   existingClaim: psql-pvc
+              # Needed for bitnami changes
+              image:
+                repository: bitnamilegacy/postgresql
             persistence:
               enabled: true
               storageClass: nextcloud-config
