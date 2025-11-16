@@ -40,9 +40,9 @@ spec:
   project: immich
   source:
     repoURL: https://github.com/roukydesbois/homelab
-    targetRevision: immich-debug
+    targetRevision: main
     path: kustomize/immich/overlays/thomelab
-  # syncPolicy:
-  #   automated:
-  #     prune: true
-  #     selfHeal: true
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
