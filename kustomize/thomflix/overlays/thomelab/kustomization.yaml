@@ -41,37 +41,38 @@ patches:
               gluetun:
                 enabled: true
                 killSwitch: true
-                excludedNetworks_IPv4:
-                  - "10.244.0.0/16"
-                  - "192.168.100.0/24"
-                  - "149.88.20.206/32"
-                excludedNetworks_IPv6: []
-                env:
-                  VPN_SERVICE_PROVIDER:
-                    secretKeyRef:
-                      name: gluetun-env
-                      key: VPN_SERVICE_PROVIDER
-                      expandObjectName: false
-                  VPN_TYPE:
-                    secretKeyRef:
-                      name: gluetun-env
-                      key: VPN_TYPE
-                      expandObjectName: false
-                  SERVER_CITIES:
-                    secretKeyRef:
-                      name: gluetun-env
-                      key: SERVER_CITIES
-                      expandObjectName: false
-                  WIREGUARD_PRIVATE_KEY:
-                    secretKeyRef:
-                      name: gluetun-env
-                      key: WIREGUARD_PRIVATE_KEY
-                      expandObjectName: false
-                  WIREGUARD_ADDRESSES:
-                    secretKeyRef:
-                      name: gluetun-env
-                      key: WIREGUARD_ADDRESSES
-                      expandObjectName: false
+                # excludedNetworks_IPv4:
+                #   - "10.244.0.0/16"
+                #   - "192.168.100.0/24"
+                #   - "149.88.20.206/32"
+                # excludedNetworks_IPv6: []
+                container:
+                  env:
+                    VPN_SERVICE_PROVIDER:
+                      secretKeyRef:
+                        name: gluetun-env
+                        key: VPN_SERVICE_PROVIDER
+                        expandObjectName: false
+                    VPN_TYPE:
+                      secretKeyRef:
+                        name: gluetun-env
+                        key: VPN_TYPE
+                        expandObjectName: false
+                    SERVER_CITIES:
+                      secretKeyRef:
+                        name: gluetun-env
+                        key: SERVER_CITIES
+                        expandObjectName: false
+                    WIREGUARD_PRIVATE_KEY:
+                      secretKeyRef:
+                        name: gluetun-env
+                        key: WIREGUARD_PRIVATE_KEY
+                        expandObjectName: false
+                    WIREGUARD_ADDRESSES:
+                      secretKeyRef:
+                        name: gluetun-env
+                        key: WIREGUARD_ADDRESSES
+                        expandObjectName: false
     target:
       group: argoproj.io
       version: v1alpha1
