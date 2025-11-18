@@ -29,6 +29,11 @@
       "versioningTemplate": "semver"
     }
   ],
+  "argocd": {
+    "fileMatch": [
+      "^kustomize/thomflix/base/.*-app\\.yaml$"
+    ]
+  },
   "packageRules": [
     {
       "matchDatasources": [
@@ -47,6 +52,40 @@
       ],
       "commitMessageTopic": "Immich",
       "prTitle": "Update Immich to {{newValue}}",
+      "automerge": false,
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps"
+    },
+    {
+      "matchDatasources": [
+        "helm"
+      ],
+      "matchFileNames": [
+        "kustomize/thomflix/base/**"
+      ],
+      "matchPackagePatterns": [
+        "^radarr$",
+        "^sonarr$",
+        "^transmission$",
+        "^jackett$",
+        "^jellyseerr$",
+        "^homarr$",
+        "^flaresolverr$"
+      ],
+      "registryUrls": [
+        "oci://oci.trueforge.org/truecharts"
+      ],
+      "schedule": [
+        "before 6am on monday"
+      ],
+      "labels": [
+        "renovate",
+        "thomflix",
+        "truecharts",
+        "dependencies"
+      ],
+      "commitMessageTopic": "TrueCharts {{depName}}",
+      "prTitle": "Update TrueCharts {{depName}} helm chart to {{newVersion}}",
       "automerge": false,
       "semanticCommitType": "chore",
       "semanticCommitScope": "deps"
