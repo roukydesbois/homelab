@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: oci.trueforge.org/truecharts
     chart: transmission
-    targetRevision: 23.x
+    targetRevision: 24.x
   destination:
     server: https://kubernetes.default.svc
     namespace: thomflix
