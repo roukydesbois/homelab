@@ -30,8 +30,8 @@
     }
   ],
   "argocd": {
-    "fileMatch": [
-      "^kustomize/thomflix/base/.*-app\\.yaml$"
+    "managerFilePatterns": [
+      "/^kustomize/thomflix/base/.*-app\\.yaml$/"
     ]
   },
   "packageRules": [
@@ -63,15 +63,6 @@
       "matchFileNames": [
         "kustomize/thomflix/base/**"
       ],
-      "matchPackagePatterns": [
-        "^radarr$",
-        "^sonarr$",
-        "^transmission$",
-        "^jackett$",
-        "^jellyseerr$",
-        "^homarr$",
-        "^flaresolverr$"
-      ],
       "registryUrls": [
         "oci://oci.trueforge.org/truecharts"
       ],
@@ -88,7 +79,16 @@
       "prTitle": "Update TrueCharts {{depName}} helm chart to {{newVersion}}",
       "automerge": false,
       "semanticCommitType": "chore",
-      "semanticCommitScope": "deps"
+      "semanticCommitScope": "deps",
+      "matchPackageNames": [
+        "/^radarr$/",
+        "/^sonarr$/",
+        "/^transmission$/",
+        "/^jackett$/",
+        "/^jellyseerr$/",
+        "/^homarr$/",
+        "/^flaresolverr$/"
+      ]
     }
   ],
   "prConcurrentLimit": 3,
