@@ -21,6 +21,7 @@ spec:
         io.kompose.service: tika
     spec:
       containers:
-        - image: docker.io/apache/tika:latest
+        # renovate: datasource=docker depName=docker.io/apache/tika
+        - image: docker.io/apache/tika:3.1.0
           name: tika
       restartPolicy: Always

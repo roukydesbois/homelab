@@ -43,7 +43,7 @@
         "ghcr.io/immich-app/immich-server"
       ],
       "schedule": [
-        "before 6am on monday"
+        "after 6am and before 11pm every day"
       ],
       "labels": [
         "renovate",
@@ -67,7 +67,7 @@
         "oci://oci.trueforge.org/truecharts"
       ],
       "schedule": [
-        "before 6am on monday"
+        "after 6am and before 11pm every day"
       ],
       "labels": [
         "renovate",
@@ -89,6 +89,28 @@
         "/^homarr$/",
         "/^flaresolverr$/"
       ]
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchFileNames": [
+        "kustomize/paperless-ngx/base/**"
+      ],
+      "schedule": [
+        "after 6am and before 11pm every day"
+      ],
+      "labels": [
+        "renovate",
+        "paperless-ngx",
+        "dependencies"
+      ],
+      "groupName": "paperless-ngx dependencies",
+      "commitMessageTopic": "paperless-ngx {{depName}}",
+      "prTitle": "Update paperless-ngx dependencies",
+      "automerge": false,
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps"
     }
   ],
   "prConcurrentLimit": 3,

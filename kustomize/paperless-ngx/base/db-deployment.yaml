@@ -23,6 +23,7 @@ spec:
         io.kompose.service: db
     spec:
       containers:
+        # renovate: datasource=docker depName=docker.io/library/postgres
         - name: db
           env:
             - name: POSTGRES_DB

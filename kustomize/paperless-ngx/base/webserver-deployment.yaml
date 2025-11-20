@@ -37,7 +37,8 @@ spec:
           # envFrom:
           #   - configMapRef:
           #       name: docker-compose-env
-          image: ghcr.io/paperless-ngx/paperless-ngx:latest
+          # renovate: datasource=docker depName=ghcr.io/paperless-ngx/paperless-ngx
+          image: ghcr.io/paperless-ngx/paperless-ngx:2.19.5
           name: webserver
           ports:
             - containerPort: 8000

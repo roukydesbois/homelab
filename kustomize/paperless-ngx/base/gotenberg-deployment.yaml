@@ -21,6 +21,7 @@ spec:
         io.kompose.service: gotenberg
     spec:
       containers:
+        # renovate: datasource=docker depName=docker.io/gotenberg/gotenberg
         - args:
             - gotenberg
             - --chromium-disable-javascript=true
