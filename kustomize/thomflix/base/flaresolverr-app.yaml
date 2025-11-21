@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: oci.trueforge.org/truecharts
     chart: flaresolverr
-    targetRevision: 15.x
+    targetRevision: 16.x
   destination:
     server: https://kubernetes.default.svc
     namespace: thomflix
