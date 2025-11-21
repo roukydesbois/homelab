@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: oci.trueforge.org/truecharts
     chart: radarr
-    targetRevision: 23.x
+    targetRevision: 26.x
     helm:
       valuesObject:
         metrics:
