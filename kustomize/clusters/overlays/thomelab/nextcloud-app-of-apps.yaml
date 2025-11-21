@@ -32,7 +32,7 @@ spec:
   - kind: deny
     schedule: '0 7 * * *'
     duration: 16h
-    timezone: "Europe/Paris"
+    # timezone: "Europe/Paris"
     manualSync: true
 ---
 apiVersion: argoproj.io/v1alpha1
