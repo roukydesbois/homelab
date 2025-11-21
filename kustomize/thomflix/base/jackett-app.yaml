@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: oci.trueforge.org/truecharts
     chart: jackett
-    targetRevision: 23.x
+    targetRevision: 26.x
   destination:
     server: https://kubernetes.default.svc
     namespace: thomflix
