@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: oci.trueforge.org/truecharts
     chart: jellyseerr
-    targetRevision: 12.x
+    targetRevision: 13.x
   destination:
     server: https://kubernetes.default.svc
     namespace: thomflix
