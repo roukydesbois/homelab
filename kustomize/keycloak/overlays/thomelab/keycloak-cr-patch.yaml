@@ -15,7 +15,7 @@ spec:
       key: password
 
   hostname:
-    hostname: sso-new.tail9a43.ts.net
+    hostname: sso.tail9a43.ts.net
     strict: false
 
   ingress:
