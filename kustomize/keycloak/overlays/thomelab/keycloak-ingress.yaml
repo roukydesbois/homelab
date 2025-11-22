@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: tailscale
   rules:
-    - host: sso-new
+    - host: sso
       http:
         paths:
           - path: /
@@ -20,4 +20,4 @@ spec:
                   number: 8080
   tls:
     - hosts:
-        - sso-new
+        - sso

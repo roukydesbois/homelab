@@ -31,13 +31,13 @@ patchesStrategicMerge:
             ingress:
               enabled: true
               ingressClassName: tailscale
-              hostname: sso.tail9a43.ts.net
+              hostname: sso-old.tail9a43.ts.net
               extraHosts:
-                - name: sso
+                - name: sso-old
                   path: /
               extraTls:
                 - hosts:
-                  - sso
+                  - sso-old
               annotations:
                 tailscale.com/funnel: "true"
             postgresql:
