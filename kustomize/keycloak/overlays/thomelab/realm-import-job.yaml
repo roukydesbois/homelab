@@ -1,0 +1,95 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: keycloak-realm-import
+  namespace: keycloak
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: realm-import
+        image: curlimages/curl:8.5.0
+        command:
+        - /bin/sh
+        - -c
+        - |
+          set -e
+          echo "Waiting for Keycloak to be ready..."
+          until curl -sf http://keycloak-service:9000/health/ready; do
+            echo "Waiting..."
+            sleep 5
+          done
+          echo "Keycloak is ready!"
+
+          echo "Getting admin credentials..."
+          ADMIN_USER=$(cat /admin-creds/username)
+          ADMIN_PASS=$(cat /admin-creds/password)
+
+          echo "Getting access token from master realm..."
+          TOKEN=$(curl -sf -X POST http://keycloak-service:8080/realms/master/protocol/openid-connect/token \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "username=${ADMIN_USER}" \
+            -d "password=${ADMIN_PASS}" \
+            -d "grant_type=password" \
+            -d "client_id=admin-cli" | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)
+
+          if [ -z "$TOKEN" ]; then
+            echo "ERROR: Failed to get access token"
+            exit 1
+          fi
+          echo "Got access token!"
+
+          echo "Checking realm JSON file..."
+          ls -lh /realm-data/
+          echo "File size: $(wc -c < /realm-data/realm.json) bytes"
+          echo "First 200 chars: $(head -c 200 /realm-data/realm.json)"
+
+          echo "Creating realm first..."
+          REALM_CREATE=$(curl -s -w "\n%{http_code}" -X POST http://keycloak-service:8080/admin/realms \
+            -H "Authorization: Bearer ${TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d '{"realm":"self-hosted-apps","enabled":true}')
+
+          CREATE_CODE=$(echo "$REALM_CREATE" | tail -n1)
+          if [ "$CREATE_CODE" = "201" ] || [ "$CREATE_CODE" = "409" ]; then
+            echo "Realm created or already exists"
+          else
+            echo "Realm creation response: $CREATE_CODE"
+          fi
+
+          echo "Importing realm via partial import..."
+          RESPONSE=$(cat /realm-data/realm.json | curl -s -w "\n%{http_code}" -X POST http://keycloak-service:8080/admin/realms/self-hosted-apps/partialImport \
+            -H "Authorization: Bearer ${TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data-binary @-)
+
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | head -n-1)
+
+          if [ "$HTTP_CODE" = "201" ]; then
+            echo "SUCCESS: Realm imported successfully!"
+            exit 0
+          elif [ "$HTTP_CODE" = "409" ]; then
+            echo "INFO: Realm already exists (HTTP 409)"
+            exit 0
+          else
+            echo "ERROR: Realm import failed with HTTP $HTTP_CODE"
+            echo "Response: $BODY"
+            exit 1
+          fi
+        volumeMounts:
+        - name: realm-data
+          mountPath: /realm-data
+          readOnly: true
+        - name: admin-creds
+          mountPath: /admin-creds
+          readOnly: true
+      volumes:
+      - name: realm-data
+        secret:
+          secretName: keycloak-realm-import
+      - name: admin-creds
+        secret:
+          secretName: keycloak-initial-admin
