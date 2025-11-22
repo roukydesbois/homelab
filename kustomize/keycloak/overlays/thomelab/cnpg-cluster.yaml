@@ -1,0 +1,22 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: keycloak-pg
+  namespace: keycloak
+spec:
+  instances: 2
+
+  postgresql:
+    pg_hba:
+      - host all all 10.244.0.0/16 scram-sha-256
+    enableAlterSystem: true
+
+  storage:
+    storageClass: cnpg-storage-class
+    size: 5Gi
+
+  bootstrap:
+    initdb:
+      database: keycloak
+      owner: keycloak
+      dataChecksums: true

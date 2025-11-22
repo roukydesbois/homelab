@@ -20,6 +20,12 @@ spec:
   clusterResourceWhitelist:
     - group: storage.k8s.io
       kind: StorageClass
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
   namespaceResourceWhitelist:
     - group: '*'
       kind: '*'
@@ -42,3 +48,46 @@ spec:
     automated:
       prune: true
       selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keycloak-operator
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: keycloak
+  project: keycloak
+  source:
+    repoURL: https://github.com/roukydesbois/homelab
+    targetRevision: main
+    path: kustomize/keycloak-operator
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keycloak-instance
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: keycloak
+  project: keycloak
+  source:
+    repoURL: https://github.com/roukydesbois/homelab
+    targetRevision: main
+    path: kustomize/keycloak/overlays/thomelab
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

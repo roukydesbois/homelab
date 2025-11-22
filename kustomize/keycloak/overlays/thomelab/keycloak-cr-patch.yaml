@@ -1,0 +1,23 @@
+apiVersion: k8s.keycloak.org/v1
+kind: Keycloak
+metadata:
+  name: keycloak
+  namespace: keycloak
+spec:
+  db:
+    host: keycloak-pg-rw
+    database: keycloak
+    usernameSecret:
+      name: keycloak-pg-app
+      key: username
+    passwordSecret:
+      name: keycloak-pg-app
+      key: password
+
+  hostname:
+    hostname: sso-new.tail9a43.ts.net
+    strict: false
+
+  additionalOptions:
+    - name: hostname-strict-https
+      value: "false"
