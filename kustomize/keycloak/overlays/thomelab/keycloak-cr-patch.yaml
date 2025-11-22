@@ -4,8 +4,6 @@ metadata:
   name: keycloak
   namespace: keycloak
 spec:
-  image: quay.io/keycloak/keycloak:26.3.2
-
   db:
     host: keycloak-pg-rw
     database: keycloak
