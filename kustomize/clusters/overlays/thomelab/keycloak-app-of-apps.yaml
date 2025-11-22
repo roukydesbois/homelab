@@ -62,7 +62,7 @@ spec:
   source:
     repoURL: https://github.com/roukydesbois/homelab
     targetRevision: main
-    path: kustomize/keycloak-operator
+    path: kustomize/keycloak-operator/overlays/thomelab
   syncPolicy:
     automated:
       prune: true
