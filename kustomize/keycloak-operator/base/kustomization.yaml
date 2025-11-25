@@ -4,9 +4,9 @@ kind: Kustomization
 # Remote base from upstream - version is explicit here
 # To upgrade: change version number in all three URLs below
 resources:
-  - https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/26.4.5/kubernetes/kubernetes.yml
-  - https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/26.4.5/kubernetes/keycloaks.k8s.keycloak.org-v1.yml
-  - https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/26.4.5/kubernetes/keycloakrealmimports.k8s.keycloak.org-v1.yml
+  - https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/26.4.6/kubernetes/kubernetes.yml
+  - https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/26.4.6/kubernetes/keycloaks.k8s.keycloak.org-v1.yml
+  - https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/26.4.6/kubernetes/keycloakrealmimports.k8s.keycloak.org-v1.yml
 
 # Force namespace for all resources
 namespace: keycloak
