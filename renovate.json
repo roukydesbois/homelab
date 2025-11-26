@@ -2,5 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:best-practices"
-  ]
+  ],
+  "argocd": {
+    "managerFilePatterns": ["/app\.yaml$/", "/app-of-apps.yaml$"]
+  }
 }
