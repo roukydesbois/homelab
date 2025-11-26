@@ -4,6 +4,6 @@
     "config:best-practices"
   ],
   "argocd": {
-    "managerFilePatterns": ["/app\.yaml$/", "/app-of-apps.yaml$"]
+    "managerFilePatterns": ["/app\\.yaml$/", "/app-of-apps\\.yaml$"]
   }
 }
