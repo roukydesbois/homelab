@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://nextcloud.github.io/helm/
     chart: nextcloud
-    targetRevision: 6.x
+    targetRevision: 8.x
     helm:
       releaseName: nextcloud
   destination:
