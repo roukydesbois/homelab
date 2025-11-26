@@ -5,5 +5,8 @@
   ],
   "argocd": {
     "managerFilePatterns": ["/app\\.yaml$/", "/app-of-apps\\.yaml$"]
+  },
+  "kustomize": {
+    "enabled": true
   }
 }
