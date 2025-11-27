@@ -4,12 +4,9 @@
     "config:best-practices"
   ],
   "argocd": {
-    "managerFilePatterns": ["/app\\.yaml$/", "/app-of-apps\\.yaml$"]
-  },
-  "kustomize": {
     "managerFilePatterns": [
-      "/(^|/)kustomization\\.ya?ml$/"
-    ],
-    "pinDigests": false
+      "/app\\.yaml$/",
+      "/app-of-apps\\.yaml$"
+    ]
   }
 }
