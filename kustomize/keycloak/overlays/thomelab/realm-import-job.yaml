@@ -10,7 +10,7 @@ spec:
       restartPolicy: OnFailure
       containers:
       - name: realm-import
-        image: curlimages/curl:8.5.0@sha256:08e466006f0860e54fc299378de998935333e0e130a15f6f98482e9f8dab3058
+        image: curlimages/curl:8.17.0@sha256:935d9100e9ba842cdb060de42472c7ca90cfe9a7c96e4dacb55e79e560b3ff40
         command:
         - /bin/sh
         - -c
