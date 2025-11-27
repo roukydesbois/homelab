@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: immich-helm-chart
+  namespace: immich
+spec:
+  source:
+    helm:
+      valuesObject:
+        immich:
+          persistence:
+            library:
+              existingClaim: immich-library
+        controllers:
+          main:
+            containers:
+              main:
+                image:
+                  tag: v2.3.1
+        server:
+          controllers:
+            main:
+              containers:
+                main:
+                  env:
+                    DB_HOSTNAME:
+                      valueFrom:
+                        secretKeyRef:
+                          name: immich-database-app
+                          key: host
+                    DB_PASSWORD:
+                      valueFrom:
+                        secretKeyRef:
+                          name: immich-database-app
+                          key: password
+                    DB_USERNAME:
+                      valueFrom:
+                        secretKeyRef:
+                          name: immich-database-app
+                          key: username
+                    DB_DATABASE_NAME:
+                      valueFrom:
+                        secretKeyRef:
+                          name: immich-database-app
+                          key: dbname
