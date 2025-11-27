@@ -7,6 +7,9 @@
     "managerFilePatterns": ["/app\\.yaml$/", "/app-of-apps\\.yaml$"]
   },
   "kustomize": {
-    "enabled": true
+    "managerFilePatterns": [
+      "/(^|/)kustomization\\.ya?ml$/"
+    ],
+    "pinDigests": false
   }
 }
