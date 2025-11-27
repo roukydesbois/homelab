@@ -29,5 +29,5 @@ spec:
                       port:
                         number: 80
           tls:
-            hosts:
-              - renovate
+            - hosts:
+                - renovate
