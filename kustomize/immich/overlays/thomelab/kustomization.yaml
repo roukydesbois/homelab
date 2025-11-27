@@ -10,7 +10,7 @@ resources:
   - immich-ingress.yaml
 
 patches:
-  - path: immich-pg-cluster-patch.yaml
+  # - path: immich-pg-cluster-patch.yaml
   - path: immich-database-cluster-patch.yaml
   - path: immich-helm-chart-patch.yaml
   - path: immich-ingress-patch.yaml
