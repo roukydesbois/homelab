@@ -26,6 +26,6 @@ spec:
             - gotenberg
             - --chromium-disable-javascript=true
             - --chromium-allow-list=file:///tmp/.*
-          image: docker.io/gotenberg/gotenberg:8.22@sha256:91035c5041e7f986ae89d0e9f1783233dbae4254b19a33f954288466de5d150f
+          image: docker.io/gotenberg/gotenberg:8.25@sha256:e304e45acee3c400f8ef76afa195c76b1d0eaf0ab6fe9651e305067ab6a1560c
           name: gotenberg
       restartPolicy: Always
