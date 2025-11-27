@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: renovate-helm-chart
+  # namespace: renovate
+spec:
+  source:
+    helm:
+      valuesObject:
+        renovate:
+          mendRnvPlatform: "github"
+          mendRnvEndpoint: "https://api.github.com/"
+          mendRnvGithubBotUserId: "236257271"
+          existingSecret: "renovate-secret"

@@ -1,26 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
+namespace: renovate
+
 resources:
   - renovate-sealed-secret.yaml
   - ../../base
 
-patches:
-  - patch: |-
-      - op: add
-        path: /spec/source/helm/valuesObject/renovate/mendRnvPlatform
-        value: "github"
-      - op: add
-        path: /spec/source/helm/valuesObject/renovate/mendRnvEndpoint
-        value: "https://api.github.com/"
-      - op: add
-        path: /spec/source/helm/valuesObject/renovate/mendRnvGithubBotUserId
-        value: "236257271"
-      - op: add
-        path: /spec/source/helm/valuesObject/renovate/existingSecret
-        value: "renovate-secret"
-    target:
-      group: argoproj.io
-      version: v1alpha1
-      kind: Application
-      name: renovate-helm-chart
-      namespace: renovate
+patchesStrategicMerge:
+  - renovate-helm-values-patch.yaml
