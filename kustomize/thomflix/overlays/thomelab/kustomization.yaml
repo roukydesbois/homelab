@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - library-pvc.yaml
-  - directory-creation-job.yaml
+  # - directory-creation-job.yaml
   - thomflix-config-sc.yaml
   - gluetun-env-sealed.yaml
   - ../../base
