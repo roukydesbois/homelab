@@ -8,5 +8,10 @@
       "/app\\.yaml$/",
       "/app-of-apps\\.yaml$"
     ]
+  },
+  "kubernetes": {
+    "managerFilePatterns": [
+      "/^kustomize/.*\\.yaml$/"
+    ]
   }
 }
