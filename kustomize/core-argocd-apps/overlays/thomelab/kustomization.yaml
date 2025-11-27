@@ -228,7 +228,7 @@ patches:
                 tag: 1.33.4
             initContainers:
             - name: velero-plugin-for-aws
-              image: velero/velero-plugin-for-aws:v1.13.0
+              image: velero/velero-plugin-for-aws:v1.13.1@sha256:472d0e486d5d5c23c782b1b123530c7df8645784523ec36ca661a326d47885ff
               imagePullPolicy: IfNotPresent
               volumeMounts:
                 - mountPath: /target
