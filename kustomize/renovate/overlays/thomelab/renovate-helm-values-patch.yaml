@@ -12,7 +12,7 @@ spec:
           mendRnvEndpoint: "https://api.github.com/"
           mendRnvGithubBotUserId: "236257271"
           existingSecret: "renovate-secret"
-          mendRnvWebhookSecret: "Singular-Tuesday-Luckiness2-Kung-Synopsis"
+          # mendRnvWebhookSecret: "Singular-Tuesday-Luckiness2-Kung-Synopsis"
         # ingress:
         #   enabled: true
         #   annotations:
