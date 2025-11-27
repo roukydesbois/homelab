@@ -10,7 +10,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: directory-checker
-        image: busybox:stable
+        image: busybox:stable@sha256:355b3a1bf5609da364166913878a8508d4ba30572d02020a97028c75477e24ff
         command:
         - "/bin/sh"
         - "-c"

@@ -12,7 +12,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: data-importer-cli
-              image: fireflyiii/data-importer:latest-cli
+              image: fireflyiii/data-importer:latest-cli@sha256:15e75ad7b57ee797b0fa8621868ebf457a10068cda07ca10decf61dcf62f57e5
               envFrom:
                 - secretRef:
                     name: firefly-config

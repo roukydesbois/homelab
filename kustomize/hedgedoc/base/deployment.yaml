@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: hedgedoc
-          image: quay.io/hedgedoc/hedgedoc:1.10.3
+          image: quay.io/hedgedoc/hedgedoc:1.10.3@sha256:ca58fd73ecf05c89559b384fb7a1519c18c8cbba5c21a0018674ed820b9bdb73
           ports:
             - containerPort: 3000
               name: http
