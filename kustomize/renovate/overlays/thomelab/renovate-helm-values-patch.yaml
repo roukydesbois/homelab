@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: renovate-helm-chart
-  # namespace: renovate
+  namespace: renovate
 spec:
   source:
     helm:

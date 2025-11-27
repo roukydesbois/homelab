@@ -7,5 +7,5 @@ resources:
   - renovate-sealed-secret.yaml
   - ../../base
 
-patchesStrategicMerge:
-  - renovate-helm-values-patch.yaml
+patches:
+  - path: renovate-helm-values-patch.yaml
