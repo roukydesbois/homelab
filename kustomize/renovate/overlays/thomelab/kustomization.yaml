@@ -6,6 +6,7 @@ namespace: renovate
 resources:
   - renovate-sealed-secret.yaml
   - ../../base
+  - renovate-ingress.yaml
 
 patches:
   - path: renovate-helm-values-patch.yaml
