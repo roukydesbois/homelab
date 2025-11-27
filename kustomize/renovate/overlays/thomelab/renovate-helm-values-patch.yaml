@@ -13,21 +13,21 @@ spec:
           mendRnvGithubBotUserId: "236257271"
           existingSecret: "renovate-secret"
           mendRnvWebhookSecret: "Singular-Tuesday-Luckiness2-Kung-Synopsis"
-        ingress:
-          enabled: true
-          annotations:
-            tailscale.com/funnel: "true"
-          ingressClassName: tailscale
-          hosts:
-            renovate.tail9a43.ts.net:
-              paths:
-                - path: "/"
-                  pathType: Prefix
-                  backend:
-                    service:
-                      name: renovate-mend-renovate-ce
-                      port:
-                        number: 80
-          tls:
-            - hosts:
-                - renovate
+        # ingress:
+        #   enabled: true
+        #   annotations:
+        #     tailscale.com/funnel: "true"
+        #   ingressClassName: tailscale
+        #   hosts:
+        #     renovate.tail9a43.ts.net:
+        #       paths:
+        #         - path: "/"
+        #           pathType: Prefix
+        #           backend:
+        #             service:
+        #               name: renovate-mend-renovate-ce
+        #               port:
+        #                 number: 80
+        #   tls:
+        #     - hosts:
+        #         - renovate
