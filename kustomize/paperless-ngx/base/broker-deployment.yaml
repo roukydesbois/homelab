@@ -26,7 +26,7 @@ spec:
         fsGroup: 999
       containers:
         # renovate: datasource=docker depName=docker.io/library/redis
-        - image: docker.io/library/redis:8
+        - image: docker.io/library/redis:8@sha256:43355efd22490e31ca14b9d569367d05121e2be61fd8e47937563ae2a80952ae
           name: broker
           securityContext:
             runAsUser: 999
