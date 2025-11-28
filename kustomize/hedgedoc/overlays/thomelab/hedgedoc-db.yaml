@@ -5,7 +5,7 @@ metadata:
   name: hedgedoc-pg
   namespace: hedgedoc
 spec:
-  instances: 3
+  instances: 2
   startDelay: 30
   stopDelay: 100
   storage:
