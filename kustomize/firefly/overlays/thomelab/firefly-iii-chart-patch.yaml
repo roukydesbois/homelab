@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: firefly-iii-chart
+  namespace: firefly
+spec:
+  source:
+    helm:
+      valuesObject:
+        envValueFrom:
+          DB_HOST:
+            secretKeyRef:
+              name: firefly-pg-app
+              key: host
+          DB_PORT:
+            secretKeyRef:
+              name: firefly-pg-app
+              key: port
+          DB_DATABASE:
+            secretKeyRef:
+              name: firefly-pg-app
+              key: dbname
+          DB_USERNAME:
+            secretKeyRef:
+              name: firefly-pg-app
+              key: user
+        config:
+          existingSecret: firefly-config
+        persistence:
+          storageClassName: app-config
+        ingress:
+          enabled: true
+          className: tailscale
+          hosts:
+            - firefly-iii
+          tls:
+            - hosts:
+                - firefly-iii

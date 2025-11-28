@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: importer-chart
+  namespace: firefly
+spec:
+  source:
+    helm:
+      valuesObject:
+        config:
+          existingSecret: firefly-config
+          files: {}
+        persistence:
+          storageClassName: app-config
+        ingress:
+          enabled: true
+          className: tailscale
+          hosts:
+            - firefly-importer
+          tls:
+            - hosts:
+                - firefly-importer
+        fireflyiii:
+          url: http://firefly-iii-chart:80
+          vanityUrl: https://firefly-iii.tail9a43.ts.net
+          auth:
+            existingSecret: firefly-config
+        additionalVolumes:
+          - name: bank-imports
+            secret:
+              secretName: bank-imports
+              items:
+                - key: bank-import-1.json
+                  path: bank-import-1.json
+                - key: bank-import-2.json
+                  path: bank-import-2.json
+                - key: bank-import-3.json
+                  path: bank-import-3.json
+        additionalVolumeMounts:
+          - name: bank-imports
+            mountPath: /var/www/html/storage/configurations

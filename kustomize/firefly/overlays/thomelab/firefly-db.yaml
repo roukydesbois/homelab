@@ -1,0 +1,11 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: firefly-pg
+spec:
+  instances: 2
+  startDelay: 30
+  stopDelay: 100
+  storage:
+    storageClass: cnpg-storage-class
+    size: 8Gi
