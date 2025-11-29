@@ -7,11 +7,19 @@ spec:
   source:
     helm:
       valuesObject:
+        fireflyiii:
+          url: http://firefly-iii-chart:80
+          vanityUrl: https://firefly-iii.tail9a43.ts.net
+          auth:
+            existingSecret: firefly-config
         config:
           existingSecret: firefly-config
           files: {}
-        persistence:
-          storageClassName: app-config
+          env:
+            IGNORE_DUPLICATE_ERRORS: "false"
+            TZ: "Europe/Paris"
+        # persistence:
+        #   storageClassName: app-config
         ingress:
           enabled: true
           className: tailscale
@@ -20,11 +28,6 @@ spec:
           tls:
             - hosts:
                 - firefly-importer
-        fireflyiii:
-          url: http://firefly-iii-chart:80
-          vanityUrl: https://firefly-iii.tail9a43.ts.net
-          auth:
-            existingSecret: firefly-config
         additionalVolumes:
           - name: bank-imports
             secret:
