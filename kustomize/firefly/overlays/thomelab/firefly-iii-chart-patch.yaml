@@ -30,16 +30,8 @@ spec:
             secretKeyRef:
               name: firefly-pg-app
               key: user
-          DB_PASSWORD:
-            secretKeyRef:
-              name: firefly-pg-app
-              key: password
-          APP_PASSWORD:
-            secretKeyRef:
-              name: firefly-config
-              key: APP_PASSWORD
-        # config:
-        #   existingSecret: firefly-config
+        config:
+          existingSecret: firefly-iii-chart-secret
         persistence:
           storageClassName: app-config
         ingress:
