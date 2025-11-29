@@ -9,9 +9,3 @@ spec:
   storage:
     storageClass: cnpg-storage-class
     size: 8Gi
-  bootstrap:
-    initdb:
-      database: app
-      owner: app
-      secret:
-        name: firefly-pg-secret

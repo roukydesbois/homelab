@@ -7,30 +7,34 @@ spec:
   source:
     helm:
       valuesObject:
-        env:
-          DB_CONNECTION: pgsql
-          DEFAULT_LANGUAGE: "en_US"
-          DEFAULT_LOCALE: "equal"
-          TZ: "Europe/Paris"
-          TRUSTED_PROXIES: "**"
-        envValueFrom:
-          DB_HOST:
-            secretKeyRef:
-              name: firefly-pg-app
-              key: host
-          DB_PORT:
-            secretKeyRef:
-              name: firefly-pg-app
-              key: port
-          DB_DATABASE:
-            secretKeyRef:
-              name: firefly-pg-app
-              key: dbname
-          DB_USERNAME:
-            secretKeyRef:
-              name: firefly-pg-app
-              key: user
         config:
+          env:
+            DB_CONNECTION: pgsql
+            DEFAULT_LANGUAGE: "en_US"
+            DEFAULT_LOCALE: "equal"
+            TZ: "Europe/Paris"
+            TRUSTED_PROXIES: "**"
+          envValueFrom:
+            DB_HOST:
+              secretKeyRef:
+                name: firefly-pg-app
+                key: host
+            DB_PORT:
+              secretKeyRef:
+                name: firefly-pg-app
+                key: port
+            DB_DATABASE:
+              secretKeyRef:
+                name: firefly-pg-app
+                key: dbname
+            DB_USERNAME:
+              secretKeyRef:
+                name: firefly-pg-app
+                key: user
+            DB_PASSWORD:
+              secretKeyRef:
+                name: firefly-pg-app
+                key: password
           existingSecret: firefly-chart-secret
         persistence:
           storageClassName: app-config

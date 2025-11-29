@@ -5,7 +5,6 @@ namespace: firefly
 
 resources:
   - firefly-config-sealed.yaml
-  - firefly-pg-sealed-secret.yaml
   - firefly-iii-chart-sealed-secret.yaml
   - bank-imports-sealed.yaml
   - firefly-db.yaml
