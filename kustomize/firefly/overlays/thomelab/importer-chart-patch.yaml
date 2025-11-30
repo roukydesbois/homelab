@@ -8,7 +8,7 @@ spec:
     helm:
       valuesObject:
         image:
-          tag: v1.9.1
+          tag: version-1.9.1
         fireflyiii:
           url: http://firefly-iii-chart:80
           vanityUrl: https://firefly-iii.tail9a43.ts.net
