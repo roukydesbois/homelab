@@ -18,8 +18,11 @@ spec:
           env:
             IGNORE_DUPLICATE_ERRORS: "false"
             TZ: "Europe/Paris"
-        # persistence:
-        #   storageClassName: app-config
+          envValueFrom:
+            LUNCH_FLOW_API_KEY:
+              secretKeyRef:
+                name: firefly-config
+                key: LUNCH_FLOW_API_KEY
         ingress:
           enabled: true
           className: tailscale
