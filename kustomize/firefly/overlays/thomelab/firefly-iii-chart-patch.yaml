@@ -7,6 +7,8 @@ spec:
   source:
     helm:
       valuesObject:
+        image:
+          tag: v6.4.9
         config:
           env:
             DB_CONNECTION: pgsql
