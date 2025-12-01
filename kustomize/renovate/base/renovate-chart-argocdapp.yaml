@@ -7,7 +7,7 @@ spec:
   project: renovate
   source:
     repoURL: https://mend.github.io/renovate-ce-ee
-    targetRevision: 12.x
+    targetRevision: 13.x
     chart: mend-renovate-ce
     helm:
       releaseName: renovate
