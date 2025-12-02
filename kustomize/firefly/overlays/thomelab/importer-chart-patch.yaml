@@ -18,7 +18,7 @@ spec:
           existingSecret: firefly-config
           files: {}
           env:
-            IGNORE_DUPLICATE_ERRORS: "false"
+            IGNORE_DUPLICATE_ERRORS: "true"
             TZ: "Europe/Paris"
           envValueFrom:
             LUNCH_FLOW_API_KEY:
