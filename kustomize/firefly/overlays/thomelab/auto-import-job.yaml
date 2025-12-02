@@ -22,6 +22,8 @@ spec:
                   value: http://firefly-iii-chart:80
                 - name: WEB_SERVER
                   value: "false"
+                - name: IGNORE_DUPLICATE_ERRORS
+                  value: "true"
               volumeMounts:
                 - name: bank-imports
                   mountPath: /import
