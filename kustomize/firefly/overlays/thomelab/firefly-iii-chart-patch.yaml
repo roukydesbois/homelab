@@ -42,8 +42,8 @@ spec:
           storageClassName: app-config
         ingress:
           enabled: true
-          annotations:
-            tailscale.com/funnel: "true"
+          # annotations:
+          #   tailscale.com/funnel: "true"
           className: tailscale
           hosts:
             - firefly-iii
