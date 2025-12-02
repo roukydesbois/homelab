@@ -13,6 +13,7 @@ spec:
           containers:
             - name: data-importer-cli
               image: fireflyiii/data-importer:latest-cli@sha256:15e75ad7b57ee797b0fa8621868ebf457a10068cda07ca10decf61dcf62f57e5
+              command: ["php", "artisan", "importer:import", "/import/import-config.json"]
               envFrom:
                 - secretRef:
                     name: firefly-config
@@ -29,9 +30,5 @@ spec:
               secret:
                 secretName: bank-imports
                 items:
-                  - key: bank-import-1.json
-                    path: bank-import-1.json
-                  - key: bank-import-2.json
-                    path: bank-import-2.json
-                  - key: bank-import-3.json
-                    path: bank-import-3.json
+                  - key: import-config.json
+                    path: import-config.json

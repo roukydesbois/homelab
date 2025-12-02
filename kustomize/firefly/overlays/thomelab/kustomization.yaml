@@ -8,7 +8,7 @@ resources:
   - firefly-iii-chart-sealed-secret.yaml
   - bank-imports-sealed.yaml
   - firefly-db.yaml
-  # - auto-import-job.yaml
+  - auto-import-job.yaml
   - ../../base
 
 patches:
