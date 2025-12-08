@@ -9,7 +9,7 @@ spec:
   project: n8n
   source:
     repoURL: https://community-charts.github.io/helm-charts
-    targetRevision: 1.12.x
+    targetRevision: 1.16.x
     chart: n8n
     helm:
       releaseName: n8n
