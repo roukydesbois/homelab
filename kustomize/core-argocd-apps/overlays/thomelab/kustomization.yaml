@@ -57,7 +57,7 @@ patches:
         value:
           params:
             server.insecure: true
-            application.namespaces: "keycloak,immich,thomflix,nextcloud,firefly,renovate,paperless,hedgedoc,kasm,immich-test"
+            application.namespaces: "keycloak,immich,thomflix,nextcloud,firefly,renovate,paperless,hedgedoc,kasm,immich-test,n8n"
           cm:
             oidc.config: |
               name: Keycloak
@@ -277,6 +277,7 @@ patches:
                     - hedgedoc
                     - protonmail-bridge
                     - paperless
+                    - n8n
     target:
       group: argoproj.io
       version: v1alpha1
