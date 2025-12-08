@@ -7,52 +7,59 @@ spec:
   source:
     helm:
       valuesObject:
-        # PostgreSQL configuration using CNPG cluster
-        config:
-          database:
-            type: postgresdb
-            postgresdb:
-              host:
-                valueFrom:
-                  secretKeyRef:
-                    name: n8n-database-app
-                    key: host
-              port: "5432"
-              database:
-                valueFrom:
-                  secretKeyRef:
-                    name: n8n-database-app
-                    key: dbname
-              user:
-                valueFrom:
-                  secretKeyRef:
-                    name: n8n-database-app
-                    key: username
-              password:
-                valueFrom:
-                  secretKeyRef:
-                    name: n8n-database-app
-                    key: password
-              ssl:
-                enabled: false
-
-        # Persistence configuration using existing PVC
-        persistence:
-          enabled: true
-          type: existing
-          existingClaim: n8n-data
-
-        # Resource limits and requests
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "100m"
-          limits:
-            memory: "1Gi"
-            cpu: "1000m"
-
-        # Scaling configuration
-        scaling:
+        # Disable internal PostgreSQL
+        postgresql:
           enabled: false
-          worker:
-            count: 1
+
+        # Configure database type
+        db:
+          type: postgresdb
+          postgresdb:
+            ssl:
+              enabled: false
+
+        # Main node configuration
+        main:
+          # Persistence configuration using existing PVC
+          persistence:
+            enabled: true
+            existingClaim: n8n-data
+
+          # Resource limits and requests
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+
+          # Database connection via environment variables
+          extraEnv:
+            - name: DB_TYPE
+              value: "postgresdb"
+            - name: DB_POSTGRESDB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-database-app
+                  key: host
+            - name: DB_POSTGRESDB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-database-app
+                  key: port
+            - name: DB_POSTGRESDB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-database-app
+                  key: dbname
+            - name: DB_POSTGRESDB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-database-app
+                  key: username
+            - name: DB_POSTGRESDB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: n8n-database-app
+                  key: password
