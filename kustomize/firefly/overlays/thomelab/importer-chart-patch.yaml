@@ -12,8 +12,8 @@ spec:
         fireflyiii:
           url: http://firefly-iii-chart:80
           vanityUrl: https://firefly-iii.tail9a43.ts.net
-          auth:
-            existingSecret: firefly-config
+          # auth:
+          #   existingSecret: firefly-config
         config:
           existingSecret: firefly-config
           files: {}
@@ -25,6 +25,10 @@ spec:
               secretKeyRef:
                 name: firefly-config
                 key: LUNCH_FLOW_API_KEY
+            FIREFLY_III_CLIENT_ID:
+              secretKeyRef:
+                name: firefly-config
+                key: FIREFLY_III_CLIENT_ID
         ingress:
           enabled: true
           className: tailscale
