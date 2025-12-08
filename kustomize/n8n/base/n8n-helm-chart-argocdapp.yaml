@@ -1,0 +1,28 @@
+# ArgoCD app to deploy n8n Helm chart from community-charts
+# Deployed in the n8n namespace and project
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: n8n-helm-chart
+  namespace: n8n
+spec:
+  project: n8n
+  source:
+    repoURL: https://community-charts.github.io/helm-charts
+    targetRevision: 1.12.x
+    chart: n8n
+    helm:
+      releaseName: n8n
+      valuesObject:
+        # Default values - will be patched in overlay
+        config: {}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: n8n
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true

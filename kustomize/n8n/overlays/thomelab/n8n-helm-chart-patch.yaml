@@ -1,0 +1,58 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: n8n-helm-chart
+  namespace: n8n
+spec:
+  source:
+    helm:
+      valuesObject:
+        # PostgreSQL configuration using CNPG cluster
+        config:
+          database:
+            type: postgresdb
+            postgresdb:
+              host:
+                valueFrom:
+                  secretKeyRef:
+                    name: n8n-database-app
+                    key: host
+              port: "5432"
+              database:
+                valueFrom:
+                  secretKeyRef:
+                    name: n8n-database-app
+                    key: dbname
+              user:
+                valueFrom:
+                  secretKeyRef:
+                    name: n8n-database-app
+                    key: username
+              password:
+                valueFrom:
+                  secretKeyRef:
+                    name: n8n-database-app
+                    key: password
+              ssl:
+                enabled: false
+
+        # Persistence configuration using existing PVC
+        persistence:
+          enabled: true
+          type: existing
+          existingClaim: n8n-data
+
+        # Resource limits and requests
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+
+        # Scaling configuration
+        scaling:
+          enabled: false
+          worker:
+            count: 1

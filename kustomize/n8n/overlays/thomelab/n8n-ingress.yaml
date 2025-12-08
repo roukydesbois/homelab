@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ts-n8n
+  namespace: n8n
+spec:
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - n8n
+  rules:
+    - host: n8n
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: n8n
+                port:
+                  number: 80

@@ -1,0 +1,23 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: n8n-database
+spec:
+  instances: 3
+
+  storage:
+    size: 8Gi
+    storageClass: cnpg-storage-class
+
+  postgresql:
+    parameters:
+      max_connections: "100"
+      shared_buffers: "256MB"
+
+  startDelay: 30
+  stopDelay: 100
+
+  bootstrap:
+    initdb:
+      database: n8n
+      owner: n8n
