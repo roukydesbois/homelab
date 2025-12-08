@@ -7,7 +7,7 @@ spec:
     service:
       name: n8n
       port:
-        number: 80
+        name: http
   ingressClassName: tailscale
   tls:
     - hosts:
