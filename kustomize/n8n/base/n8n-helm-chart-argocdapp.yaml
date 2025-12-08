@@ -13,9 +13,6 @@ spec:
     chart: n8n
     helm:
       releaseName: n8n
-      valuesObject:
-        # Default values - will be patched in overlay
-        config: {}
   destination:
     server: https://kubernetes.default.svc
     namespace: n8n

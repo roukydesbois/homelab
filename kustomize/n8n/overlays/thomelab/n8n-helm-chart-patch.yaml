@@ -13,10 +13,9 @@ spec:
 
         # Use external PostgreSQL
         externalPostgresql:
-          host: "" # Will be set via extraEnv
+          host: n8n-database-rw
           database: n8n
           username: n8n
-          password: "" # Will be set via extraEnv
           port: 5432
 
         # Main node configuration
@@ -32,32 +31,3 @@ spec:
             limits:
               memory: "1Gi"
               cpu: "1000m"
-
-          # Database connection via environment variables
-          env:
-            DB_TYPE: "postgresdb"
-            DB_POSTGRESDB_HOST:
-              valueFrom:
-                secretKeyRef:
-                  name: n8n-database-app
-                  key: host
-            DB_POSTGRESDB_PORT:
-              valueFrom:
-                secretKeyRef:
-                  name: n8n-database-app
-                  key: port
-            DB_POSTGRESDB_DATABASE:
-              valueFrom:
-                secretKeyRef:
-                  name: n8n-database-app
-                  key: dbname
-            DB_POSTGRESDB_USER:
-              valueFrom:
-                secretKeyRef:
-                  name: n8n-database-app
-                  key: username
-            DB_POSTGRESDB_PASSWORD:
-              valueFrom:
-                secretKeyRef:
-                  name: n8n-database-app
-                  key: password

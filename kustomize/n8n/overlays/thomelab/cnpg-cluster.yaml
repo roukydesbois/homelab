@@ -3,7 +3,7 @@ kind: Cluster
 metadata:
   name: n8n-database
 spec:
-  instances: 3
+  instances: 2
 
   storage:
     size: 8Gi
@@ -21,3 +21,5 @@ spec:
     initdb:
       database: n8n
       owner: n8n
+      secret:
+        name: db-secret

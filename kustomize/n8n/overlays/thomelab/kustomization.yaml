@@ -2,6 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: n8n
 resources:
+  - db-sealed-secret.yaml
   - cnpg-cluster.yaml
   - n8n-data-pvc.yaml
   - n8n-ingress.yaml
