@@ -11,21 +11,20 @@ spec:
         postgresql:
           enabled: false
 
-        # Configure database type
-        db:
-          type: postgresdb
-          postgresdb:
-            ssl:
-              enabled: false
+        # Use external PostgreSQL
+        externalPostgresql:
+          host: "" # Will be set via extraEnv
+          database: n8n
+          username: n8n
+          password: "" # Will be set via extraEnv
+          port: 5432
 
         # Main node configuration
         main:
-          # Persistence configuration using existing PVC
           persistence:
             enabled: true
             existingClaim: n8n-data
 
-          # Resource limits and requests
           resources:
             requests:
               memory: "256Mi"
@@ -35,30 +34,29 @@ spec:
               cpu: "1000m"
 
           # Database connection via environment variables
-          extraEnv:
-            - name: DB_TYPE
-              value: "postgresdb"
-            - name: DB_POSTGRESDB_HOST
+          env:
+            DB_TYPE: "postgresdb"
+            DB_POSTGRESDB_HOST:
               valueFrom:
                 secretKeyRef:
                   name: n8n-database-app
                   key: host
-            - name: DB_POSTGRESDB_PORT
+            DB_POSTGRESDB_PORT:
               valueFrom:
                 secretKeyRef:
                   name: n8n-database-app
                   key: port
-            - name: DB_POSTGRESDB_DATABASE
+            DB_POSTGRESDB_DATABASE:
               valueFrom:
                 secretKeyRef:
                   name: n8n-database-app
                   key: dbname
-            - name: DB_POSTGRESDB_USER
+            DB_POSTGRESDB_USER:
               valueFrom:
                 secretKeyRef:
                   name: n8n-database-app
                   key: username
-            - name: DB_POSTGRESDB_PASSWORD
+            DB_POSTGRESDB_PASSWORD:
               valueFrom:
                 secretKeyRef:
                   name: n8n-database-app
