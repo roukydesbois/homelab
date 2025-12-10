@@ -20,6 +20,7 @@ spec:
 
         # Main node configuration
         main:
+          editorBaseUrl: https//n8n.tail9a43.ts.net
           persistence:
             enabled: true
             existingClaim: n8n-data
