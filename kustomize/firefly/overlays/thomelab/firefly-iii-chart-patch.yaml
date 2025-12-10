@@ -37,6 +37,14 @@ spec:
               secretKeyRef:
                 name: firefly-pg-app
                 key: password
+            PASSPORT_PRIVATE_KEY:
+              secretKeyRef:
+                name: firefly-config
+                key: passport-private-key
+            PASSPORT_PUBLIC_KEY:
+              secretKeyRef:
+                name: firefly-config
+                key: passport-public-key
           existingSecret: firefly-chart-secret
         persistence:
           storageClassName: app-config
