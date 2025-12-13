@@ -34,14 +34,14 @@ spec:
             limits:
               memory: "1Gi"
               cpu: "1000m"
-        ingress:
-          enabled: true
-          className: tailscale
-          hosts:
-            - host: n8n.tail9a43.ts.net
-              paths:
-                - path: /
-                  pathType: Prefix
-          tls:
-            - hosts:
-                - n8n
+        # ingress:
+        #   enabled: true
+        #   className: tailscale
+        #   hosts:
+        #     - host: n8n.tail9a43.ts.net
+        #       paths:
+        #         - path: /
+        #           pathType: Prefix
+        #   tls:
+        #     - hosts:
+        #         - n8n
