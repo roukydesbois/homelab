@@ -23,7 +23,9 @@ spec:
           editorBaseUrl: https//n8n.tail9a43.ts.net
           persistence:
             enabled: true
-            existingClaim: n8n-data
+            # existingClaim: n8n-data
+            size: 1Gi
+            storageClass: longhorn
 
           resources:
             requests:
@@ -32,3 +34,14 @@ spec:
             limits:
               memory: "1Gi"
               cpu: "1000m"
+        ingress:
+          enabled: true
+          className: tailscale
+          hosts:
+            - host: n8n.tail9a43.ts.net
+              paths:
+                - path: /
+                  pathType: Prefix
+          tls:
+            - hosts:
+                - n8n
