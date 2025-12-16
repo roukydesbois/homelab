@@ -20,12 +20,16 @@ spec:
 
         # Main node configuration
         main:
+          count: 1
           editorBaseUrl: https//n8n.tail9a43.ts.net
           persistence:
             enabled: true
             # existingClaim: n8n-data
-            size: 1Gi
+            size: 10Gi
             storageClass: longhorn
+            accessMode: ReadWriteMany
+            volumeName: "n8n-main-data"
+            mountPath: "/home/node/.n8n"
 
           resources:
             requests:
