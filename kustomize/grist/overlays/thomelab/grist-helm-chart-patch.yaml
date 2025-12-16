@@ -1,0 +1,94 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grist-helm-chart
+  namespace: grist
+spec:
+  source:
+    helm:
+      valuesObject:
+        image:
+          repository: gristlabs/grist
+          tag: "1.2.3"  # Update to desired version
+
+        # Home worker configuration
+        home:
+          replicas: 1
+
+          persistence:
+            enabled: true
+            existingClaim: grist-data
+
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "200m"
+            limits:
+              memory: "2Gi"
+              cpu: "2000m"
+
+          # Database and Redis configuration
+          envFrom:
+            - secretRef:
+                name: grist-config
+
+          env:
+            - name: TYPEORM_TYPE
+              value: "postgres"
+            - name: TYPEORM_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: grist-database-app
+                  key: host
+            - name: TYPEORM_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: grist-database-app
+                  key: port
+            - name: TYPEORM_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: grist-database-app
+                  key: dbname
+            - name: TYPEORM_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: grist-database-app
+                  key: username
+            - name: TYPEORM_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: grist-database-app
+                  key: password
+
+        # Doc workers configuration
+        doc:
+          replicas: 2
+
+          persistence:
+            enabled: true
+            existingClaim: grist-data
+
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "200m"
+            limits:
+              memory: "2Gi"
+              cpu: "2000m"
+
+          envFrom:
+            - secretRef:
+                name: grist-config
+
+        # Load balancer configuration
+        loadBalancer:
+          replicas: 1
+
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"

@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: grist
+
+resources:
+  - ../../base
+  - cnpg-cluster.yaml
+  - grist-data-pvc.yaml
+  - grist-ingress.yaml
+
+patches:
+  - path: grist-helm-chart-patch.yaml
+    target:
+      kind: Application
+      name: grist-helm-chart

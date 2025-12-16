@@ -1,0 +1,39 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: grist-database
+  namespace: grist
+spec:
+  instances: 2
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.2
+
+  bootstrap:
+    initdb:
+      database: grist
+      owner: grist
+      secret:
+        name: grist-database-app
+
+  storage:
+    storageClass: cnpg-storage-class
+    size: 8Gi
+
+  monitoring:
+    enablePodMonitor: false
+
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://postgres-backup/grist-database
+      endpointURL: http://garage-s3.garage.svc.cluster.local:3900
+      s3Credentials:
+        accessKeyId:
+          name: grist-database-backup-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: grist-database-backup-creds
+          key: ACCESS_SECRET_KEY
+      wal:
+        compression: gzip
+      data:
+        compression: gzip
+    retentionPolicy: "30d"

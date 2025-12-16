@@ -1,0 +1,55 @@
+# Grist namespace, AppProject, and Application
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: grist
+  labels:
+    velero.io/include-in-backup: "true"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: grist
+  namespace: argocd
+spec:
+  description: Grist - modern relational spreadsheet
+  sourceRepos:
+    - https://github.com/roukydesbois/homelab
+    - https://numerique-gouv.github.io/helm-charts
+    - https://github.com/numerique-gouv/helm-charts
+  destinations:
+    - namespace: grist
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+    - group: ""
+      kind: PersistentVolume
+    - group: storage.k8s.io
+      kind: StorageClass
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grist
+  namespace: argocd
+spec:
+  project: grist
+  source:
+    repoURL: https://github.com/roukydesbois/homelab
+    targetRevision: main
+    path: kustomize/grist/overlays/thomelab
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: grist
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
