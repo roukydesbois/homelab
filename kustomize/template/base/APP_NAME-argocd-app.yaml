@@ -1,0 +1,39 @@
+# ArgoCD Application to deploy APP_NAME Helm chart
+# This application is deployed in the APP_NAME namespace and project
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: APP_NAME-helm-chart
+  namespace: APP_NAME
+spec:
+  project: APP_NAME
+  source:
+    # Helm chart source - replace with your chart details
+    repoURL: HELM_REPO_URL
+    targetRevision: CHART_VERSION
+    chart: CHART_NAME
+    helm:
+      releaseName: APP_NAME
+      valuesObject:
+        # Add your base Helm values here
+        # These can be overridden in overlays via patches
+        # Example:
+        # replicaCount: 1
+        # image:
+        #   pullPolicy: IfNotPresent
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: APP_NAME
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
+  # Uncomment if you need to ignore specific differences
+  # ignoreDifferences:
+  #   - group: "apps"
+  #     kind: StatefulSet
+  #     jsonPointers:
+  #       - /spec/volumeClaimTemplates/*/metadata/creationTimestamp

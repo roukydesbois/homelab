@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: APP_NAME-helm-chart
+  namespace: APP_NAME
+spec:
+  source:
+    helm:
+      valuesObject:
+        # Add your thomelab-specific Helm values here
+        # These will be merged with base values
+
+        # Example: Set image tag
+        # image:
+        #   tag: v1.2.3
+
+        # Example: Configure persistence
+        # persistence:
+        #   enabled: true
+        #   storageClass: APP_NAME-storage
+        #   size: 10Gi
+        #   existingClaim: APP_NAME-data
+
+        # Example: Configure ingress
+        # ingress:
+        #   enabled: false  # We use external Tailscale ingress
+
+        # Example: Database connection using secrets
+        # env:
+        #   - name: DB_HOST
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: APP_NAME-db-app
+        #         key: host
+        #   - name: DB_PASSWORD
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: APP_NAME-db-app
+        #         key: password
+        #   - name: DB_USER
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: APP_NAME-db-app
+        #         key: username
+        #   - name: DB_NAME
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: APP_NAME-db-app
+        #         key: dbname

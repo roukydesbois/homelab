@@ -1,0 +1,67 @@
+# App-of-apps for APP_NAME
+#
+# Copy this file to: kustomize/clusters/overlays/thomelab/APP_NAME-app-of-apps.yaml
+# Then add it to: kustomize/clusters/overlays/thomelab/kustomization.yaml
+#
+# This file creates:
+# 1. Namespace for APP_NAME
+# 2. AppProject with permissions
+# 3. ArgoCD Application pointing to your overlay
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: APP_NAME
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: APP_NAME
+  namespace: argocd
+spec:
+  # Source repositories (add external Helm repos here)
+  sourceRepos:
+    - GITHUB_REPO
+    - HELM_REPO_URL  # Add your Helm chart repository
+
+  # Source namespaces
+  sourceNamespaces:
+    - APP_NAME
+
+  # Deployment destinations
+  destinations:
+    - namespace: APP_NAME
+      server: https://kubernetes.default.svc
+
+  # Cluster-scoped resources this app can create
+  clusterResourceWhitelist:
+    - group: storage.k8s.io
+      kind: StorageClass
+    - group: ""
+      kind: PersistentVolumeClaim
+    - group: ""
+      kind: PersistentVolume
+
+  # Namespace-scoped resources (allow all)
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: APP_NAME
+  namespace: argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: APP_NAME
+  project: APP_NAME
+  source:
+    repoURL: GITHUB_REPO
+    targetRevision: main  # or your branch name
+    path: kustomize/APP_NAME/overlays/thomelab
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

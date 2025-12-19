@@ -1,0 +1,28 @@
+# Tailscale ingress for APP_NAME
+# Uncomment and add to kustomization.yaml resources to enable
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: APP_NAME-ingress
+  namespace: APP_NAME
+spec:
+  ingressClassName: tailscale
+  defaultBackend:
+    service:
+      name: APP_NAME  # Replace with your service name
+      port:
+        number: 80  # Replace with your service port
+  tls:
+    - hosts:
+        - APP_NAME  # This will be the Tailscale hostname
+---
+# Optional: Ingress patch for additional configuration
+# Add this as a separate patch file if needed
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: APP_NAME-ingress
+#   namespace: APP_NAME
+#   annotations:
+#     tailscale.com/funnel: "true"  # Enable public access via Tailscale Funnel
+#     tailscale.com/tailnet-fqdn: "APP_NAME.yourtailnet.ts.net"
