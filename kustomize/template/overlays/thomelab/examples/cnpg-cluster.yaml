@@ -10,7 +10,7 @@ spec:
 
   # Storage configuration
   storage:
-    storageClass: APP_NAME-storage
+    storageClass: cnpg-storage-class
     size: 10Gi
 
   # Bootstrap configuration
