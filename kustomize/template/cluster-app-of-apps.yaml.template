@@ -35,8 +35,9 @@ spec:
 
   # Cluster-scoped resources this app can create
   clusterResourceWhitelist:
-    - group: storage.k8s.io
-      kind: StorageClass
+    # No need anymore normally - all handled at the cluster level
+    # - group: storage.k8s.io
+    #   kind: StorageClass
     - group: ""
       kind: PersistentVolumeClaim
     - group: ""
