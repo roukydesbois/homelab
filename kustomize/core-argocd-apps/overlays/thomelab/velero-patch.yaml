@@ -1,0 +1,64 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: velero
+  namespace: argocd
+spec:
+  source:
+    helm:
+      valuesObject:
+        kubectl:
+          image:
+            tag: 1.33.4
+        initContainers:
+        - name: velero-plugin-for-aws
+          image: velero/velero-plugin-for-aws:v1.13.1@sha256:472d0e486d5d5c23c782b1b123530c7df8645784523ec36ca661a326d47885ff
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - mountPath: /target
+              name: plugins
+        configuration:
+          backupStorageLocation:
+          - name: default
+            provider: aws
+            bucket: velero
+            credential:
+              name: credentials-velero
+              key: cloud
+            config:
+              region: garage
+              s3Url: "http://192.168.100.210:3900"
+              s3ForcePathStyle: "true"
+              insecureSkipTLSVerify: "true"
+              checksumAlgorithm: ""
+          volumeSnapshotLocation:
+          - name: default
+            provider: aws
+            config:
+              region: garage
+          features: EnableCSI
+        credentials:
+          useSecret: true
+          existingSecret: credentials-velero
+        schedules:
+          basebackup:
+            disabled: false
+            labels:
+              scheduled-backup: base
+            annotations:
+              scheduled-backup: base
+            schedule: "0 0 * * *"
+            template:
+              ttl: "240h"
+              storageLocation: default
+              includedNamespaces:
+                - keycloak
+                - immich
+                - nextcloud
+                - thomflix
+                - firefly
+                - cert-manager
+                - hedgedoc
+                - protonmail-bridge
+                - paperless
+                - n8n

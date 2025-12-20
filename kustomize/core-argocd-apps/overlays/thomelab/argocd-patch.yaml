@@ -1,0 +1,165 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  source:
+    helm:
+      valuesObject:
+        global:
+          domain: thomelab-argocd.tail9a43.ts.net
+        configs:
+          params:
+            server.insecure: true
+            application.namespaces: "keycloak,immich,thomflix,nextcloud,firefly,renovate,paperless,hedgedoc,kasm,immich-test,n8n"
+          cm:
+            oidc.config: |
+              name: Keycloak
+              issuer: https://sso.tail9a43.ts.net/realms/self-hosted-apps
+              clientID: argocd
+              enablePKCEAuthentication: true
+              requestedScopes: ["openid", "profile", "email", "groups"]
+          rbac:
+            policy.csv: |
+              g, ArgoCDAdmins, role:admin
+        server:
+          ingress:
+            enabled: true
+            ingressClassName: tailscale
+            hostname: thomelab-argocd
+            extraTls:
+              - hosts:
+                - thomelab-argocd
+        notifications:
+          secret:
+            create: false
+          notifiers:
+            service.webhook.ntfy: |
+              url: $WEBHOOK_URL
+              headers:
+                - name: Content-Type
+                  value: application/json
+              basicAuth:
+                username: $WEBHOOK_USER
+                password: $WEBHOOK_PASSWORD
+          subscriptions:
+            - recipients:
+              - ntfy
+              triggers:
+              - on-sync-succeeded
+              - on-sync-failed
+              - on-health-degraded
+          triggers:
+            trigger.on-deployed: |
+              - description: Application is synced and healthy. Triggered once per commit.
+                oncePer: app.status.sync.revision
+                send:
+                - app-deployed
+                when: app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
+            trigger.on-health-degraded: |
+              - description: Application has degraded
+                send:
+                - app-health-degraded
+                when: app.status.health.status == 'Degraded'
+            trigger.on-sync-failed: |
+              - description: Application syncing has failed
+                send:
+                - app-sync-failed
+                when: app.status.operationState.phase in ['Error', 'Failed']
+            trigger.on-sync-running: |
+              - description: Application is being synced
+                send:
+                - app-sync-running
+                when: app.status.operationState.phase in ['Running']
+            trigger.on-sync-status-unknown: |
+              - description: Application status is 'Unknown'
+                send:
+                - app-sync-status-unknown
+                when: app.status.sync.status == 'Unknown'
+            trigger.on-sync-succeeded: |
+              - description: Application syncing has succeeded
+                send:
+                - app-sync-succeeded
+                when: app.status.operationState.phase in ['Succeeded']
+            defaultTriggers: |
+              - on-sync-status-unknown
+          templates:
+            template.app-deployed: |
+              webhook:
+                ntfy:
+                  method: POST
+                  body: |
+                    {
+                      "topic": "thomelab-argocd-notifications",
+                      "message": "Application {{.app.metadata.name}} is now running new version of deployments manifests",
+                      "title": "App deployed",
+                      "priority": 3,
+                      "tag": "+1",
+                      "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
+                    }
+            template.app-health-degraded: |
+              webhook:
+                ntfy:
+                  method: POST
+                  body: |
+                    {
+                      "topic": "thomelab-argocd-notifications",
+                      "message": "Application {{.app.metadata.name}} has degraded",
+                      "title": "Degraded app",
+                      "priority": 1,
+                      "tag": "rotating_light",
+                      "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
+                    }
+            template.app-sync-failed: |
+              webhook:
+                ntfy:
+                  method: POST
+                  body: |
+                    {
+                      "topic": "thomelab-argocd-notifications",
+                      "message": "The sync operation of application {{.app.metadata.name}} has failed at {{.app.status.operationState.finishedAt}} with the following error: {{.app.status.operationState.message}}",
+                      "title": "Failed sync",
+                      "priority": 2,
+                      "tag": "triangular_flag_on_post",
+                      "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
+                    }
+            template.app-sync-running: |
+              webhook:
+                ntfy:
+                  method: POST
+                  body: |
+                    {
+                      "topic": "thomelab-argocd-notifications",
+                      "message": "The sync operation of application {{.app.metadata.name}} has started at {{.app.status.operationState.startedAt}}",
+                      "title": "Sync starting",
+                      "priority": 3,
+                      "tag": "warning",
+                      "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
+                    }
+            template.app-sync-status-unknown: |
+              webhook:
+                ntfy:
+                  method: POST
+                  body: |
+                    {
+                      "topic": "thomelab-argocd-notifications",
+                      "message": "Application {{.app.metadata.name}} sync is 'Unknown'",
+                      "title": "Unknown sync status",
+                      "priority": 2,
+                      "tag": "warning",
+                      "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
+                    }
+            template.app-sync-succeeded: |
+              webhook:
+                ntfy:
+                  method: POST
+                  body: |
+                    {
+                      "topic": "thomelab-argocd-notifications",
+                      "message": "Application {{.app.metadata.name}} has been successfully synced at {{.app.status.operationState.finishedAt}}",
+                      "title": "App synced",
+                      "priority": 3,
+                      "tag": "+1",
+                      "click": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
+                    }

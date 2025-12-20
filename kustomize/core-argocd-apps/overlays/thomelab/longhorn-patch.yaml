@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: longhorn
+  namespace: argocd
+spec:
+  source:
+    helm:
+      valuesObject:
+        ingress:
+          enabled: true
+          ingressClassName: tailscale
+          host: thomelab-longhorn
+          tls: true
+        defaultBackupStore:
+          backupTarget: s3://longhorn@garage/
+          backupTargetCredentialSecret: garage-creds-longhorn
+        defaultSettings:
+          recurringJobMaxRetention: 20
+          snapshotMaxCount: 50
