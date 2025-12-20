@@ -1,0 +1,87 @@
+# Example CloudNativePG cluster for APP_NAME
+# This creates a PostgreSQL database with automatic secret generation
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: APP_NAME-db
+  namespace: APP_NAME
+spec:
+  instances: 3  # Number of PostgreSQL replicas
+
+  # Storage configuration
+  storage:
+    storageClass: cnpg-storage-class
+    size: 10Gi
+
+  # Bootstrap configuration
+  bootstrap:
+    initdb:
+      database: APP_NAME
+      owner: APP_NAME
+      secret:
+        name: APP_NAME-db-superuser
+
+  # Automatic secret generation
+  # Creates secrets: APP_NAME-db-superuser, APP_NAME-db-app
+  managed:
+    roles:
+      - name: APP_NAME
+        ensure: present
+        login: true
+
+  # Backup configuration (optional)
+  # backup:
+  #   barmanObjectStore:
+  #     destinationPath: s3://your-bucket/APP_NAME-db/
+  #     s3Credentials:
+  #       accessKeyId:
+  #         name: s3-credentials
+  #         key: ACCESS_KEY_ID
+  #       secretAccessKey:
+  #         name: s3-credentials
+  #         key: SECRET_ACCESS_KEY
+  #     wal:
+  #       compression: gzip
+  #     data:
+  #       compression: gzip
+
+  # Monitoring
+  monitoring:
+    enablePodMonitor: false
+
+  # Resource limits (adjust as needed)
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "1000m"
+
+---
+# The CNPG operator automatically creates these secrets:
+# - APP_NAME-db-superuser: Superuser credentials
+# - APP_NAME-db-app: Application user credentials
+#
+# Access them in your app:
+# env:
+#   - name: DB_HOST
+#     valueFrom:
+#       secretKeyRef:
+#         name: APP_NAME-db-app
+#         key: host
+#   - name: DB_PASSWORD
+#     valueFrom:
+#       secretKeyRef:
+#         name: APP_NAME-db-app
+#         key: password
+#   - name: DB_USER
+#     valueFrom:
+#       secretKeyRef:
+#         name: APP_NAME-db-app
+#         key: username
+#   - name: DB_NAME
+#     valueFrom:
+#       secretKeyRef:
+#         name: APP_NAME-db-app
+#         key: dbname

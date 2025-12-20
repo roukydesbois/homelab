@@ -1,0 +1,13 @@
+# Example PersistentVolumeClaim for APP_NAME
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: APP_NAME-data
+  namespace: APP_NAME
+spec:
+  accessModes:
+    - ReadWriteOnce  # or ReadWriteMany if needed
+  storageClassName: app-config
+  resources:
+    requests:
+      storage: 10Gi  # Adjust size as needed

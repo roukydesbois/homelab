@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: APP_NAME
+resources:
+  # Base ArgoCD Application
+  - ../../base
+
+  # Uncomment and customize as needed:
+  # - APP_NAME-ingress.yaml           # Tailscale ingress
+  # - examples/storage-class.yaml     # Custom StorageClass
+  # - examples/pvc.yaml                # PersistentVolumeClaim
+  # - examples/cnpg-cluster.yaml       # PostgreSQL database
+  # - examples/sealed-secret.yaml      # Sealed secrets
+
+patches:
+  # Patch the Helm chart with cluster-specific values
+  - path: APP_NAME-helm-chart-patch.yaml
+
+  # Add more patches as needed:
+  # - path: APP_NAME-ingress-patch.yaml
+  # - path: APP_NAME-database-patch.yaml
