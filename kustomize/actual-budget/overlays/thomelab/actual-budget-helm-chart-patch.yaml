@@ -13,7 +13,7 @@ spec:
             - "openid"
             - "password"
           openid:
-            enforce: true
+            enforce: false
             providerName: "Keycloak"
             discoveryUrl: "https://sso.tail9a43.ts.net/realms/self-hosted-apps/.well-known/openid-configuration"
             # tokenExpiration: "openid-provider"
