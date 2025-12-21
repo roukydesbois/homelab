@@ -8,12 +8,14 @@ metadata:
 spec:
   project: actual-budget
   source:
-    # Helm chart source - replace with your chart details
     repoURL: https://community-charts.github.io/helm-charts
     targetRevision: 1.8.x
     chart: actualbudget
     helm:
       releaseName: actual-budget
+      valuesObject:
+        strategy:
+          type: Recreate
   destination:
     server: https://kubernetes.default.svc
     namespace: actual-budget
