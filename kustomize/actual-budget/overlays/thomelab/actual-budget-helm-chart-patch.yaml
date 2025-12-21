@@ -31,7 +31,7 @@ spec:
             - host: actual-budget.tail9a43.ts.net
               paths:
                 - path: /
-                  pathType: ClusterIP
+                  pathType: Prefix
           tls:
             - hosts:
                 - actual-budget
