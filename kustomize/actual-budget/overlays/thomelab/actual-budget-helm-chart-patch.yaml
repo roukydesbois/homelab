@@ -9,12 +9,13 @@ spec:
       valuesObject:
         login:
           method: "openid"
-          # allowedLoginMethods:
-          #   - "openid"
+          allowedLoginMethods:
+            - "openid"
           openid:
             enforce: true
             providerName: "Keycloak"
             discoveryUrl: "https://sso.tail9a43.ts.net/realms/self-hosted-apps/.well-known/openid-configuration"
+            tokenExpiration: "openid-provider"
             # authorizationEndpoint: "https://sso.tail9a43.ts.net/realms/self-hosted-apps/protocol/openid-connect/auth"
             # tokenEndpoint: "https://sso.tail9a43.ts.net/realms/self-hosted-apps/protocol/openid-connect/token"
             # userInfoEndpoint: "https://sso.tail9a43.ts.net/realms/self-hosted-apps/protocol/openid-connect/userinfo"
