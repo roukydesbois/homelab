@@ -4,7 +4,7 @@ namespace: actual-budget
 resources:
   - actual-budget-config-sealed-secret.yaml
   - ../../base
-  - actual-budget-ingress.yaml
+  # - actual-budget-ingress.yaml
 
 patches:
   - path: actual-budget-helm-chart-patch.yaml
