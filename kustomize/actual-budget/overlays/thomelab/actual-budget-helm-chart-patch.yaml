@@ -28,7 +28,7 @@ spec:
           enabled: true
           className: tailscale
           hosts:
-            - host: actual-budget.tail9a43.ts.net
+            - host: actual-budget
               paths:
                 - path: /
                   pathType: Prefix
