@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: actual-budget
+resources:
+  - actual-budget-config-sealed-secret.yaml
+  - ../../base
+  - actual-budget-ingress.yaml
+
+patches:
+  - path: actual-budget-helm-chart-patch.yaml

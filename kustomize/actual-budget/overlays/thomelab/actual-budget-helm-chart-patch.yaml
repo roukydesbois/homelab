@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: actual-budget-helm-chart
+  namespace: actual-budget
+spec:
+  source:
+    helm:
+      valuesObject:
+        login:
+          method: "openid"
+          allowedLoginMethods:
+            - "openid"
+          openid:
+            enforce: true
+            providerName: "Keycloak"
+            discoveryUrl: "https://sso.tail9a43.ts.net/realms/self-hosted-apps/.well-known/openid-configuration"
+            authorizationEndpoint: "https://sso.tail9a43.ts.net/realms/self-hosted-apps/protocol/openid-connect/auth"
+            tokenEndpoint: "https://sso.tail9a43.ts.net/realms/self-hosted-apps/protocol/openid-connect/token"
+            userInfoEndpoint: "https://sso.tail9a43.ts.net/realms/self-hosted-apps/protocol/openid-connect/userinfo"
+            existingSecret:
+              name: "actual-budget-config"
+              clientIdKey: "client_id"
+              clientSecretKey: "client_secret"
+        persistence:
+          enabled: true
+          storageClass: longhorn
+          accessModes:
+            - ReadWriteOnce
+          size: 10Gi

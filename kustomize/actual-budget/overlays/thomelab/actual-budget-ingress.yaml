@@ -1,0 +1,17 @@
+# Tailscale ingress for actual-budget
+# Uncomment and add to kustomization.yaml resources to enable
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: actual-budget-ingress
+  namespace: actual-budget
+spec:
+  ingressClassName: tailscale
+  defaultBackend:
+    service:
+      name: actualbudget
+      port:
+        name: http
+  tls:
+    - hosts:
+        - actual-budget
