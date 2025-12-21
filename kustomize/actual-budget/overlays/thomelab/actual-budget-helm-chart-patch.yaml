@@ -27,7 +27,8 @@ spec:
           enabled: true
           className: tailscale
           hosts:
-            - paths:
+            - host: actual-budget
+              paths:
                 - path: /
                   pathType: ImplementationSpecific
           tls:
