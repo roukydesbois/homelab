@@ -25,15 +25,15 @@ spec:
               clientSecretKey: "client_secret"
         ingress:
           enabled: true
-          className: tailscale
-          hosts:
-            - host: actual-budget
-              paths:
-                - path: /
-                  pathType: ImplementationSpecific
-          tls:
-            - hosts:
-                - actual-budget
+          # className: tailscale
+          # hosts:
+          #   - host: actual-budget
+          #     paths:
+          #       - path: /
+          #         pathType: ImplementationSpecific
+          # tls:
+          #   - hosts:
+          #       - actual-budget
         persistence:
           enabled: true
           storageClass: longhorn
