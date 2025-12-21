@@ -8,7 +8,7 @@ spec:
     helm:
       valuesObject:
         login:
-          method: "openid"
+          method: "password"
           allowedLoginMethods:
             - "openid"
             - "password"
