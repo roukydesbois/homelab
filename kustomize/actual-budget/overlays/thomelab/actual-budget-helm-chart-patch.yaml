@@ -11,6 +11,7 @@ spec:
           method: "openid"
           allowedLoginMethods:
             - "openid"
+            - "password"
           openid:
             enforce: true
             providerName: "Keycloak"
