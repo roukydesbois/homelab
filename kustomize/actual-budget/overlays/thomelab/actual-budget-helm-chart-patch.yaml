@@ -27,7 +27,7 @@ spec:
           enabled: true
           className: tailscale
           hosts:
-            - host: actual-budget
+            - host: actual-budget.tail9a43.ts.net
               paths:
                 - path: /
                   pathType: ImplementationSpecific
