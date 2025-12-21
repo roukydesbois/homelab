@@ -9,7 +9,7 @@ spec:
   ingressClassName: tailscale
   defaultBackend:
     service:
-      name: actualbudget
+      name: actual-budget-actualbudget
       port:
         name: http
   tls:
