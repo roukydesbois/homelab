@@ -7,45 +7,66 @@ spec:
   source:
     helm:
       valuesObject:
-        # Disable internal PostgreSQL
-        postgresql:
-          enabled: false
+        logLevel:
+          level: warn
 
-        # Use external PostgreSQL
+        db:
+          type: postgresdb
+          
         externalPostgresql:
           host: n8n-database-rw
           database: n8n
           username: n8n
           port: 5432
+          existingSecret: db-secret
 
-        # Main node configuration
         main:
-          count: 1
-          editorBaseUrl: https//n8n.tail9a43.ts.net
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 512m
+              memory: 512Mi
+          count: 1  # Single replica
           persistence:
             enabled: true
-            # existingClaim: n8n-data
-            size: 10Gi
-            storageClass: longhorn
-            accessMode: ReadWriteMany
+            accessMode: ReadWriteOnce
             volumeName: "n8n-main-data"
             mountPath: "/home/node/.n8n"
+            size: 10Gi
+
+        worker:
+          mode: queue
+
+          waitMainNodeReady:
+            enabled: true
 
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "100m"
+              cpu: 1000m
+              memory: 250Mi
             limits:
-              memory: "1Gi"
-              cpu: "1000m"
-        # ingress:
-        #   enabled: true
-        #   className: tailscale
-        #   hosts:
-        #     - host: n8n.tail9a43.ts.net
-        #       paths:
-        #         - path: /
-        #           pathType: Prefix
-        #   tls:
-        #     - hosts:
-        #         - n8n
+              cpu: 2000m
+              memory: 2Gi
+          count: 3  # Multiple replicas
+          persistence:
+            enabled: true
+            accessMode: ReadWriteOnce
+            volumeName: "n8n-worker-data"
+            mountPath: "/home/node/.n8n"
+            size: 5Gi
+              
+        redis:
+          enabled: true
+
+        ingress:
+          enabled: true
+          hosts:
+            - host: n8n
+              paths:
+                - path: /
+                  pathType: Prefix
+          tls:
+            - hosts:
+                - n8n

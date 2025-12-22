@@ -5,7 +5,7 @@ resources:
   - db-sealed-secret.yaml
   - cnpg-cluster.yaml
   # - n8n-data-pvc.yaml
-  - n8n-ingress.yaml
+  # - n8n-ingress.yaml
   - ../../base
 
 patches:
