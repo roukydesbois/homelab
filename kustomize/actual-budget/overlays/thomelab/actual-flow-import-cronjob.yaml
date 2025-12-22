@@ -20,7 +20,8 @@ spec:
             - /bin/sh
             - -c
             - |
-              cd /config
+              cd /tmp
+              cp /config/config.json .
               npx @lunchflow/actual-flow import
             volumeMounts:
             - name: config
