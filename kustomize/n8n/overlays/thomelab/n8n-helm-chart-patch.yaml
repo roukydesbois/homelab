@@ -7,7 +7,7 @@ spec:
   source:
     helm:
       valuesObject:
-        logLevel:
+        log:
           level: warn
 
         db:
