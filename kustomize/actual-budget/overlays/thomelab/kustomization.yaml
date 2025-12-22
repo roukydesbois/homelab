@@ -3,6 +3,8 @@ kind: Kustomization
 namespace: actual-budget
 resources:
   - actual-budget-config-sealed-secret.yaml
+  - actual-flow-import-cronjob.yaml
+  - actual-flow-config-sealed-secret.yaml
   - ../../base
   # - actual-budget-ingress.yaml
 

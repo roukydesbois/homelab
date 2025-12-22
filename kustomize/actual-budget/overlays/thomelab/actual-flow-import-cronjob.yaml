@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: actual-flow-import
+  namespace: actual-budget
+spec:
+  # Run daily at 6PM (18:00)
+  schedule: "0 18 * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: actual-flow-import
+            image: node:22-alpine
+            command:
+            - /bin/sh
+            - -c
+            - |
+              cd /config
+              npx @lunchflow/actual-flow import
+            volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+          volumes:
+          - name: config
+            secret:
+              secretName: actual-flow-config
