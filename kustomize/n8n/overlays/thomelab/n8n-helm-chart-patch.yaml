@@ -21,6 +21,7 @@ spec:
           existingSecret: db-secret
 
         main:
+          editorBaseUrl: "https://n8n.tail9a43.ts.net"
           resources:
             requests:
               cpu: 100m
@@ -62,6 +63,7 @@ spec:
 
         ingress:
           enabled: true
+          className: tailscale
           hosts:
             - host: n8n
               paths:
