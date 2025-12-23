@@ -7,6 +7,9 @@ spec:
   source:
     helm:
       valuesObject:
+        strategy:
+          type: "Recreate"
+          
         log:
           level: warn
 
