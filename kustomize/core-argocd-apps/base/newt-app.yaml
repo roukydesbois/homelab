@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://charts.fossorial.io
-    targetRevision: 0.1.x
+    targetRevision: 1.x
     chart: newt
   destination:
     server: https://kubernetes.default.svc
