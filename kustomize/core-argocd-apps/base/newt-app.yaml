@@ -6,8 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://fossorial.io/helm-charts
-    targetRevision: 1.x
+    repoURL: https://charts.fossorial.io
+    targetRevision: 0.1.x
     chart: newt
   destination:
     server: https://kubernetes.default.svc
