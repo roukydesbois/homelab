@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: newt
+  namespace: argocd
+spec:
+  source:
+    helm:
+      valuesObject:
+        newtInstances:
+          - name: main-tunnel
+            auth:
+              existingSecretName: newt-auth

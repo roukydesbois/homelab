@@ -6,6 +6,7 @@ resources:
   - sealed-tailscale-oauth.yaml
   - sealed-velero-creds.yaml
   - argocd-notifications-secret-sealed.yaml
+  - sealed-newt-auth.yaml
   - ../../base
 
 patchesStrategicMerge:
@@ -14,3 +15,4 @@ patchesStrategicMerge:
   - argocd-patch.yaml
   - velero-patch.yaml
   - intel-device-plugins-operator-patch.yaml
+  - newt-patch.yaml

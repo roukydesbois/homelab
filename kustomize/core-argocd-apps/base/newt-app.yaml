@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: newt
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://fossorial.io/helm-charts
+    targetRevision: 1.x
+    chart: newt
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: newt
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
+      - ServerSideApply=true
+      - CreateNamespace=true
