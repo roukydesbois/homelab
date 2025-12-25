@@ -12,7 +12,7 @@ spec:
             containers:
               trilium:
                 image:
-                  repository: triliumnext/notes
+                  repository: triliumnext/trilium
                   tag: v0.100.0
         configini:
           general:
