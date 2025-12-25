@@ -9,5 +9,6 @@ spec:
       valuesObject:
         newtInstances:
           - name: main-tunnel
+            enabled: true
             auth:
               existingSecretName: newt-auth
