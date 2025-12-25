@@ -12,7 +12,7 @@ spec:
         configs:
           params:
             server.insecure: true
-            application.namespaces: "keycloak,immich,thomflix,nextcloud,firefly,renovate,paperless,hedgedoc,kasm,immich-test,n8n,actual-budget,trilium"
+            application.namespaces: "keycloak,immich,thomflix,nextcloud,firefly,renovate,paperless,hedgedoc,kasm,immich-test,n8n,actual-budget,trilium,cryptpad"
           cm:
             oidc.config: |
               name: Keycloak

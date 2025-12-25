@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cryptpad
+  namespace: argocd
+spec:
+  source:
+    helm:
+      valuesObject:
+        image:
+          repository: cryptpad/cryptpad
+          tag: version-5.7.0
+        persistence:
+          enabled: true
+          cryptpad:
+            blob:
+              storageClass: longhorn
+              size: 5Gi
+            block:
+              storageClass: longhorn
+              size: 1Gi
+            data:
+              storageClass: longhorn
+              size: 5Gi
+            datastore:
+              storageClass: longhorn
+              size: 10Gi
