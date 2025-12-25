@@ -13,7 +13,7 @@ spec:
               trilium:
                 image:
                   repository: triliumnext/trilium
-                  tag: v0.99.5
+                  tag: v0.100.0
         configini:
           general:
             noAuthentication: true
