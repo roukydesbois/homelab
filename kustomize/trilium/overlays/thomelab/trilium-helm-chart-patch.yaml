@@ -17,6 +17,8 @@ spec:
         configini:
           general:
             noAuthentication: true
+          network:
+            trustedReverseProxy: true
         persistence:
           data:
             enabled: true
