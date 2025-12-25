@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: trilium
+  namespace: argocd
+spec:
+  source:
+    helm:
+      valuesObject:
+        controllers:
+          main:
+            containers:
+              trilium:
+                image:
+                  repository: triliumnext/notes
+                  tag: 0.90.12
+        configini:
+          general:
+            noAuthentication: true
+        persistence:
+          data:
+            enabled: true
+            type: persistentVolumeClaim
+            existingClaim: trilium-data

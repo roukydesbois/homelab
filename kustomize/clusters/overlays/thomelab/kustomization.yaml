@@ -15,6 +15,7 @@ resources:
   - renovate-app-of-apps.yaml
   - actual-budget-app-of-apps.yaml
   - n8n-app-of-apps.yaml
+  - trilium-app-of-apps.yaml
   # - immich-migration-app-of-apps.yaml
 #patches:
 #  - patch: |-
