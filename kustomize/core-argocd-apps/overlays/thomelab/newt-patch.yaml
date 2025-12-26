@@ -15,3 +15,5 @@ spec:
             enabled: true
             auth:
               existingSecretName: newt-auth
+            service:
+              type: NodePort
