@@ -103,40 +103,40 @@ spec:
             size: 5Gi
 
           # Environment variables to enable task runners on worker
-          extraEnvVars:
-            - name: N8N_RUNNERS_ENABLED
-              value: "true"
-            - name: N8N_RUNNERS_MODE
-              value: "external"
-            - name: N8N_RUNNERS_BROKER_LISTEN_ADDRESS
-              value: "0.0.0.0"
-            - name: N8N_RUNNERS_AUTH_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: task-runner-auth-token
-                  key: token
+          # extraEnvVars:
+          #   - name: N8N_RUNNERS_ENABLED
+          #     value: "true"
+          #   - name: N8N_RUNNERS_MODE
+          #     value: "external"
+          #   - name: N8N_RUNNERS_BROKER_LISTEN_ADDRESS
+          #     value: "0.0.0.0"
+          #   - name: N8N_RUNNERS_AUTH_TOKEN
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: task-runner-auth-token
+          #         key: token
 
           # Task runner sidecar container for worker
-          extraContainers:
-            - name: task-runner
-              image: n8nio/runners:latest
-              env:
-                - name: N8N_RUNNERS_TASK_BROKER_URI
-                  value: "localhost:5679"
-                - name: N8N_RUNNERS_AUTO_SHUTDOWN_TIMEOUT
-                  value: "15"
-                - name: N8N_RUNNERS_AUTH_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: task-runner-auth-token
-                      key: token
-              resources:
-                requests:
-                  cpu: 200m
-                  memory: 256Mi
-                limits:
-                  cpu: 1000m
-                  memory: 1Gi
+          # extraContainers:
+          #   - name: task-runner
+          #     image: n8nio/runners:latest
+          #     env:
+          #       - name: N8N_RUNNERS_TASK_BROKER_URI
+          #         value: "localhost:5679"
+          #       - name: N8N_RUNNERS_AUTO_SHUTDOWN_TIMEOUT
+          #         value: "15"
+          #       - name: N8N_RUNNERS_AUTH_TOKEN
+          #         valueFrom:
+          #           secretKeyRef:
+          #             name: task-runner-auth-token
+          #             key: token
+          #     resources:
+          #       requests:
+          #         cpu: 200m
+          #         memory: 256Mi
+          #       limits:
+          #         cpu: 1000m
+          #         memory: 1Gi
 
         redis:
           enabled: true
