@@ -68,7 +68,7 @@ spec:
           # Task runner sidecar container
           extraContainers:
             - name: task-runner
-              image: n8nio/runners:latest
+              image: n8nio/runners:latest@sha256:8c4d5dc7cbc5fba8aad1f72437b8aed4caf0db756531de2c39d8fa6e3e0e143f
               env:
                 - name: N8N_RUNNERS_TASK_BROKER_URI
                   value: "localhost:5679"
@@ -125,7 +125,7 @@ spec:
           # Task runner sidecar container for worker
           extraContainers:
             - name: task-runner
-              image: n8nio/runners:latest
+              image: n8nio/runners:latest@sha256:8c4d5dc7cbc5fba8aad1f72437b8aed4caf0db756531de2c39d8fa6e3e0e143f
               env:
                 - name: N8N_RUNNERS_TASK_BROKER_URI
                   value: "localhost:5679"
