@@ -5,6 +5,7 @@ resources:
   - db-sealed-secret.yaml
   - cnpg-cluster.yaml
   - n8n-encryption-key-sealed-secret.yaml
+  - task-runner-auth-sealed-secret.yaml
   # - n8n-data-pvc.yaml
   # - n8n-ingress.yaml
   - ../../base

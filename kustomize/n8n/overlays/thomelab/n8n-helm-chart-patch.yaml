@@ -9,13 +9,13 @@ spec:
       valuesObject:
         strategy:
           type: "Recreate"
-          
+
         log:
           level: warn
 
         db:
           type: postgresdb
-          
+
         externalPostgresql:
           host: n8n-database-rw
           database: n8n
@@ -24,6 +24,15 @@ spec:
           existingSecret: db-secret
 
         existingEncryptionKeySecret: n8n-encryption-key
+
+        # Task Runners Configuration for Python/JS Code Execution
+        taskRunners:
+          enabled: true
+          mode: external
+          authToken:
+            existingSecret: task-runner-auth-token
+          taskTimeout: 60
+          maxConcurrency: 5
 
         main:
           editorBaseUrl: "https://n8n.tail9a43.ts.net"
@@ -41,6 +50,42 @@ spec:
             volumeName: "n8n-main-data"
             mountPath: "/home/node/.n8n"
             size: 10Gi
+
+          # Environment variables to enable task runners
+          extraEnvVars:
+            - name: N8N_RUNNERS_ENABLED
+              value: "true"
+            - name: N8N_RUNNERS_MODE
+              value: "external"
+            - name: N8N_RUNNERS_BROKER_LISTEN_ADDRESS
+              value: "0.0.0.0"
+            - name: N8N_RUNNERS_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: task-runner-auth-token
+                  key: token
+
+          # Task runner sidecar container
+          extraContainers:
+            - name: task-runner
+              image: n8nio/runners:latest
+              env:
+                - name: N8N_RUNNERS_TASK_BROKER_URI
+                  value: "localhost:5679"
+                - name: N8N_RUNNERS_AUTO_SHUTDOWN_TIMEOUT
+                  value: "15"
+                - name: N8N_RUNNERS_AUTH_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: task-runner-auth-token
+                      key: token
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  cpu: 500m
+                  memory: 512Mi
 
         worker:
           mode: queue
@@ -62,7 +107,43 @@ spec:
             volumeName: "n8n-worker-data"
             mountPath: "/home/node/.n8n"
             size: 5Gi
-              
+
+          # Environment variables to enable task runners on worker
+          extraEnvVars:
+            - name: N8N_RUNNERS_ENABLED
+              value: "true"
+            - name: N8N_RUNNERS_MODE
+              value: "external"
+            - name: N8N_RUNNERS_BROKER_LISTEN_ADDRESS
+              value: "0.0.0.0"
+            - name: N8N_RUNNERS_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: task-runner-auth-token
+                  key: token
+
+          # Task runner sidecar container for worker
+          extraContainers:
+            - name: task-runner
+              image: n8nio/runners:latest
+              env:
+                - name: N8N_RUNNERS_TASK_BROKER_URI
+                  value: "localhost:5679"
+                - name: N8N_RUNNERS_AUTO_SHUTDOWN_TIMEOUT
+                  value: "15"
+                - name: N8N_RUNNERS_AUTH_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: task-runner-auth-token
+                      key: token
+              resources:
+                requests:
+                  cpu: 200m
+                  memory: 256Mi
+                limits:
+                  cpu: 1000m
+                  memory: 1Gi
+
         redis:
           enabled: true
 
