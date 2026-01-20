@@ -9,6 +9,7 @@ resources:
   - ../../base
   - syncthing-thomas-app.yaml
   - nextcloud-ingress.yaml
+  - sso-egress.yaml
 
 patches:
   - patch: |-
