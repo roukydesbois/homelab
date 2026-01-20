@@ -49,6 +49,12 @@ spec:
     repoURL: https://github.com/roukydesbois/homelab
     targetRevision: main
     path: kustomize/nextcloud/overlays/thomelab
+  ignoreDifferences:
+    - group: ""
+      kind: Service
+      name: sso-egress
+      jsonPointers:
+        - /spec/externalName
   syncPolicy:
     automated:
       prune: true
