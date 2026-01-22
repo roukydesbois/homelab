@@ -8,14 +8,14 @@ resources:
   - immich-app-of-apps.yaml
   - thomflix-app-of-apps.yaml
   - nextcloud-app-of-apps.yaml
-  - firefly-app-of-apps.yaml
+  # - firefly-app-of-apps.yaml
   - protonmailbridge-app-of-apps.yaml
   - hedgedoc-app-of-apps.yaml
   - paperless-app-of-apps.yaml
   - renovate-app-of-apps.yaml
   - actual-budget-app-of-apps.yaml
   - n8n-app-of-apps.yaml
-  - trilium-app-of-apps.yaml
+  # - trilium-app-of-apps.yaml
   # - cryptpad-app-of-apps.yaml
   # - immich-migration-app-of-apps.yaml
 #patches:
