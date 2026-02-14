@@ -12,7 +12,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: data-importer-cli
-              image: fireflyiii/data-importer:latest-cli@sha256:2f3069aa8d7afac9d6600e0f02e7b19a7024318a74bbaffcec481f6cd4f92227
+              image: fireflyiii/data-importer:latest-cli@sha256:5330144fa2b0dbda12dd44927cd7149ec3a5c641e104fea810407aee6dfdc853
               command: ["php", "artisan", "importer:import", "/import/import-config.json"]
               envFrom:
                 - secretRef:
