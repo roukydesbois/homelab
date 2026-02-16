@@ -17,3 +17,4 @@ resources:
   - intel-device-plugins-operator-app.yaml
   - descheduler-app.yaml
   - newt-app.yaml
+  - kubevirt-app.yaml
