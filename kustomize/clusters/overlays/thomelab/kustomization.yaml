@@ -18,6 +18,7 @@ resources:
   # - trilium-app-of-apps.yaml
   # - cryptpad-app-of-apps.yaml
   # - immich-migration-app-of-apps.yaml
+  - kasm-app-of-apps.yaml
 #patches:
 #  - patch: |-
 #      - op: add
