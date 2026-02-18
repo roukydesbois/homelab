@@ -1,174 +1,41 @@
----
-# =============================================================================
-# Ubuntu Server VM on KubeVirt
-# Includes: DataVolume (CDI import), VirtualMachine, cloud-init Secret,
-#           SSH Service
-#
-# Prerequisites:
-#   - KubeVirt installed
-#   - CDI (Containerized Data Importer) installed
-#   - A StorageClass that supports ReadWriteOnce
-#
-# Before applying:
-#   1. Replace the SSH public key in the cloud-init Secret
-#   2. Replace the password hash (generate with: openssl passwd -6 'yourpassword')
-#   3. Adjust storageClassName, CPU, and memory to taste
-# =============================================================================
-
----
-# DataVolume: pulls the Ubuntu cloud image via CDI
-apiVersion: cdi.kubevirt.io/v1beta1
-kind: DataVolume
-metadata:
-  name: ubuntu-disk
-  namespace: default
-  annotations:
-    cdi.kubevirt.io/storage.bind.immediate.requested: "true"
-spec:
-  source:
-    http:
-      # Ubuntu 24.04 LTS (Noble) cloud image — update as needed:
-      # https://cloud-images.ubuntu.com/noble/current/
-      url: "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
-  storage:
-    accessModes:
-      - ReadWriteOnce
-    resources:
-      requests:
-        storage: 20Gi
-    storageClassName: longhorn
-
----
-# Secret: cloud-init user-data
-apiVersion: v1
-kind: Secret
-metadata:
-  name: ubuntu-cloudinit
-  namespace: default
-type: Opaque
-stringData:
-  userdata: |
-    #cloud-config
-    hostname: ubuntu-vm
-
-    users:
-      - name: thomas
-        gecos: Thomas
-        groups: sudo
-        lock_passwd: false
-        # Generate with: openssl passwd -6 'yourpassword'
-        passwd: "$6$uvrhiUgU1tjoUfOl$87mKzAA6oAcm5e5HaRMRvrw10MAH/NM6Ymfytn6K1AHAGJo0HWb.GL1.ENXLlWT/w3gvPqT6DG2LvXBppCLIG.""
-        shell: /bin/bash
-        sudo: ALL=(ALL) NOPASSWD:ALL
-        ssh_authorized_keys:
-          - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZkYZSEbC thomas@t480s-bluefin"
-
-    package_update: true
-    package_upgrade: true
-    packages:
-      - qemu-guest-agent
-
-    runcmd:
-      - systemctl enable --now qemu-guest-agent
-      - systemctl enable --now ssh
-
----
-# VirtualMachine
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: ubuntu
-  namespace: default
-  labels:
-    app: ubuntu
+  name: fedora
 spec:
-  running: true
+  runStrategy: Always
   template:
-    metadata:
-      labels:
-        app: ubuntu
-        kubevirt.io/vm: ubuntu
     spec:
       domain:
-        cpu:
-          cores: 2
-          sockets: 1
-          threads: 2
-        memory:
-          guest: 4Gi
-        resources:
-          requests:
-            memory: 4Gi
-            cpu: "1"
-          limits:
-            memory: 4Gi
-            cpu: "2"
-
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: containerdisk
+          - disk:
+              bus: virtio
+            name: cloudinit
+          rng: {}
+        features:
+          acpi: {}
+          smm:
+            enabled: true
         firmware:
           bootloader:
             efi:
-              secureBoot: false
-
-        clock:
-          utc: {}
-          timer:
-            hpet:
-              present: false
-            pit:
-              tickPolicy: delay
-            rtc:
-              tickPolicy: catchup
-
-        features:
-          acpi: {}
-          apic: {}
-
-        devices:
-          disks:
-            - name: rootdisk
-              bootOrder: 1
-              disk:
-                bus: virtio
-            - name: cloudinit
-              disk:
-                bus: virtio
-          interfaces:
-            - name: default
-              model: virtio
-              masquerade: {}
-          rng: {}
-
-      networks:
-        - name: default
-          pod: {}
-
+              secureBoot: true
+        resources:
+          requests:
+            memory: 1Gi
+      terminationGracePeriodSeconds: 180
       volumes:
-        - name: rootdisk
-          dataVolume:
-            name: ubuntu-disk
-        - name: cloudinit
-          cloudInitNoCloud:
-            secretRef:
-              name: ubuntu-cloudinit
-
----
-# Service: SSH (port 22)
-# Kasm workspace type: "SSH"
-# Host: ubuntu-ssh.default.svc.cluster.local  Port: 22
-apiVersion: v1
-kind: Service
-metadata:
-  name: ubuntu-ssh
-  namespace: default
-  labels:
-    app: ubuntu
-spec:
-  selector:
-    kubevirt.io/vm: ubuntu
-  type: ClusterIP
-  ports:
-    - name: ssh
-      port: 22
-      targetPort: 22
-      protocol: TCP
-
+      - containerDisk:
+          image: quay.io/containerdisks/fedora:43
+        name: containerdisk
+      - cloudInitNoCloud:
+          userData: |-
+            #cloud-config
+            # The default username is: fedora
+            ssh_authorized_keys:
+              - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZkYZSEbC thomas@t480s-bluefin
+        name: cloudinit
