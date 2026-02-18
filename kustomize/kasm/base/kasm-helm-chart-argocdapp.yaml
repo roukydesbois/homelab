@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/kasmtech/kasm-helm
     targetRevision: 1.x
-    path: kasm-single-zone
+    chart: kasm
     helm:
       releaseName: kasm
       valuesObject:
