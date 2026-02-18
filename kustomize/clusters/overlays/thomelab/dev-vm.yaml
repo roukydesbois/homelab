@@ -39,3 +39,17 @@ spec:
             ssh_authorized_keys:
               - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZkYZSEbC thomas@t480s-bluefin
         name: cloudinit
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fedora-ssh
+  annotations:
+    tailscale.com/expose: "true"
+spec:
+  selector:
+    kubevirt.io/domain: fedora
+  ports:
+    - port: 22
+      targetPort: 22
+      protocol: TCP
