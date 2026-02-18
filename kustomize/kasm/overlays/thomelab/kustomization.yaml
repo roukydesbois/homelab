@@ -4,14 +4,14 @@ resources:
   - ../../base
   - kasm-ingress.yaml
 
-patches:
-  - patch: |-
-      - op: add
-        path: /spec/source/helm/valuesObject/publicAddr
-        value: https://kasm.tail9a43.ts.net
-    target:
-      group: argoproj.io
-      version: v1alpha1
-      kind: Application
-      name: kasm-helm-chart
-      namespace: kasm
+# patches:
+#   - patch: |-
+#       - op: add
+#         path: /spec/source/helm/valuesObject/publicAddr
+#         value: https://kasm.tail9a43.ts.net
+#     target:
+#       group: argoproj.io
+#       version: v1alpha1
+#       kind: Application
+#       name: kasm-helm-chart
+#       namespace: kasm
