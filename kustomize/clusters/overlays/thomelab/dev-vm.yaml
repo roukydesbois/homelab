@@ -30,7 +30,7 @@ spec:
       terminationGracePeriodSeconds: 180
       volumes:
       - containerDisk:
-          image: quay.io/containerdisks/fedora:43
+          image: quay.io/containerdisks/fedora:43@sha256:b37907f3bbf8f9c8b0eeaab17eb69155c87e62adbbb6c15e537d0b14748f84eb
         name: containerdisk
       - cloudInitNoCloud:
           userData: |-
