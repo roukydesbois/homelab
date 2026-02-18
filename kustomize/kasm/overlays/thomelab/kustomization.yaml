@@ -7,8 +7,8 @@ resources:
 patches:
   - patch: |-
       - op: add
-        path: /spec/source/helm/valuesObject/global/hostname
-        value: kasm
+        path: /spec/source/helm/valuesObject/publicAddr
+        value: https://kasm.tail9a43.ts.net
     target:
       group: argoproj.io
       version: v1alpha1

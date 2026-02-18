@@ -1,5 +1,3 @@
-# Argocd app to deploy Bitnami's Keycloak Helm chart
-# I consider it is deployed in the keycloak namespace and project, this can be patched via kustomize if need be
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
