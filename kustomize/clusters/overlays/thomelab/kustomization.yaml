@@ -19,6 +19,7 @@ resources:
   # - cryptpad-app-of-apps.yaml
   # - immich-migration-app-of-apps.yaml
   - kasm-app-of-apps.yaml
+  - dev-vm.yaml
 #patches:
 #  - patch: |-
 #      - op: add
