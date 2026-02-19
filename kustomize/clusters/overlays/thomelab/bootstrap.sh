@@ -16,7 +16,7 @@ apt-get install -y -qq \
   htop ripgrep fd-find fzf \
   openssh-server ca-certificates \
   gnupg lsb-release apt-transport-https \
-  fish
+  fish software-properties-common
 
 ### Helix editor ###
 # Install via PPA (https://docs.helix-editor.com/install.html)
