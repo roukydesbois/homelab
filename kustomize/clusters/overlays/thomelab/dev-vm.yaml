@@ -1,55 +1,142 @@
+# =============================================================================
+# Jumpbox — KubeVirt VM with ttyd web terminal
+# =============================================================================
+#
+# DEBUGGING:
+#   virtctl console jumpbox -n jumpbox
+#   tail -f /var/log/bootstrap.log   (inside the VM)
+# =============================================================================
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: jumpbox
+
+---
+
+# -----------------------------------------------------------------------------
+# DataVolume — Debian 13 root disk backed by Longhorn
+# CDI imports the cloud image on first apply; subsequent applies are no-ops.
+# -----------------------------------------------------------------------------
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: jumpbox-disk
+  namespace: jumpbox
+spec:
+  source:
+    http:
+      # Debian 13 (Trixie) generic cloud image
+      # Verify latest URL at: https://cloud.debian.org/images/cloud/trixie/latest/
+      url: "https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2"
+  pvc:
+    storageClassName: longhorn
+    accessModes:
+      - ReadWriteMany   # Required for LiveMigrate eviction strategy
+    resources:
+      requests:
+        storage: 30Gi
+
+---
+
+# -----------------------------------------------------------------------------
+# VirtualMachine — always-on jump box
+# -----------------------------------------------------------------------------
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: fedora
+  name: jumpbox
+  namespace: jumpbox
 spec:
-  runStrategy: Always
+  running: true
   template:
+    metadata:
+      labels:
+        app: jumpbox
     spec:
+      evictionStrategy: LiveMigrate   # Survives node drains / cluster maintenance
+
       domain:
-        devices:
-          disks:
-          - disk:
-              bus: virtio
-            name: containerdisk
-          - disk:
-              bus: virtio
-            name: cloudinit
-          rng: {}
-        features:
-          acpi: {}
-          smm:
-            enabled: true
-        firmware:
-          bootloader:
-            efi:
-              secureBoot: true
+        cpu:
+          cores: 2
+          sockets: 1
+          threads: 1
+        memory:
+          guest: 4Gi
         resources:
           requests:
-            memory: 1Gi
-      terminationGracePeriodSeconds: 180
+            memory: 4Gi
+            cpu: "1"
+          limits:
+            memory: 4Gi
+            cpu: "2"
+        devices:
+          disks:
+            - name: rootdisk
+              disk:
+                bus: virtio
+            - name: cloudinit
+              disk:
+                bus: virtio
+          interfaces:
+            - name: default
+              masquerade: {}
+          rng: {}   # Kernel entropy source — important for SSH key generation
+
+      networks:
+        - name: default
+          pod: {}
+
       volumes:
-      - containerDisk:
-          image: quay.io/containerdisks/fedora:43
-        name: containerdisk
-      - cloudInitNoCloud:
-          userData: |-
-            #cloud-config
-            # The default username is: fedora
-            ssh_authorized_keys:
-              - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZkYZSEbC thomas@t480s-bluefin
-        name: cloudinit
+        - name: rootdisk
+          dataVolume:
+            name: jumpbox-disk
+
+        - name: cloudinit
+          cloudInitNoCloud:
+            userData: |
+              #cloud-config
+              hostname: jumpbox
+              fqdn: jumpbox.local
+
+              users:
+                - name: thomas
+                  groups: [sudo]
+                  shell: /usr/bin/fish
+                  sudo: "ALL=(ALL) NOPASSWD:ALL"
+                  ssh_authorized_keys:
+                    # !! ADD YOUR PUBLIC KEY HERE !!
+                    - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZkYZSEbC thomas@t480s-bluefin"
+
+              growpart:
+                mode: auto
+                devices: ["/"]
+              resize_rootfs: true
+
+              packages:
+                - git
+                - curl
+
+              runcmd:
+                - curl -fsSL https://github.com/roukydesbois/homelab/-/raw/main/kustomize/clusters/overlays/thomelab/bootstrap.sh | bash
+
 ---
+
+# -----------------------------------------------------------------------------
+# Service — exposes ttyd within the cluster
+# -----------------------------------------------------------------------------
 apiVersion: v1
 kind: Service
 metadata:
-  name: fedora-ssh
-  annotations:
-    tailscale.com/expose: "true"
+  name: jumpbox-ttyd
+  namespace: jumpbox
 spec:
   selector:
-    kubevirt.io/domain: fedora
+    app: jumpbox
   ports:
-    - port: 22
-      targetPort: 22
+    - name: ttyd
+      port: 7681
+      targetPort: 7681
       protocol: TCP
+  type: ClusterIP
+
