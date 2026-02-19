@@ -168,7 +168,6 @@ After=network.target
 User=thomas
 ExecStart=/usr/local/bin/ttyd \
   --port 7681 \
-  --interface lo \
   --writable \
   tmux new-session -A -s main /usr/bin/fish
 Restart=always

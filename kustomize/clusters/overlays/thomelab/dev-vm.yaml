@@ -118,7 +118,7 @@ spec:
                 - curl
 
               runcmd:
-                - curl -fsSL https://github.com/roukydesbois/homelab/-/raw/main/kustomize/clusters/overlays/thomelab/bootstrap.sh | bash
+                - curl -fsSL https://raw.githubusercontent.com/roukydesbois/homelab/main/kustomize/clusters/overlays/thomelab/bootstrap.sh | bash
 
 ---
 
