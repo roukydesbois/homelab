@@ -16,11 +16,18 @@ apt-get install -y -qq \
   htop ripgrep fd-find fzf \
   openssh-server ca-certificates \
   gnupg lsb-release apt-transport-https \
-  fish software-properties-common
+  fish
 
 ### Helix editor ###
-# Install via PPA (https://docs.helix-editor.com/install.html)
-add-apt-repository -y ppa:maveonair/helix-editor
+# Manually add PPA (https://docs.helix-editor.com/install.html)
+mkdir -p /etc/apt/keyrings
+HX_KEY_FP=$(curl -fsSL \
+  "https://api.launchpad.net/1.0/~maveonair/+archive/ubuntu/helix-editor?ws.accept=application/json" \
+  | jq -r .signing_key_fingerprint)
+curl -fsSL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x${HX_KEY_FP}" \
+  | gpg --dearmor -o /etc/apt/keyrings/helix-editor.gpg
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/helix-editor.gpg] https://ppa.launchpadcontent.net/maveonair/helix-editor/ubuntu $(lsb_release -cs) main" \
+  > /etc/apt/sources.list.d/helix-editor.list
 apt-get update -qq
 apt-get install -y -qq helix
 
