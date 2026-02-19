@@ -19,7 +19,9 @@ apt-get install -y -qq \
   fish
 
 ### Helix editor ###
-# Debian 13 (Trixie) ships a recent enough Helix in main
+# Install via PPA (https://docs.helix-editor.com/install.html)
+add-apt-repository -y ppa:maveonair/helix-editor
+apt-get update -qq
 apt-get install -y -qq helix
 
 ### ttyd ###
