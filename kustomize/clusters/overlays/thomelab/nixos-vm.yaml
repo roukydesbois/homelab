@@ -1,0 +1,108 @@
+# =============================================================================
+# NixOS VM — KubeVirt VM running NixOS from linuxcontainers.org
+# =============================================================================
+#
+# DEBUGGING:
+#   virtctl console nixos -n nixos
+# =============================================================================
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nixos
+
+---
+
+# -----------------------------------------------------------------------------
+# DataVolume — NixOS root disk backed by Longhorn
+# CDI imports the cloud image on first apply; subsequent applies are no-ops.
+#
+# Image source: https://images.linuxcontainers.org/images/nixos/25.11/amd64/default/
+# NOTE: Update the URL to a newer dated directory periodically.
+# -----------------------------------------------------------------------------
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: nixos-disk
+  namespace: nixos
+spec:
+  source:
+    http:
+      url: "https://images.linuxcontainers.org/images/nixos/25.11/amd64/default/20260226_01:00/disk.qcow2"
+  pvc:
+    storageClassName: longhorn
+    accessModes:
+      - ReadWriteMany   # Required for LiveMigrate eviction strategy
+    resources:
+      requests:
+        storage: 20Gi
+
+---
+
+# -----------------------------------------------------------------------------
+# VirtualMachine — NixOS VM
+# -----------------------------------------------------------------------------
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: nixos
+  namespace: nixos
+spec:
+  running: true
+  template:
+    metadata:
+      labels:
+        app: nixos
+    spec:
+      evictionStrategy: LiveMigrate   # Survives node drains / cluster maintenance
+
+      domain:
+        cpu:
+          cores: 2
+          sockets: 1
+          threads: 1
+        memory:
+          guest: 4Gi
+        resources:
+          requests:
+            memory: 4Gi
+            cpu: "1"
+          limits:
+            memory: 4Gi
+            cpu: "2"
+        devices:
+          disks:
+            - name: rootdisk
+              disk:
+                bus: virtio
+            - name: cloudinit
+              disk:
+                bus: virtio
+          interfaces:
+            - name: default
+              masquerade: {}
+          rng: {}   # Kernel entropy source — important for SSH key generation
+
+      networks:
+        - name: default
+          pod: {}
+
+      volumes:
+        - name: rootdisk
+          dataVolume:
+            name: nixos-disk
+
+        - name: cloudinit
+          cloudInitNoCloud:
+            userData: |
+              #cloud-config
+              hostname: nixos
+              fqdn: nixos.local
+
+              users:
+                - name: thomas
+                  groups: [wheel]
+                  shell: /run/current-system/sw/bin/bash
+                  sudo: "ALL=(ALL) NOPASSWD:ALL"
+                  ssh_authorized_keys:
+                    - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZkYZSEbC thomas@t480s-bluefin"
