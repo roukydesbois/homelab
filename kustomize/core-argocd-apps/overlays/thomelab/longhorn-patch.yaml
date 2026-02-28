@@ -17,4 +17,5 @@ spec:
           backupTargetCredentialSecret: garage-creds-longhorn
         defaultSettings:
           recurringJobMaxRetention: 20
-          snapshotMaxCount: 5
+          snapshotMaxCount: 3
+          defaultReplicaCount: 2
