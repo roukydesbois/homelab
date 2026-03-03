@@ -17,19 +17,3 @@ spec:
 
   startDelay: 30
   stopDelay: 100
-
-  # Bootstrap from existing immich-pg cluster using pg_basebackup
-  bootstrap:
-    pg_basebackup:
-      source: immich-pg-source
-
-  # Reference to source cluster for bootstrap
-  externalClusters:
-    - name: immich-pg-source
-      connectionParameters:
-        host: immich-pg-rw
-        user: immich
-        dbname: immich
-      password:
-        name: immich-pg-app
-        key: password
