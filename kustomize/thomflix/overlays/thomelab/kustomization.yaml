@@ -26,4 +26,5 @@ patches:
       namespace: thomflix
       labelSelector: "update-config=yes"
   - path: patch-jellyfin.yaml
-  - path: patch-tdarr.yaml
+  # - path: patch-homarr.yaml
+  # - path: patch-tdarr.yaml
