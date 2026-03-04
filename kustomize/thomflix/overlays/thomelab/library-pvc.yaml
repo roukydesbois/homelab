@@ -13,7 +13,7 @@ spec:
     - vers=4
   nfs:
     server: 192.168.100.210
-    path: "/export/thomflix-media"
+    path: "/thomflix-media"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
