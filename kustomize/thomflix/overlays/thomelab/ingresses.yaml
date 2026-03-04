@@ -116,3 +116,20 @@ spec:
   tls:
     - hosts:
         - home
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tdarr
+  annotations:
+    tailscale.com/tags: "tag:k8s,tag:thomflix"
+spec:
+  defaultBackend:
+    service:
+      name: tdarr
+      port:
+        name: main
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - thomflix-tdarr

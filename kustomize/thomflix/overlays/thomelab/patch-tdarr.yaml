@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tdarr
+spec:
+  source:
+    helm:
+      valuesObject:
+        persistence:
+          configs:
+            enabled: true
+            type: pvc
+            namespace: thomflix
+            accessModes: ReadWriteOnce
+            size: 1Gi
+            storageClass: app-config
+          server:
+            enabled: true
+            type: pvc
+            namespace: thomflix
+            accessModes: ReadWriteOnce
+            size: 1Gi
+            storageClass: app-config
+          logs:
+            enabled: true
+            type: pvc
+            namespace: thomflix
+            accessModes: ReadWriteOnce
+            size: 500Mi
+            storageClass: app-config
+          transcode-cache:
+            enabled: true
+            type: emptyDir
+            medium: ""
+            sizeLimit: 30Gi
+          media:
+            enabled: true
+            type: pvc
+            existingClaim: thomflix-media
+            namespace: thomflix

@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tdarr
+  namespace: thomflix
+
+spec:
+  project: thomflix
+  source:
+    repoURL: oci.trueforge.org/truecharts
+    chart: tdarr
+    targetRevision: 12.x
+    helm:
+      valuesObject:
+        metrics:
+          main:
+            enabled: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: thomflix
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    jsonPointers:
+    - /spec/template/spec/hostUsers
