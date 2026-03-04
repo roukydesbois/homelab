@@ -8,9 +8,11 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nconnect=8
   nfs:
     server: 192.168.100.210
-    path: "/export/thomflix-media" 
+    path: "/export/thomflix-media"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
