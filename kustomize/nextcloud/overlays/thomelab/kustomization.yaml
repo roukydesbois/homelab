@@ -101,7 +101,7 @@ patches:
                   existingClaim: psql-pvc
                 initContainers:
                   - name: upgrade
-                    image: "pgautoupgrade/pgautoupgrade:17-alpine@sha256:8409699241d35103ba9f0502a671e0016837f0f4e35f39d095cb9fe781a5542f"
+                    image: "pgautoupgrade/pgautoupgrade:17-alpine@sha256:2e4ffcfa6028ac46f090c196afe78204c9eb2b9c8ee67e04efd5ec861ee0c4db"
                     env:
                       - name: "PGAUTO_ONESHOT"
                         value: "yes"
