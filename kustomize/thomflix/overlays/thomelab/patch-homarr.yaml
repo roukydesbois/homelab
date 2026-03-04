@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: homarr
+spec:
+  source:
+    helm:
+      valuesObject:
+        persistence:
+          icons:
+            type: pvc
+            namespace: thomflix
+            accessModes: ReadWriteOnce
+            size: 100Mi
+            storageClass: thomflix-config
+          data:
+            type: pvc
+            namespace: thomflix
+            accessModes: ReadWriteOnce
+            size: 1Gi
+            storageClass: thomflix-config

@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: not-used
+spec:
+  source:
+    helm:
+      valuesObject:
+        persistence:
+          config:
+            enabled: true
+            type: pvc
+            namespace: thomflix
+            accessModes: ReadWriteOnce
+            size: 1Gi
+            storageClass: thomflix-config

@@ -10,176 +10,20 @@ resources:
   - external-jellyfin-service.yaml
 
 patches:
-  - patch: |-
-      - op: add
-        path: /spec/source/helm
-        value:
-          valuesObject:
-            persistence:
-              config:
-                enabled: true
-                mountPath: "/config"
-                type: pvc
-                namespace: thomflix
-                accessModes: ReadWriteOnce
-                size: 500Mi
-                storageClass: thomflix-config
-                targetSelector:
-                  main:
-                    main: {}
-              downloads:
-                enabled: true
-                mountPath: "/data/torrents"
-                type: pvc 
-                namespace: thomflix
-                existingClaim: thomflix-media
-                subPath: "data/torrents"
-                targetSelector:
-                  main:
-                    main: {}
-            addons:
-              gluetun:
-                enabled: true
-                killSwitch: true
-                # excludedNetworks_IPv4:
-                #   - "10.244.0.0/16"
-                #   - "192.168.100.0/24"
-                #   - "149.88.20.206/32"
-                # excludedNetworks_IPv6: []
-                container:
-                  env:
-                    VPN_SERVICE_PROVIDER:
-                      secretKeyRef:
-                        name: gluetun-env
-                        key: VPN_SERVICE_PROVIDER
-                        expandObjectName: false
-                    VPN_TYPE:
-                      secretKeyRef:
-                        name: gluetun-env
-                        key: VPN_TYPE
-                        expandObjectName: false
-                    SERVER_CITIES:
-                      secretKeyRef:
-                        name: gluetun-env
-                        key: SERVER_CITIES
-                        expandObjectName: false
-                    WIREGUARD_PRIVATE_KEY:
-                      secretKeyRef:
-                        name: gluetun-env
-                        key: WIREGUARD_PRIVATE_KEY
-                        expandObjectName: false
-                    WIREGUARD_ADDRESSES:
-                      secretKeyRef:
-                        name: gluetun-env
-                        key: WIREGUARD_ADDRESSES
-                        expandObjectName: false
-    target:
-      group: argoproj.io
-      version: v1alpha1
-      kind: Application
-      name: transmission
-      namespace: thomflix
-  - patch: |-
-      - op: add
-        path: /spec/source/helm
-        value:
-          valuesObject:
-            metrics:
-              main:
-                enabled: false
-            persistence:
-              data:
-                enabled: true
-                type: pvc
-                existingClaim: thomflix-media
-                namespace: thomflix
-                targetSelector:
-                  main:
-                    main: 
-                      mountPath: "/data"
-                      subPath: "data"
+  - path: patch-transmission.yaml
+  - path: patch-add-thomflix-media.yaml
     target:
       group: argoproj.io
       version: v1alpha1
       kind: Application
       namespace: thomflix
       labelSelector: "add-thomflix-media=yes"
-  - patch: |-
-      apiVersion: argoproj.io/v1alpha1
-      kind: Application
-      metadata:
-        name: not-used
-      spec:
-        source:
-          helm:
-            valuesObject:
-              persistence:
-                config:
-                  enabled: true
-                  type: pvc
-                  namespace: thomflix
-                  accessModes: ReadWriteOnce
-                  size: 1Gi
-                  storageClass: thomflix-config
+  - path: patch-update-config.yaml
     target:
       group: argoproj.io
       version: v1alpha1
       kind: Application
       namespace: thomflix
       labelSelector: "update-config=yes"
-  - patch: |-
-      apiVersion: argoproj.io/v1alpha1
-      kind: Application
-      metadata:
-        name: jellyfin
-      spec:
-        source:
-          helm:
-            valuesObject:
-              persistence:
-                config:
-                  storageClass: thomflix-config
-                media:
-                  accessModes: ReadWriteMany
-                  existingClaim: thomflix-media
-              securityContext:
-                privileged: true
-                capabilities:
-                  add:
-                    - SYS_RAWIO
-              volumeMounts:
-                - name: dev-dri
-                  mountPath: /dev/dri
-              volumes:
-                - name: dev-dri
-                  hostPath:
-                    path: /dev/dri
-    target:
-      group: argoproj.io
-      version: v1alpha1
-      kind: Application
-      name: jellyfin
-      namespace: thomflix
-  - patch: |-
-      - op: add
-        path: /spec/source/helm/valuesObject/persistence/icons
-        value:
-          type: pvc
-          namespace: thomflix
-          accessModes: ReadWriteOnce
-          size: 100Mi
-          storageClass: thomflix-config
-      - op: add
-        path: /spec/source/helm/valuesObject/persistence/data
-        value:
-          type: pvc
-          namespace: thomflix
-          accessModes: ReadWriteOnce
-          size: 1Gi
-          storageClass: thomflix-config
-    target:
-      group: argoproj.io
-      version: v1alpha1
-      kind: Application
-      name: homarr
-      namespace: thomflix
+  - path: patch-jellyfin.yaml
+  - path: patch-homarr.yaml

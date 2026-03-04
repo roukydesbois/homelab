@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: not-used
+spec:
+  source:
+    helm:
+      valuesObject:
+        metrics:
+          main:
+            enabled: false
+        persistence:
+          data:
+            enabled: true
+            type: pvc
+            existingClaim: thomflix-media
+            namespace: thomflix
+            targetSelector:
+              main:
+                main:
+                  mountPath: "/data"
+                  subPath: "data"
