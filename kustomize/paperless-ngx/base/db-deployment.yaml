@@ -32,7 +32,7 @@ spec:
           #     value: paperless
           #   - name: POSTGRES_USER
           #     value: paperless
-          image: docker.io/library/postgres:18@sha256:69e8582b781cb44fa4557b98ed586fe68361e320d9b12f9707494335634f4f3d
+          image: docker.io/library/postgres:17@sha256:2cd82735a36356842d5eb1ef80db3ae8f1154172f0f653db48fde079b2a0b7f7
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: pgdata
