@@ -18,10 +18,20 @@ patches:
       - op: replace
         path: /spec/template/spec/containers/0/image
         value: shenxn/protonmail-bridge:3.19.0-build
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts/-
+        value:
+          name: local-cache
+          mountPath: /root/.local
+      - op: add
+        path: /spec/template/spec/volumes/-
+        value:
+          name: local-cache
+          emptyDir: {}
     target:
       group: apps
       version: 'v1'
-      kind: Deployment 
+      kind: Deployment
       name: protonmail-bridge-deployment
   - patch: |-
       - op: add
