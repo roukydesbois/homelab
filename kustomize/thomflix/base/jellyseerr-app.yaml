@@ -18,6 +18,8 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+    - RespectIgnoreDifferences=true
   ignoreDifferences:
   - group: apps
     kind: Deployment
