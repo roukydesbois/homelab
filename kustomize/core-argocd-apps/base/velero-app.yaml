@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://vmware-tanzu.github.io/helm-charts
-    targetRevision: 11.x
+    targetRevision: 12.x
     chart: velero
   destination:
     server: https://kubernetes.default.svc
