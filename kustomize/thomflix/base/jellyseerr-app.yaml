@@ -23,3 +23,7 @@ spec:
     kind: Deployment
     jsonPointers:
     - /spec/template/spec/hostUsers
+  - group: ""
+    kind: PersistentVolumeClaim
+    jsonPointers:
+    - /spec/volumeName
