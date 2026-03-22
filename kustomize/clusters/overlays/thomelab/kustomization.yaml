@@ -20,7 +20,8 @@ resources:
   # - immich-migration-app-of-apps.yaml
   # - kasm-app-of-apps.yaml
   # - dev-vm.yaml
-  - nixos-vm.yaml
+  # - nixos-vm.yaml
+  - bluefin-vm.yaml
 #patches:
 #  - patch: |-
 #      - op: add

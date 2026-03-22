@@ -1,0 +1,122 @@
+# =============================================================================
+# Bluefin VM — KubeVirt VM running Bluefin (Universal Blue) on Fedora base
+# =============================================================================
+#
+# FIRST BOOT:
+#   Cloud-init rebases from Fedora Cloud to Bluefin stable and reboots.
+#   The VM will restart once automatically — this is expected.
+#
+# DEBUGGING:
+#   virtctl console bluefin -n bluefin
+#   virtctl vnc bluefin -n bluefin
+# =============================================================================
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bluefin
+
+---
+
+# -----------------------------------------------------------------------------
+# DataVolume — Bluefin root disk backed by Longhorn
+# CDI imports the Fedora Cloud image on first apply; subsequent applies are no-ops.
+# On first boot, cloud-init rebases the OS to Bluefin stable.
+#
+# Image source: https://dl.fedoraproject.org/pub/fedora/linux/releases/41/Cloud/x86_64/images/
+# NOTE: Update the URL to a newer Fedora release periodically.
+# -----------------------------------------------------------------------------
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: bluefin-disk
+  namespace: bluefin
+spec:
+  source:
+    http:
+      url: "https://dl.fedoraproject.org/pub/fedora/linux/releases/41/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-41-1.4.x86_64.qcow2"
+  pvc:
+    storageClassName: longhorn
+    accessModes:
+      - ReadWriteMany   # Required for LiveMigrate eviction strategy
+    resources:
+      requests:
+        storage: 50Gi
+
+---
+
+# -----------------------------------------------------------------------------
+# VirtualMachine — Bluefin VM
+# -----------------------------------------------------------------------------
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: bluefin
+  namespace: bluefin
+spec:
+  running: true
+  template:
+    metadata:
+      labels:
+        app: bluefin
+    spec:
+      evictionStrategy: LiveMigrate   # Survives node drains / cluster maintenance
+
+      domain:
+        cpu:
+          cores: 4
+          sockets: 1
+          threads: 1
+        memory:
+          guest: 8Gi
+        resources:
+          requests:
+            memory: 8Gi
+            cpu: "2"
+          limits:
+            memory: 8Gi
+            cpu: "4"
+        devices:
+          disks:
+            - name: rootdisk
+              disk:
+                bus: virtio
+            - name: cloudinit
+              disk:
+                bus: virtio
+          interfaces:
+            - name: default
+              masquerade: {}
+          inputs:
+            - type: tablet
+              bus: usb
+              name: tablet
+          rng: {}   # Kernel entropy source — important for SSH key generation
+
+      networks:
+        - name: default
+          pod: {}
+
+      volumes:
+        - name: rootdisk
+          dataVolume:
+            name: bluefin-disk
+
+        - name: cloudinit
+          cloudInitNoCloud:
+            userData: |
+              #cloud-config
+              hostname: bluefin
+              fqdn: bluefin.local
+
+              users:
+                - name: thomas
+                  groups: [wheel]
+                  shell: /bin/bash
+                  sudo: "ALL=(ALL) NOPASSWD:ALL"
+                  ssh_authorized_keys:
+                    - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZkYZSEbC thomas@t480s-bluefin"
+
+              runcmd:
+                - rpm-ostree rebase ostree-image-signed:docker://ghcr.io/ublue-os/bluefin:stable
+                - systemctl reboot
