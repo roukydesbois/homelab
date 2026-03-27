@@ -109,14 +109,32 @@ spec:
               hostname: bluefin
               fqdn: bluefin.local
 
-              users:
-                - name: thomas
-                  groups: [wheel]
-                  shell: /bin/bash
-                  sudo: "ALL=(ALL) NOPASSWD:ALL"
-                  ssh_authorized_keys:
-                    - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZkYZSEbC thomas@t480s-bluefin"
-
               runcmd:
+                # Write a systemd unit that creates the user AFTER the rebase,
+                # so the ostree 3-way merge of /etc cannot clobber the account.
+                - |
+                  cat > /etc/systemd/system/bluefin-setup.service <<'UNIT'
+                  [Unit]
+                  Description=Bluefin post-rebase user setup
+                  After=network-online.target
+                  ConditionPathExists=!/var/lib/bluefin-setup-done
+
+                  [Service]
+                  Type=oneshot
+                  ExecStart=/bin/bash -c '\
+                    useradd -m -G wheel -s /bin/bash thomas || true && \
+                    echo "thomas ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/thomas && \
+                    mkdir -p /var/home/thomas/.ssh && \
+                    echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZkYZSEbC thomas@t480s-bluefin" > /var/home/thomas/.ssh/authorized_keys && \
+                    chmod 700 /var/home/thomas/.ssh && \
+                    chmod 600 /var/home/thomas/.ssh/authorized_keys && \
+                    chown -R thomas:thomas /var/home/thomas/.ssh && \
+                    touch /var/lib/bluefin-setup-done'
+                  RemainAfterExit=yes
+
+                  [Install]
+                  WantedBy=multi-user.target
+                  UNIT
+                - systemctl enable bluefin-setup.service
                 - rpm-ostree rebase ostree-image-signed:docker://ghcr.io/ublue-os/bluefin:stable
                 - systemctl reboot
