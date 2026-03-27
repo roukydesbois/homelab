@@ -9,7 +9,7 @@ spec:
   project: immich
   source:
     repoURL: https://immich-app.github.io/immich-charts
-    targetRevision: 0.10.x
+    targetRevision: 0.11.x
     chart: immich
     helm:
       releaseName: immich
