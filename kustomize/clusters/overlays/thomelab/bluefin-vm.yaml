@@ -3,8 +3,8 @@
 # =============================================================================
 #
 # Uses Fedora CoreOS (ostree-based) as the base image so rpm-ostree rebase
-# to Bluefin works. CoreOS uses Ignition instead of cloud-init — the config
-# is delivered via a Secret + cloudInitConfigDrive.
+# to Bluefin works. CoreOS uses Ignition instead of cloud-init — the JSON
+# config is passed directly via cloudInitNoCloud userData.
 #
 # BOOT SEQUENCE:
 #   Boot 1 (CoreOS):  Ignition runs → bluefin-rebase.service rebases → reboot
@@ -19,52 +19,6 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: bluefin
-
----
-
-# -----------------------------------------------------------------------------
-# Secret — Ignition config for Fedora CoreOS
-#
-# Two systemd units:
-#   1. bluefin-rebase.service  — rebases to Bluefin on first boot, then reboots
-#   2. bluefin-setup.service   — creates user thomas after the rebase
-#
-# Ref: https://docs.fedoraproject.org/en-US/fedora-coreos/provisioning-kubevirt/
-# -----------------------------------------------------------------------------
-apiVersion: v1
-kind: Secret
-metadata:
-  name: bluefin-ignition
-  namespace: bluefin
-stringData:
-  userdata: |
-    {
-      "ignition": { "version": "3.4.0" },
-      "storage": {
-        "files": [
-          {
-            "path": "/etc/hostname",
-            "mode": 420,
-            "overwrite": true,
-            "contents": { "source": "data:,bluefin" }
-          }
-        ]
-      },
-      "systemd": {
-        "units": [
-          {
-            "name": "bluefin-rebase.service",
-            "enabled": true,
-            "contents": "[Unit]\nDescription=Rebase to Bluefin\nAfter=network-online.target\nWants=network-online.target\nConditionPathExists=!/var/lib/bluefin-rebase-done\n\n[Service]\nType=oneshot\nExecStart=/bin/bash -c 'rpm-ostree rebase ostree-image-signed:docker://ghcr.io/ublue-os/bluefin:stable && touch /var/lib/bluefin-rebase-done'\nExecStartPost=/usr/bin/systemctl reboot\nRemainAfterExit=yes\n\n[Install]\nWantedBy=multi-user.target\n"
-          },
-          {
-            "name": "bluefin-setup.service",
-            "enabled": true,
-            "contents": "[Unit]\nDescription=Bluefin post-rebase user setup\nAfter=network-online.target\nConditionPathExists=/var/lib/bluefin-rebase-done\nConditionPathExists=!/var/lib/bluefin-setup-done\n\n[Service]\nType=oneshot\nExecStart=/bin/bash -c 'useradd -m -G wheel -s /bin/bash thomas || true && echo \"thomas ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/thomas && mkdir -p /var/home/thomas/.ssh && echo \"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZkYZSEbC thomas@t480s-bluefin\" > /var/home/thomas/.ssh/authorized_keys && chmod 700 /var/home/thomas/.ssh && chmod 600 /var/home/thomas/.ssh/authorized_keys && chown -R thomas:thomas /var/home/thomas/.ssh && touch /var/lib/bluefin-setup-done'\nRemainAfterExit=yes\n\n[Install]\nWantedBy=multi-user.target\n"
-          }
-        ]
-      }
-    }
 
 ---
 
@@ -95,6 +49,13 @@ spec:
 
 # -----------------------------------------------------------------------------
 # VirtualMachine — Bluefin VM
+#
+# Ignition config (JSON) is embedded directly in cloudInitNoCloud userData.
+# Two systemd units:
+#   1. bluefin-rebase.service  — rebases to Bluefin on first boot, then reboots
+#   2. bluefin-setup.service   — creates user thomas after the rebase
+#
+# Ref: https://docs.fedoraproject.org/en-US/fedora-coreos/provisioning-kubevirt/
 # -----------------------------------------------------------------------------
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
@@ -151,6 +112,6 @@ spec:
             name: bluefin-disk
 
         - name: cloudinit
-          cloudInitConfigDrive:
-            secretRef:
-              name: bluefin-ignition
+          cloudInitNoCloud:
+            userData: |
+              {"ignition":{"version":"3.4.0"},"storage":{"files":[{"path":"/etc/hostname","mode":420,"overwrite":true,"contents":{"source":"data:,bluefin"}}]},"systemd":{"units":[{"name":"bluefin-rebase.service","enabled":true,"contents":"[Unit]\nDescription=Rebase to Bluefin\nAfter=network-online.target\nWants=network-online.target\nConditionPathExists=!/var/lib/bluefin-rebase-done\n\n[Service]\nType=oneshot\nExecStart=/bin/bash -c 'rpm-ostree rebase ostree-image-signed:docker://ghcr.io/ublue-os/bluefin:stable && touch /var/lib/bluefin-rebase-done'\nExecStartPost=/usr/bin/systemctl reboot\nRemainAfterExit=yes\n\n[Install]\nWantedBy=multi-user.target\n"},{"name":"bluefin-setup.service","enabled":true,"contents":"[Unit]\nDescription=Bluefin post-rebase user setup\nAfter=network-online.target\nConditionPathExists=/var/lib/bluefin-rebase-done\nConditionPathExists=!/var/lib/bluefin-setup-done\n\n[Service]\nType=oneshot\nExecStart=/bin/bash -c 'useradd -m -G wheel -s /bin/bash thomas || true && echo \"thomas ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/thomas && mkdir -p /var/home/thomas/.ssh && echo \"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZkYZSEbC thomas@t480s-bluefin\" > /var/home/thomas/.ssh/authorized_keys && chmod 700 /var/home/thomas/.ssh && chmod 600 /var/home/thomas/.ssh/authorized_keys && chown -R thomas:thomas /var/home/thomas/.ssh && touch /var/lib/bluefin-setup-done'\nRemainAfterExit=yes\n\n[Install]\nWantedBy=multi-user.target\n"}]}}
