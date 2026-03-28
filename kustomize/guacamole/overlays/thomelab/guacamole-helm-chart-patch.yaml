@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guacamole-helm-chart
+  namespace: guacamole
+spec:
+  source:
+    helm:
+      valuesObject:
+        ingress:
+          main:
+            enabled: true
+            ingressClassName: tailscale
+            hosts:
+              - host: guacamole
+                paths:
+                  - path: /
+                    pathType: Prefix
+            tls:
+              - hosts:
+                  - guacamole
+                secretName: guacamole-tls
+        persistence:
+          recordings:
+            storageClass: longhorn
+            size: 5Gi
+          drive:
+            storageClass: longhorn
+            size: 5Gi

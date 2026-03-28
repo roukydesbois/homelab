@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guacamole-helm-chart
+  namespace: guacamole
+spec:
+  project: guacamole
+  source:
+    repoURL: oci://oci.trueforge.org/truecharts
+    chart: guacamole
+    targetRevision: 17.0.0
+    helm:
+      releaseName: guacamole
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: guacamole
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
+      - ServerSideApply=true
