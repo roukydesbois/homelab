@@ -95,6 +95,16 @@ spec:
           interfaces:
             - name: default
               masquerade: {}
+              ports:
+                - name: ssh
+                  port: 22
+                  protocol: TCP
+                - name: vnc
+                  port: 5900
+                  protocol: TCP
+                - name: rdp
+                  port: 3389
+                  protocol: TCP
           inputs:
             - type: tablet
               bus: usb
@@ -115,3 +125,38 @@ spec:
             userData: |
               #cloud-config
               hostname: bluefin
+
+---
+
+# -----------------------------------------------------------------------------
+# Service — exposes Bluefin VM ports to the cluster network
+#
+# Selector targets the virt-launcher pod. Masquerade port declarations above
+# configure KubeVirt's iptables rules to forward traffic pod → VM.
+#
+# Guacamole connections use:
+#   SSH: bluefin.bluefin.svc.cluster.local:22
+#   VNC: bluefin.bluefin.svc.cluster.local:5900  (enable GNOME remote desktop)
+#   RDP: bluefin.bluefin.svc.cluster.local:3389  (enable GNOME remote desktop)
+# -----------------------------------------------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: bluefin
+  namespace: bluefin
+spec:
+  selector:
+    vm.kubevirt.io/name: bluefin
+  ports:
+    - name: ssh
+      port: 22
+      targetPort: 22
+      protocol: TCP
+    - name: vnc
+      port: 5900
+      targetPort: 5900
+      protocol: TCP
+    - name: rdp
+      port: 3389
+      targetPort: 3389
+      protocol: TCP
