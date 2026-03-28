@@ -27,6 +27,7 @@ jobs:
           sudo podman run --rm --privileged \
             --volume "$(pwd)/bluefin-disk/config.toml:/config.toml:ro" \
             --volume "$(pwd)/output:/output" \
+            --volume "/var/lib/containers/storage:/var/lib/containers/storage" \
             quay.io/centos-bootc/bootc-image-builder:latest \
             --type raw \
             --config /config.toml \
