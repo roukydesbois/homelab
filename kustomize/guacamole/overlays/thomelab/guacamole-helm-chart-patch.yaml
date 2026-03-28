@@ -20,6 +20,13 @@ spec:
               - hosts:
                   - guacamole
                 secretName: guacamole-tls
+        cnpg:
+          main:
+            cluster:
+              storage:
+                size: 5Gi
+              walStorage:
+                size: 2Gi
         persistence:
           recordings:
             storageClass: longhorn
