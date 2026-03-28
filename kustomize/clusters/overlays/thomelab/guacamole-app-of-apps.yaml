@@ -13,7 +13,7 @@ metadata:
 spec:
   sourceRepos:
     - https://github.com/roukydesbois/homelab
-    - oci://oci.trueforge.org/truecharts
+    - oci.trueforge.org/truecharts
   sourceNamespaces:
     - guacamole
   destinations:

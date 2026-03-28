@@ -6,7 +6,7 @@ metadata:
 spec:
   project: guacamole
   source:
-    repoURL: oci://oci.trueforge.org/truecharts
+    repoURL: oci.trueforge.org/truecharts
     chart: guacamole
     targetRevision: 17.0.0
     helm:
