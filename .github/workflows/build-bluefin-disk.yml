@@ -21,6 +21,9 @@ jobs:
             /usr/local/lib/android /usr/share/swift
           df -h
 
+      - name: Pull Bluefin image
+        run: sudo podman pull ghcr.io/ublue-os/bluefin:stable
+
       - name: Build Bluefin raw disk image
         run: |
           mkdir -p output
