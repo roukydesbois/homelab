@@ -7,3 +7,6 @@ key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZ
 path = "/etc/sudoers.d/thomas"
 mode = "0440"
 data = "thomas ALL=(ALL) NOPASSWD:ALL\n"
+
+[customizations.services]
+enabled = ["sshd"]

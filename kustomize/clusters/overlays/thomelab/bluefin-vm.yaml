@@ -91,7 +91,7 @@ spec:
                 bus: virtio
             - name: cloudinit
               disk:
-                bus: virtio   # cloud-init for hostname only
+                bus: virtio   # kept for future use; Bluefin has no cloud-init
           interfaces:
             - name: default
               masquerade: {}
