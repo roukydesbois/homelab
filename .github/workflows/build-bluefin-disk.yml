@@ -1,0 +1,51 @@
+name: Build Bluefin KubeVirt disk image
+
+on:
+  schedule:
+    - cron: '0 3 * * 0'  # Weekly rebuild Sunday 3am UTC
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Free up disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/share/boost \
+            /usr/local/lib/android /usr/share/swift
+          df -h
+
+      - name: Build Bluefin raw disk image
+        run: |
+          mkdir -p output
+          sudo podman run --rm --privileged \
+            --volume "$(pwd)/bluefin-disk/config.toml:/config.toml:ro" \
+            --volume "$(pwd)/output:/output" \
+            quay.io/centos-bootc/bootc-image-builder:latest \
+            --type raw \
+            --config /config.toml \
+            ghcr.io/ublue-os/bluefin:stable
+
+      - name: Package as ContainerDisk
+        run: |
+          cat > Dockerfile.disk <<'EOF'
+          FROM scratch
+          ADD output/image/disk.raw /disk/disk.img
+          EOF
+          sudo docker build -f Dockerfile.disk \
+            -t ghcr.io/${{ github.repository_owner }}/bluefin-kubevirt:latest \
+            -t "ghcr.io/${{ github.repository_owner }}/bluefin-kubevirt:${{ github.sha }}" \
+            .
+
+      - name: Push to GHCR
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | \
+            sudo docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          sudo docker push ghcr.io/${{ github.repository_owner }}/bluefin-kubevirt:latest
+          sudo docker push "ghcr.io/${{ github.repository_owner }}/bluefin-kubevirt:${{ github.sha }}"

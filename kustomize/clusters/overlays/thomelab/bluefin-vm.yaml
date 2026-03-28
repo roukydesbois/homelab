@@ -1,14 +1,15 @@
 # =============================================================================
-# Bluefin VM — KubeVirt VM running Bluefin (Universal Blue) on Fedora CoreOS
+# Bluefin VM — KubeVirt VM running Bluefin (Universal Blue)
 # =============================================================================
 #
-# Uses Fedora CoreOS (ostree-based) as the base image so rpm-ostree rebase
-# to Bluefin works. CoreOS uses Ignition instead of cloud-init — the JSON
-# config is passed via cloudInitConfigDrive so Afterburn finds config-2.
+# Uses a pre-built Bluefin disk image built by the build-bluefin-disk GitHub
+# Actions workflow and pushed to GHCR as a KubeVirt ContainerDisk.
 #
-# BOOT SEQUENCE:
-#   Boot 1 (CoreOS):  Ignition runs → bluefin-rebase.service rebases → reboot
-#   Boot 2 (Bluefin): bluefin-setup.service creates user → done
+# User thomas + SSH key are baked into the image via bootc-image-builder
+# (bluefin-disk/config.toml). No post-boot setup services needed.
+#
+# To rebuild the disk image: trigger the build-bluefin-disk workflow manually
+# or wait for the weekly Sunday 3am UTC schedule.
 #
 # DEBUGGING:
 #   virtctl console bluefin -n bluefin
@@ -23,10 +24,11 @@ metadata:
 ---
 
 # -----------------------------------------------------------------------------
-# DataVolume — Fedora CoreOS root disk backed by Longhorn
-# CDI imports from the CoreOS KubeVirt container image on first apply.
+# DataVolume — Bluefin disk backed by Longhorn
+# CDI imports from the pre-built ContainerDisk image on first apply.
 #
-# Image: quay.io/fedora/fedora-coreos-kubevirt:stable
+# Image: ghcr.io/roukydesbois/bluefin-kubevirt:latest
+# Rebuilt weekly by: .github/workflows/build-bluefin-disk.yml
 # -----------------------------------------------------------------------------
 apiVersion: cdi.kubevirt.io/v1beta1
 kind: DataVolume
@@ -36,7 +38,7 @@ metadata:
 spec:
   source:
     registry:
-      url: "docker://quay.io/fedora/fedora-coreos-kubevirt:stable"
+      url: "docker://ghcr.io/roukydesbois/bluefin-kubevirt:latest"
   pvc:
     storageClassName: longhorn
     accessModes:
@@ -50,12 +52,9 @@ spec:
 # -----------------------------------------------------------------------------
 # VirtualMachine — Bluefin VM
 #
-# Ignition config (JSON) is embedded directly in cloudInitNoCloud userData.
-# Two systemd units:
-#   1. bluefin-rebase.service  — rebases to Bluefin on first boot, then reboots
-#   2. bluefin-setup.service   — creates user thomas after the rebase
-#
-# Ref: https://docs.fedoraproject.org/en-US/fedora-coreos/provisioning-kubevirt/
+# Boots directly into Bluefin. User thomas + SSH key are baked into the
+# disk image by bootc-image-builder (see bluefin-disk/config.toml).
+# cloud-init sets the hostname only.
 # -----------------------------------------------------------------------------
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
@@ -92,7 +91,7 @@ spec:
                 bus: virtio
             - name: cloudinit
               disk:
-                bus: virtio
+                bus: virtio   # cloud-init for hostname only
           interfaces:
             - name: default
               masquerade: {}
@@ -112,6 +111,7 @@ spec:
             name: bluefin-disk
 
         - name: cloudinit
-          cloudInitConfigDrive:
+          cloudInitNoCloud:
             userData: |
-              {"ignition":{"version":"3.4.0"},"storage":{"files":[{"path":"/etc/hostname","mode":420,"overwrite":true,"contents":{"source":"data:,bluefin"}}]},"systemd":{"units":[{"name":"afterburn-hostname.service","mask":true},{"name":"afterburn-sshkeys@.service","mask":true},{"name":"afterburn-checkin.service","mask":true},{"name":"afterburn-firstboot-checkin.service","mask":true},{"name":"bluefin-rebase.service","enabled":true,"contents":"[Unit]\nDescription=Rebase to Bluefin\nAfter=network-online.target\nWants=network-online.target\nConditionPathExists=!/var/lib/bluefin-rebase-done\n\n[Service]\nType=oneshot\nExecStart=/bin/bash -c 'rpm-ostree rebase ostree-image-signed:docker://ghcr.io/ublue-os/bluefin:stable && touch /var/lib/bluefin-rebase-done'\nExecStartPost=/usr/bin/systemctl reboot\nRemainAfterExit=yes\n\n[Install]\nWantedBy=multi-user.target\n"},{"name":"bluefin-setup.service","enabled":true,"contents":"[Unit]\nDescription=Bluefin post-rebase user setup\nAfter=network-online.target\nConditionPathExists=/var/lib/bluefin-rebase-done\nConditionPathExists=!/var/lib/bluefin-setup-done\n\n[Service]\nType=oneshot\nExecStart=/bin/bash -c 'useradd -m -G wheel -s /bin/bash thomas || true && echo \"thomas ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/thomas && mkdir -p /var/home/thomas/.ssh && echo \"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZkYZSEbC thomas@t480s-bluefin\" > /var/home/thomas/.ssh/authorized_keys && chmod 700 /var/home/thomas/.ssh && chmod 600 /var/home/thomas/.ssh/authorized_keys && chown -R thomas:thomas /var/home/thomas/.ssh && touch /var/lib/bluefin-setup-done'\nRemainAfterExit=yes\n\n[Install]\nWantedBy=multi-user.target\n"}]}}
+              #cloud-config
+              hostname: bluefin
