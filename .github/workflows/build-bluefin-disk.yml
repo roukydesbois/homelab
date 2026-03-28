@@ -33,6 +33,7 @@ jobs:
             --volume "/var/lib/containers/storage:/var/lib/containers/storage" \
             quay.io/centos-bootc/bootc-image-builder:latest \
             --type raw \
+            --rootfs xfs \
             --config /config.toml \
             ghcr.io/ublue-os/bluefin:stable
 
