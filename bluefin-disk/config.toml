@@ -3,5 +3,7 @@ name = "thomas"
 groups = ["wheel"]
 key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZkYZSEbC thomas@t480s-bluefin"
 
-[[customizations.user.sudo]]
-nopasswd = true
+[[customizations.files]]
+path = "/etc/sudoers.d/thomas"
+mode = "0440"
+data = "thomas ALL=(ALL) NOPASSWD:ALL\n"
