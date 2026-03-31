@@ -59,6 +59,7 @@ COPY sshd_config /etc/ssh/sshd_config
 
 # Create user thomas with fish shell and passwordless sudo
 RUN useradd -m -s /usr/bin/fish thomas && \
+    passwd -d thomas && \
     echo "thomas ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/thomas
 
 COPY entrypoint.sh /entrypoint.sh
