@@ -24,7 +24,8 @@ spec:
             - name: home
               mountPath: /home/thomas
             - name: authorized-keys
-              mountPath: /etc/ssh/authorized_keys
+              mountPath: /etc/ssh/authorized_keys/thomas
+              subPath: thomas
               readOnly: true
       volumes:
         - name: home

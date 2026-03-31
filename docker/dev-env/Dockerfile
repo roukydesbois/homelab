@@ -54,7 +54,9 @@ RUN curl -fsSL "https://github.com/getsops/sops/releases/download/${SOPS_VERSION
     -o /usr/local/bin/sops && chmod +x /usr/local/bin/sops
 
 # SSH server setup
-RUN mkdir /var/run/sshd
+RUN mkdir /var/run/sshd && \
+    mkdir -p /etc/ssh/authorized_keys && \
+    chmod 755 /etc/ssh/authorized_keys
 COPY sshd_config /etc/ssh/sshd_config
 
 # Create user thomas with fish shell and passwordless sudo
