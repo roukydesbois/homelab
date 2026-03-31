@@ -1,0 +1,17 @@
+Port 22
+
+# Host keys stored on PVC so they survive pod restarts
+HostKey /home/thomas/.ssh/ssh_host_rsa_key
+HostKey /home/thomas/.ssh/ssh_host_ed25519_key
+
+# Auth — public key only, no passwords
+AuthorizedKeysFile /etc/ssh/authorized_keys/%u
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+UsePAM no
+
+# Allow the thomas user only
+AllowUsers thomas
+
+PrintMotd no
+AcceptEnv LANG LC_*

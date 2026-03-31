@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dev-env
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dev-env
+  strategy:
+    type: Recreate  # Only one pod at a time — PVC is ReadWriteOnce
+  template:
+    metadata:
+      labels:
+        app: dev-env
+    spec:
+      containers:
+        - name: dev-env
+          image: ghcr.io/roukydesbois/dev-env:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 22
+          volumeMounts:
+            - name: home
+              mountPath: /home/thomas
+            - name: authorized-keys
+              mountPath: /etc/ssh/authorized_keys
+              readOnly: true
+      volumes:
+        - name: home
+          persistentVolumeClaim:
+            claimName: dev-env-home
+        - name: authorized-keys
+          secret:
+            secretName: dev-env-authorized-keys
