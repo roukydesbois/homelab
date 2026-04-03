@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: oci.trueforge.org/truecharts
     chart: guacamole
-    targetRevision: 17.0.0
+    targetRevision: 17.0.1
     helm:
       releaseName: guacamole
   destination:
