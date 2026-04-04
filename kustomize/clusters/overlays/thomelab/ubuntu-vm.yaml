@@ -32,7 +32,8 @@ metadata:
 spec:
   source:
     http:
-      url: "https://images.linuxcontainers.org/images/ubuntu/noble/amd64/cloud/disk.qcow2"
+      # Update the dated directory periodically (see https://images.linuxcontainers.org/images/ubuntu/noble/amd64/cloud/)
+      url: "https://images.linuxcontainers.org/images/ubuntu/noble/amd64/cloud/20260404_07:42/disk.qcow2"
   pvc:
     storageClassName: longhorn
     accessModes:
