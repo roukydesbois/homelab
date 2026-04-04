@@ -1,6 +1,6 @@
 # =============================================================================
 # Ubuntu VM — KubeVirt VM running Ubuntu 24.04 (Noble)
-# Image source: https://images.linuxcontainers.org/images/ubuntu/noble/amd64/cloud/
+# Image source: https://cloud-images.ubuntu.com/noble/current/
 # =============================================================================
 #
 # DEBUGGING:
@@ -32,8 +32,8 @@ metadata:
 spec:
   source:
     http:
-      # Update the dated directory periodically (see https://images.linuxcontainers.org/images/ubuntu/noble/amd64/cloud/)
-      url: "https://images.linuxcontainers.org/images/ubuntu/noble/amd64/cloud/20260404_07:42/disk.qcow2"
+      # Official Ubuntu 24.04 LTS cloud image (BIOS-bootable, updated rolling)
+      url: "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
   pvc:
     storageClassName: longhorn
     accessModes:
