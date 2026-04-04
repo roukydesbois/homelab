@@ -1,0 +1,193 @@
+# =============================================================================
+# Ubuntu VM — KubeVirt VM running Ubuntu 24.04 (Noble)
+# Image source: https://images.linuxcontainers.org/images/ubuntu/noble/amd64/cloud/
+# =============================================================================
+#
+# DEBUGGING:
+#   virtctl console ubuntu -n ubuntu
+#   virtctl ssh ubuntu@ubuntu.ubuntu
+#
+# DATA PERSISTENCE:
+#   ubuntu-home DataVolume holds /home — survives VM recreation.
+#   On first boot, cloud-init partitions and formats /dev/vdb.
+#   On subsequent boots it just mounts the existing filesystem.
+# =============================================================================
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ubuntu
+
+---
+
+# -----------------------------------------------------------------------------
+# DataVolume — Ubuntu 24.04 root disk backed by Longhorn
+# CDI imports the cloud image on first apply; subsequent applies are no-ops.
+# -----------------------------------------------------------------------------
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: ubuntu-disk
+  namespace: ubuntu
+spec:
+  source:
+    http:
+      url: "https://images.linuxcontainers.org/images/ubuntu/noble/amd64/cloud/disk.qcow2"
+  pvc:
+    storageClassName: longhorn
+    accessModes:
+      - ReadWriteMany   # Required for LiveMigrate eviction strategy
+    resources:
+      requests:
+        storage: 20Gi
+
+---
+
+# -----------------------------------------------------------------------------
+# DataVolume — Persistent home directory disk
+# Blank disk: cloud-init formats it on first boot, preserves data on rebuilds.
+# Delete ubuntu-disk (and the VM) freely; leave this PVC alone.
+# -----------------------------------------------------------------------------
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: ubuntu-home
+  namespace: ubuntu
+spec:
+  source:
+    blank: {}
+  pvc:
+    storageClassName: longhorn
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 20Gi
+
+---
+
+# -----------------------------------------------------------------------------
+# VirtualMachine — Ubuntu 24.04 VM
+# -----------------------------------------------------------------------------
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: ubuntu
+  namespace: ubuntu
+spec:
+  running: true
+  template:
+    metadata:
+      labels:
+        app: ubuntu
+    spec:
+      evictionStrategy: LiveMigrate
+
+      domain:
+        cpu:
+          cores: 2
+          sockets: 1
+          threads: 1
+        memory:
+          guest: 2Gi
+        resources:
+          requests:
+            memory: 2Gi
+            cpu: "1"
+          limits:
+            memory: 2Gi
+            cpu: "2"
+        devices:
+          disks:
+            - name: rootdisk
+              disk:
+                bus: virtio
+            - name: homedisk
+              disk:
+                bus: virtio
+            - name: cloudinit
+              disk:
+                bus: virtio
+          interfaces:
+            - name: default
+              masquerade: {}
+          rng: {}
+
+      networks:
+        - name: default
+          pod: {}
+
+      volumes:
+        - name: rootdisk
+          dataVolume:
+            name: ubuntu-disk
+
+        - name: homedisk
+          dataVolume:
+            name: ubuntu-home
+
+        - name: cloudinit
+          cloudInitNoCloud:
+            userData: |
+              #cloud-config
+              hostname: ubuntu
+              fqdn: ubuntu.local
+
+              users:
+                - name: thomas
+                  groups: [sudo]
+                  shell: /usr/bin/fish
+                  sudo: "ALL=(ALL) NOPASSWD:ALL"
+                  ssh_authorized_keys:
+                    - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZkYZSEbC thomas@t480s-bluefin"
+
+                - name: coder
+                  shell: /bin/bash
+                  ssh_authorized_keys:
+                    - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZkYZSEbC thomas@t480s-bluefin"
+
+              growpart:
+                mode: auto
+                devices: ["/"]
+              resize_rootfs: true
+
+              # Partition and format /dev/vdb on first boot only (overwrite: false
+              # skips this if a partition table already exists — safe on rebuilds).
+              disk_setup:
+                /dev/vdb:
+                  table_type: gpt
+                  layout: true
+                  overwrite: false
+
+              fs_setup:
+                - label: home
+                  filesystem: ext4
+                  device: /dev/vdb
+                  partition: auto
+                  overwrite: false
+
+              mounts:
+                - [/dev/vdb1, /home, ext4, "defaults,nofail", "0", "2"]
+
+              package_update: true
+              packages:
+                - git
+                - curl
+                - fish
+                - helix
+
+              runcmd:
+                # chezmoi — dotfile manager
+                - curl -fsLS get.chezmoi.io | sh -s -- -b /usr/local/bin
+
+                # kubectl — latest stable
+                - |
+                  curl -Lo /usr/local/bin/kubectl \
+                    "https://dl.k8s.io/release/$(curl -Ls https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+                  chmod +x /usr/local/bin/kubectl
+
+                # talosctl
+                - curl -sL https://talos.dev/install | sh
+
+                # claude-code
+                - curl -fsSL https://claude.ai/install.sh | bash
