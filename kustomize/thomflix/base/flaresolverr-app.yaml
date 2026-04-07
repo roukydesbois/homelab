@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: oci.trueforge.org/truecharts
     chart: flaresolverr
-    targetRevision: 16.x
+    targetRevision: 17.x
   destination:
     server: https://kubernetes.default.svc
     namespace: thomflix
@@ -19,7 +19,7 @@ spec:
       prune: true
       selfHeal: true
   ignoreDifferences:
-  - group: apps
-    kind: Deployment
-    jsonPointers:
-    - /spec/template/spec/hostUsers
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/template/spec/hostUsers

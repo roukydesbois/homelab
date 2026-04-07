@@ -24,17 +24,22 @@ metadata:
 ---
 
 # -----------------------------------------------------------------------------
-# DataVolume — Bluefin disk backed by Longhorn
+# DataVolume — Bluefin OS disk backed by Longhorn
 # CDI imports from the pre-built ContainerDisk image on first apply.
 #
 # Image: ghcr.io/roukydesbois/bluefin-kubevirt:latest
 # Rebuilt weekly by: .github/workflows/build-bluefin-disk.yml
+#
+# Intentionally excluded from Velero backups — it is re-importable from the
+# container image. Only the data disk (bluefin-data) is backed up.
 # -----------------------------------------------------------------------------
 apiVersion: cdi.kubevirt.io/v1beta1
 kind: DataVolume
 metadata:
   name: bluefin-disk
   namespace: bluefin
+  annotations:
+    velero.io/exclude-from-backup: "true"
 spec:
   source:
     registry:
@@ -46,6 +51,33 @@ spec:
     resources:
       requests:
         storage: 50Gi
+
+---
+
+# -----------------------------------------------------------------------------
+# PersistentVolumeClaim — Bluefin data disk backed by Longhorn
+#
+# Stores stateful user data (home directory, etc.). Backed up by Velero daily.
+# Plain PVC (no CDI source) so Velero restore works cleanly.
+#
+# First use: attach to VM, then inside the VM:
+#   sudo mkfs.ext4 /dev/vdc
+#   sudo mount /dev/vdc /mnt
+#   sudo rsync -a /home/ /mnt/
+#   # Add to /etc/fstab, then reboot
+# -----------------------------------------------------------------------------
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bluefin-data
+  namespace: bluefin
+spec:
+  storageClassName: longhorn
+  accessModes:
+    - ReadWriteMany   # Required for LiveMigrate eviction strategy
+  resources:
+    requests:
+      storage: 50Gi
 
 ---
 
@@ -89,6 +121,9 @@ spec:
             - name: rootdisk
               disk:
                 bus: virtio
+            - name: datadisk
+              disk:
+                bus: virtio
             - name: cloudinit
               disk:
                 bus: virtio   # kept for future use; Bluefin has no cloud-init
@@ -119,6 +154,10 @@ spec:
         - name: rootdisk
           dataVolume:
             name: bluefin-disk
+
+        - name: datadisk
+          persistentVolumeClaim:
+            claimName: bluefin-data
 
         - name: cloudinit
           cloudInitNoCloud:
