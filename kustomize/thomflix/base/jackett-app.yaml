@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: oci.trueforge.org/truecharts
     chart: jackett
-    targetRevision: 26.x
+    targetRevision: 27.x
   destination:
     server: https://kubernetes.default.svc
     namespace: thomflix
@@ -19,7 +19,7 @@ spec:
       prune: true
       selfHeal: true
   ignoreDifferences:
-  - group: apps
-    kind: Deployment
-    jsonPointers:
-    - /spec/template/spec/hostUsers
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/template/spec/hostUsers
