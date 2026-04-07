@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: oci.trueforge.org/truecharts
     chart: jellyseerr
-    targetRevision: 13.x
+    targetRevision: 14.x
   destination:
     server: https://kubernetes.default.svc
     namespace: thomflix
@@ -19,13 +19,13 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-    - RespectIgnoreDifferences=true
+      - RespectIgnoreDifferences=true
   ignoreDifferences:
-  - group: apps
-    kind: Deployment
-    jsonPointers:
-    - /spec/template/spec/hostUsers
-  - group: ""
-    kind: PersistentVolumeClaim
-    jsonPointers:
-    - /spec/volumeName
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/template/spec/hostUsers
+    - group: ""
+      kind: PersistentVolumeClaim
+      jsonPointers:
+        - /spec/volumeName
