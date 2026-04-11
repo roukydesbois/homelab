@@ -139,11 +139,15 @@ spec:
                   groups: [sudo]
                   shell: /usr/bin/fish
                   sudo: "ALL=(ALL) NOPASSWD:ALL"
+                  lock_passwd: false
+                  passwd: "$6$6X8w2a6BrUq63eSN$TIkYIzJfPcwmEUFWXwFadnH/eUgtPx/Xj.K0xN4dGfTjxnh0IyY9lnQJsxVSQjrYKemd1z1IuAHjBT6eg95OS/""
                   ssh_authorized_keys:
                     - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZkYZSEbC thomas@t480s-bluefin"
 
                 - name: coder
                   shell: /bin/bash
+                  lock_passwd: false
+                  passwd: "$6$6X8w2a6BrUq63eSN$TIkYIzJfPcwmEUFWXwFadnH/eUgtPx/Xj.K0xN4dGfTjxnh0IyY9lnQJsxVSQjrYKemd1z1IuAHjBT6eg95OS/"
                   ssh_authorized_keys:
                     - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICMH/yRpnGAezra+JiVyyK9h1Z9X3xyRxOILZkYZSEbC thomas@t480s-bluefin"
 
@@ -176,6 +180,7 @@ spec:
                 - curl
                 - fish
                 - helix
+                - qemu-guest-agent
 
               runcmd:
                 # chezmoi — dotfile manager
