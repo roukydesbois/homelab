@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: dev-env
-          image: ghcr.io/roukydesbois/dev-env:latest@sha256:ce8f0574a147c6b83580cc45b81a9b115c7ce6dd539f4a19f88c40a565cc2134
+          image: ghcr.io/roukydesbois/dev-env:latest@sha256:ed4dd2531ae5bd5ccd58472522287a475abad17faad2f8397a2590e3ba231bce
           imagePullPolicy: Always
           ports:
             - containerPort: 22
