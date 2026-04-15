@@ -23,7 +23,7 @@ resources:
   # - kasm-app-of-apps.yaml
   # - dev-vm.yaml
   # - nixos-vm.yaml
-  - ubuntu-vm.yaml
+  # - ubuntu-vm.yaml
 #patches:
 #  - patch: |-
 #      - op: add
