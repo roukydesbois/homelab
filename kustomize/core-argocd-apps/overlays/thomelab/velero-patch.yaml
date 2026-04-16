@@ -49,18 +49,16 @@ spec:
               scheduled-backup: base
             schedule: "0 0 * * *"
             template:
-              ttl: "72h"
+              ttl: "336h"
+              snapshotVolumes: true
               storageLocation: default
               includedNamespaces:
                 - keycloak
                 - immich
                 - nextcloud
                 - thomflix
-                - firefly
                 - cert-manager
                 - hedgedoc
                 - protonmail-bridge
                 - paperless
-                - n8n
                 - actual-budget
-                - bluefin
