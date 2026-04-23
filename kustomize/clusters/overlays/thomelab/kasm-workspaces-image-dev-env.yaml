@@ -103,7 +103,8 @@ spec:
   selector:
     app: dev-env-desktop
   ports:
-    - port: 6901
+    - name: https
+      port: 6901
       targetPort: 6901
 
 ---
@@ -118,7 +119,7 @@ spec:
     service:
       name: dev-env-desktop
       port:
-        number: 6901
+        name: https
   ingressClassName: tailscale
   tls:
     - hosts:
