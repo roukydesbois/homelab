@@ -65,7 +65,7 @@ spec:
             - name: VNC_PW
               valueFrom:
                 secretKeyRef:
-                  name: kasm-secrets
+                  name: vnc-password
                   key: vnc-password
             - name: KASM_SVC_AUDIO
               value: "0"
