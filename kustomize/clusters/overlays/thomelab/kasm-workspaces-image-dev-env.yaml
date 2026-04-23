@@ -35,6 +35,23 @@ spec:
 
 ---
 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kasmvnc-config
+  namespace: dev-env
+data:
+  kasmvnc.yaml: |
+    network:
+      protocol: http
+      websocketPort: 6901
+      ssl:
+        pem_certificate: /etc/ssl/certs/ssl-cert-snakeoil.pem
+        pem_key: /etc/ssl/private/ssl-cert-snakeoil.key
+        require_ssl: false
+
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -83,6 +100,9 @@ spec:
               mountPath: /home/kasm-user
             - name: dshm
               mountPath: /dev/shm
+            - name: kasmvnc-config
+              mountPath: /etc/kasmvnc/kasmvnc.yaml
+              subPath: kasmvnc.yaml
       volumes:
         - name: home
           persistentVolumeClaim:
@@ -91,6 +111,9 @@ spec:
           emptyDir:
             medium: Memory
             sizeLimit: 512Mi
+        - name: kasmvnc-config
+          configMap:
+            name: kasmvnc-config
 
 ---
 
@@ -103,8 +126,7 @@ spec:
   selector:
     app: dev-env-desktop
   ports:
-    - name: https
-      port: 6901
+    - port: 6901
       targetPort: 6901
 
 ---
@@ -119,7 +141,7 @@ spec:
     service:
       name: dev-env-desktop
       port:
-        name: https
+        number: 6901
   ingressClassName: tailscale
   tls:
     - hosts:
