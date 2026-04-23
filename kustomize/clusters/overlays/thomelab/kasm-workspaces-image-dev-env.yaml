@@ -92,6 +92,8 @@ spec:
               value: "0"
             - name: KASM_SVC_UPLOADS
               value: "0"
+            - name: VNCOPTIONS
+              value: "-sslOnly 0"
           resources:
             requests:
               memory: "1Gi"
