@@ -1,0 +1,125 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev-env
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dev-env-home
+  namespace: dev-env
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: vnc-password
+  namespace: dev-env
+spec:
+  encryptedData:
+    vnc-password: AgCcpNO4Cl06z748TaVC751V9Wogy3+5Yugm9aYwmfBpavR/3q3EL2kyEaeeB8ko0zfANKOHxAU8HE0BVzH2hOtM+K0Sr8nlHKL72Jm2b2rOXBF/WD4kXF6TzOs/2DD0NG3UUsNYQXH+2PfWyzteExKH+BTN/4kfUSW/EMRbBszFjlyd9eVEnnfPvr6qjpafT3rpmTMn0qPYURcMdQhQnSZjSlKL42vjwFVC1hHSPbR/DXWyyDEfBtkyocHqNiHud875EVBXAH6yapIc9zPyzI1F++LMmVcmMFBMjIpA+fmJcNCi+Bkl+TuhHHeih+GqhPHoq8PwRyUABA4YVJ4jGmK7go8vojlzhoypP7TRArGUguua5SKy6FF72RXcO790sX3J3bVrOf1h/++wu9xrBexh2sD3cIDqhCTsrm+DVnUNNpe/Ibr5P4RYc37HBED04pcsnLMo6gS0P1gqv98uc1YI7mmOCK5SXwvTq4ta8I3WJvyvLYlLAxysPsXl98LCWF5Qow3jNPnQLM6cD/mL6lj2iAiqfDojASHZeaCPgakfVBX1UrnZ3ZTbxfIQ3VIigqJJSlKxwLKz1cbjFMrNZfKSYHbVJHhxnGxDa2XVQp65wg2oT/+UD9AUK4QUYA80DjduxDXGZ2WzJ1TgGwcZFCMBVwJJRoVuvZ6mjQcHTgD2RBArRqXpiX/Go5Di0ydfJ2kn2pt9pooHlQ==
+  template:
+    metadata:
+      name: vnc-password
+      namespace: dev-env
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dev-env-desktop
+  namespace: dev-env
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: dev-env-desktop
+  template:
+    metadata:
+      labels:
+        app: dev-env-desktop
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: desktop
+          image: kasmweb/ubuntu-noble-desktop:1.18.0-rolling-daily
+          ports:
+            - containerPort: 6901
+          env:
+            - name: VNC_PW
+              valueFrom:
+                secretKeyRef:
+                  name: kasm-secrets
+                  key: vnc-password
+            - name: KASM_SVC_AUDIO
+              value: "0"
+            - name: KASM_SVC_UPLOADS
+              value: "0"
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "4Gi"
+              cpu: "2"
+          volumeMounts:
+            - name: home
+              mountPath: /home/kasm-user
+            - name: dshm
+              mountPath: /dev/shm
+      volumes:
+        - name: home
+          persistentVolumeClaim:
+            claimName: dev-env-home
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 512Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: dev-env-desktop
+  namespace: dev-env
+spec:
+  selector:
+    app: dev-env-desktop
+  ports:
+    - port: 6901
+      targetPort: 6901
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dev-env-vnc
+  namespace: dev-env
+spec:
+  defaultBackend:
+    service:
+      name: dev-env-desktop
+      port:
+        number: 6901
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - dev-desktop

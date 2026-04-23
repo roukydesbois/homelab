@@ -24,6 +24,7 @@ resources:
   # - dev-vm.yaml
   # - nixos-vm.yaml
   # - ubuntu-vm.yaml
+  - kasm-workspaces-image-dev-env.yaml
 #patches:
 #  - patch: |-
 #      - op: add
