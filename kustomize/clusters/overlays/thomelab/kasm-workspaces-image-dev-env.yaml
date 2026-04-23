@@ -100,9 +100,9 @@ spec:
               mountPath: /home/kasm-user
             - name: dshm
               mountPath: /dev/shm
-            - name: kasmvnc-config
-              mountPath: /etc/kasmvnc/kasmvnc.yaml
-              subPath: kasmvnc.yaml
+            # - name: kasmvnc-config
+            #   mountPath: /etc/kasmvnc/kasmvnc.yaml
+            #   subPath: kasmvnc.yaml
       volumes:
         - name: home
           persistentVolumeClaim:
@@ -111,9 +111,9 @@ spec:
           emptyDir:
             medium: Memory
             sizeLimit: 512Mi
-        - name: kasmvnc-config
-          configMap:
-            name: kasmvnc-config
+        # - name: kasmvnc-config
+        #   configMap:
+        #     name: kasmvnc-config
 
 ---
 
