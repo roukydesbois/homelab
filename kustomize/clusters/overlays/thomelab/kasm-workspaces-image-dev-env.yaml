@@ -43,12 +43,16 @@ metadata:
 data:
   kasmvnc.yaml: |
     network:
-      protocol: http
-      websocket_port: 6901
       ssl:
-        pem_certificate: /etc/ssl/certs/ssl-cert-snakeoil.pem
-        pem_key: /etc/ssl/private/ssl-cert-snakeoil.key
+        pem_certificate: ${HOME}/.vnc/self.pem
+        pem_key: ${HOME}/.vnc/self.pem
         require_ssl: false
+      udp:
+        public_ip: 127.0.0.1
+    runtime_configuration:
+      allow_override_standard_vnc_server_settings: true
+      allow_override_list:
+        - pointer.enabled
 
 ---
 
@@ -100,9 +104,9 @@ spec:
               mountPath: /home/kasm-user
             - name: dshm
               mountPath: /dev/shm
-            # - name: kasmvnc-config
-            #   mountPath: /etc/kasmvnc/kasmvnc.yaml
-            #   subPath: kasmvnc.yaml
+            - name: kasmvnc-config
+              mountPath: /etc/kasmvnc/kasmvnc.yaml
+              subPath: kasmvnc.yaml
       volumes:
         - name: home
           persistentVolumeClaim:
@@ -111,9 +115,9 @@ spec:
           emptyDir:
             medium: Memory
             sizeLimit: 512Mi
-        # - name: kasmvnc-config
-        #   configMap:
-        #     name: kasmvnc-config
+        - name: kasmvnc-config
+          configMap:
+            name: kasmvnc-config
 
 ---
 
