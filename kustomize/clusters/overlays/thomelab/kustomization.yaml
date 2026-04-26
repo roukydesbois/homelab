@@ -9,7 +9,6 @@ resources:
   - thomflix-app-of-apps.yaml
   - nextcloud-app-of-apps.yaml
   # - firefly-app-of-apps.yaml
-  - protonmailbridge-app-of-apps.yaml
   - hedgedoc-app-of-apps.yaml
   - paperless-app-of-apps.yaml
   - renovate-app-of-apps.yaml
