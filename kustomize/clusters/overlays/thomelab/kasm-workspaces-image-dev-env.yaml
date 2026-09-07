@@ -79,7 +79,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: desktop
-          image: kasmweb/ubuntu-noble-desktop:1.18.0-rolling-daily
+          image: kasmweb/ubuntu-noble-desktop:1.18.0-rolling-daily@sha256:ce7a328654a7d422328676ec1d78638ca298bba11f3df3f324d058eb48b72ffd
           ports:
             - containerPort: 6901
           env:
